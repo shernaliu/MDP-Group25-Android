@@ -122,7 +122,7 @@ tools:context=".FunctionsActivity">
         tools:layout_editor_absoluteY="498dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save"
