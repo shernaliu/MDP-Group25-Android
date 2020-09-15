@@ -1,6 +1,7 @@
 package com.example.mdp_group25;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -27,7 +28,7 @@ public class DebugActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debug);
         LocalBroadcastManager.getInstance(this).registerReceiver(debugMessageReceiver, new IntentFilter("incomingMessage"));
-        DebugConnectionActivity.context = getApplicationContext();
+        DebugActivity.context = getApplicationContext();
 
         sentMessage = findViewById(R.id.messageSent);
         receivedMessage = findViewById(R.id.receivedMessage);

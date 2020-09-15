@@ -67,11 +67,12 @@ public class MainActivity extends AppCompatActivity {
         roboteditor.commit();
         editor.commit();
 
-        findBluetoothButton = (Button) findViewById(R.id.findBluetoothButton);
+
+        findBluetoothButton = findViewById(R.id.findBluetoothButton);
         findBluetoothButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(v.getContext(), BluetoothDeviceActivity.class);
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), BluetoothDeviceActivity.class);
                 startActivity(myIntent);
             }
         });

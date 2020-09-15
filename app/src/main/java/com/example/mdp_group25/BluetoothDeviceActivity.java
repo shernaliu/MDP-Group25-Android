@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -265,6 +266,7 @@ public class BluetoothDeviceActivity extends AppCompatActivity {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         lvNewDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l){
                 mBluetoothAdapter.cancelDiscovery();

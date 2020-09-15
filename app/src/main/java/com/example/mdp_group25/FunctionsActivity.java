@@ -46,7 +46,7 @@ public class FunctionsActivity extends AppCompatActivity {
         secondLabelValue.setText(savedSecondLabel);
 
 
-        save = findViewById(R.id.save);
+        save = findViewById(R.id.savePreferences);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

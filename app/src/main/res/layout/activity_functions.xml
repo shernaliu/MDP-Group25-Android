@@ -1,133 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".FunctionsActivity">
-
-    <TextView
-        android:id="@+id/titleFunctions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Functions"
-        android:textSize="32dp"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="16dp"
-        tools:ignore="MissingConstraints" />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CommunicationsConfig">
 
     <TextView
         android:id="@+id/firstFunction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:text="Function 1"
         android:textSize="20dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="104dp" />
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:id="@+id/label1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Label"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="176dp" />
+        android:textSize="20dp"
+        android:layout_below="@id/firstFunction"
+        android:layout_marginLeft="40dp"
+        android:layout_alignTop="@id/firstLabelValue"
+        android:layout_alignBottom="@id/firstLabelValue"/>
+
+    <EditText
+        android:id="@+id/firstLabelValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text=""
+        android:layout_toRightOf="@id/label1"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="87dp"
+        android:layout_below="@id/firstFunction"/>
 
     <TextView
         android:id="@+id/function1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Function"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="236dp" />
-
-    <EditText
-        android:id="@+id/firstLabelValue"
-        android:layout_width="244dp"
-        android:layout_height="45dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text=""
-        tools:layout_editor_absoluteX="151dp"
-        tools:layout_editor_absoluteY="150dp" />
+        android:textSize="20dp"
+        android:layout_below="@id/label1"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_alignTop="@id/firstFunctionValue"
+        android:layout_alignBottom="@id/firstFunctionValue"/>
 
     <EditText
         android:id="@+id/firstFunctionValue"
-        android:layout_width="244dp"
-        android:layout_height="45dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
         android:text=""
-        tools:layout_editor_absoluteX="151dp"
-        tools:layout_editor_absoluteY="218dp" />
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="409dp"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="330dp" />
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/function1"
+        android:layout_marginLeft="60dp"
+        android:layout_below="@id/firstLabelValue"/>
 
     <TextView
         android:id="@+id/secondFunction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:text="Function 2"
         android:textSize="20dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="384dp" />
+        android:layout_below="@id/function1"
+        android:layout_marginTop="60dp"/>
 
     <TextView
         android:id="@+id/label2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Label"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="456dp" />
+        android:textSize="20dp"
+        android:layout_below="@id/secondFunction"
+        android:layout_marginLeft="40dp"
+        android:layout_alignTop="@id/secondLabelValue"
+        android:layout_alignBottom="@id/secondLabelValue"
+        />
+
+    <EditText
+        android:id="@+id/secondLabelValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text=""
+        android:layout_toRightOf="@id/label2"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="87dp"
+        android:layout_below="@id/secondFunction" />
+
 
     <TextView
         android:id="@+id/function2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Function"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="516dp" />
-
-    <EditText
-        android:id="@+id/secondLabelValue"
-        android:layout_width="244dp"
-        android:layout_height="45dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text=""
-        tools:layout_editor_absoluteX="151dp"
-        tools:layout_editor_absoluteY="430dp" />
-
+        android:textSize="20dp"
+        android:layout_below="@id/label2"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_alignTop="@id/secondFunctionValue"
+        android:layout_alignBottom="@id/secondFunctionValue"/>
 
     <EditText
         android:id="@+id/secondFunctionValue"
-        android:layout_width="244dp"
-        android:layout_height="45dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text=""
-        tools:layout_editor_absoluteX="151dp"
-        tools:layout_editor_absoluteY="498dp" />
-
-    <Button
-        android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"
-        tools:layout_editor_absoluteX="159dp"
-        tools:layout_editor_absoluteY="650dp" />
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/function2"
+        android:layout_marginLeft="60dp"
+        android:layout_below="@id/secondLabelValue"
+        />
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/savePreferences"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/secondFunctionValue"
+        android:layout_marginTop="59dp"
+        android:text="Save Configurations" />
+</RelativeLayout>
