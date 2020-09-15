@@ -1,7 +1,5 @@
 package com.example.mdp_group25;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -9,9 +7,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class FunctionsActivity extends AppCompatActivity {
 
-    Button save;
+    Button savePreferences;
     EditText firstFunctionValue;
     EditText secondFunctionValue;
     EditText firstLabelValue;
@@ -46,8 +46,8 @@ public class FunctionsActivity extends AppCompatActivity {
         secondLabelValue.setText(savedSecondLabel);
 
 
-        save = findViewById(R.id.savePreferences);
-        save.setOnClickListener(new View.OnClickListener() {
+        savePreferences = findViewById(R.id.savePreferences);
+        savePreferences.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //get the input value
@@ -82,6 +82,6 @@ public class FunctionsActivity extends AppCompatActivity {
             }
         });
 
-
     }
 }
+

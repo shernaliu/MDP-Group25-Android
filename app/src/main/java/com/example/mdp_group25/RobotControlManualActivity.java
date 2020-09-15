@@ -266,7 +266,7 @@ public class RobotControlManualActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 util.showLog(TAG,"Clicked buttonF1");
-                String firstFunction = pref.getString(CommunicationsConfig.firstFunction, "");
+                String firstFunction = pref.getString(FunctionsActivity.firstFunction, "");
                 if(firstFunction != ""){
                     util.printMessage(context, firstFunction);
                     refreshLabel();
@@ -278,7 +278,7 @@ public class RobotControlManualActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 util.showLog(TAG,"Clicked buttonF2");
-                String secondFunction = pref.getString(CommunicationsConfig.secondFunction, "");
+                String secondFunction = pref.getString(FunctionsActivity.secondFunction, "");
                 if(secondFunction != ""){
                     util.printMessage(context, secondFunction);
                     refreshLabel();
