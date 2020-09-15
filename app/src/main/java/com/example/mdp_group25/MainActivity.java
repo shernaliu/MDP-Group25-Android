@@ -1,4 +1,4 @@
-package com.example.mdp;
+package com.example.mdp_group25;
 
 import android.content.Context;
 import android.content.Intent;
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         debugButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               Intent myIntent = new Intent(view.getContext(), DebugConnectionActivity.class);
+               Intent myIntent = new Intent(view.getContext(), DebugActivity.class);
                startActivity(myIntent);
             }
         }
