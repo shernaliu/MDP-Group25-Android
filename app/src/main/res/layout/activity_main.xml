@@ -8,88 +8,18 @@
     android:layout_weight="2"
     android:clickable="true">
 
-    <Button
-        android:id="@+id/robotControls2"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:background="#FBD7D7"
-        android:text="Robot Controls (Manual)"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/findBluetoothButton" />
-
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/findBluetoothButton"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="104dp"
-        android:layout_marginBottom="372dp"
-        android:background="#CEF5FA"
-        android:clickable="false"
-        android:text="Bluetooth"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/robotControls"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:layout_marginBottom="36dp"
-        android:background="#CEF8CF"
-        android:contextClickable="true"
-        android:text="Robot Controls (Auto)"
-        app:layout_constraintBottom_toTopOf="@+id/communicationsConfig"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/robotControls2" />
-
-    <Button
-        android:id="@+id/functions"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:background="#FFFBD5"
-        android:contextClickable="true"
-        android:text="Functions"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/robotControls" />
-
-    <Button
-        android:id="@+id/debug"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
-        android:background="#FFFBD5"
-        android:contextClickable="true"
-        android:text="Debug"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/robotControls" />
-
     <EditText
         android:id="@+id/editTextTextPersonName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="113dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="35dp"
         android:layout_marginEnd="89dp"
         android:layout_marginBottom="185dp"
         android:background="#E3E4EA"
@@ -104,5 +34,68 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
+    <Button
+        android:id="@+id/findBluetoothButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="104dp"
+        android:layout_marginBottom="372dp"
+        android:background="#CAF1FC"
+        android:clickable="false"
+        android:text="Bluetooth"
+        android:textColor="#000000"
+        android:drawableLeft="@drawable/ic_bluetooth"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/robotControls"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:background="#FFE2D9"
+        android:text="Robot Controls"
+        android:drawableLeft="@drawable/ic_robot_controls"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/findBluetoothButton" />
+
+
+    <Button
+        android:id="@+id/functions"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:background="#DFEDD7"
+        android:contextClickable="true"
+        android:text="Functions"
+        android:textAlignment="center"
+        android:drawableLeft="@drawable/ic_functions"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/robotControls" />
+
+    <Button
+        android:id="@+id/debug"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:background="#FFF0D9"
+        android:contextClickable="true"
+        android:text="Debug"
+        android:textAlignment="center"
+        android:drawableLeft="@drawable/ic_debug"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/functions" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
