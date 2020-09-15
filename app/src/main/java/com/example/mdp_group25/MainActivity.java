@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     Button findBluetoothButton;
-    Button communicationConfig;
+    Button functions;
     Button robotControl;
     Button debugButton;
     SharedPreferences sharedPreferences;
@@ -76,11 +76,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        communicationConfig = findViewById(R.id.communicationsConfig);
-        communicationConfig.setOnClickListener(new View.OnClickListener() {
+        functions = findViewById(R.id.functions);
+        functions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), CommunicationsConfig.class);
+                Intent myIntent = new Intent(view.getContext(), FunctionsActivity.class);
                 startActivity(myIntent);
             }
         });

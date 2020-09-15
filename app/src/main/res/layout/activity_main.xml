@@ -56,16 +56,30 @@
         app:layout_constraintTop_toBottomOf="@+id/robotControls2" />
 
     <Button
-        android:id="@+id/communicationsConfig"
+        android:id="@+id/functions"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:background="#FFFBD5"
         android:contextClickable="true"
-        android:text="Debug"
+        android:text="Functions"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/robotControls" />
+
+    <Button
+        android:id="@+id/debug"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="112dp"
+        android:background="#FFFBD5"
+        android:contextClickable="true"
+        android:text="Debug"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/robotControls" />
 
@@ -88,17 +102,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="199dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="31dp"
-        android:layout_marginEnd="104dp"
-        android:background="#F3CFFA"
-        android:text="Function"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/communicationsConfig" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
