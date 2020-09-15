@@ -1,4 +1,4 @@
-package com.example.mdp;
+package com.example.mdp_group25;
 
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -17,9 +17,6 @@ import java.util.UUID;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-/**
- * Created by User on 12/21/2016.
- */
 
 public class BluetoothConnectionService {
     BluetoothDeviceActivity mBluetoothDeviceActivity;
@@ -352,6 +349,7 @@ public class BluetoothConnectionService {
     }
 
 }
+
 
 
 

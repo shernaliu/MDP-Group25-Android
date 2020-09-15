@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/bluetoothTitleTextView"
+        android:layout_width="600dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="80dp"
+        android:gravity="center"
+        android:text="Connect to Robot"
+        android:textSize="36dp"
+        android:textStyle="bold"
+        />
+
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Bluetooth"
+        android:layout_below="@+id/toolbar"/>
+
+    <Button
+        android:id="@+id/btnFindUnpairedDevices"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bluetoothTitleTextView"
+        android:layout_marginHorizontal="20dp"
+        android:onClick="btnDiscover"
+        android:text="Scan for Nearby Devices" />
+
+    <Button
+        android:id="@+id/btnDiscoverable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bluetoothTitleTextView"
+        android:layout_toRightOf="@id/btnStartConnection"
+        android:layout_marginHorizontal="70dp"
+        android:onClick="btnDiscoverable"
+        android:text="Make Discoverable" />
+
+    <Button
+        android:id="@+id/btnStartConnection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lvPairedDevices"
+        android:layout_marginTop="20dp"
+        android:text="Start Connection"
+        android:layout_marginHorizontal="20dp"/>
+
+    <ListView
+        android:id="@+id/lvNewDevices"
+        android:listSelector="#bdb9b9"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_below="@id/bluetoothNewTextView"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="30dp"/>
+
+    <ListView
+        android:id="@+id/lvPairedDevices"
+        android:listSelector="#bdb9b9"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/bluetoothPairedTextView"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="30dp"/>
+
+    <TextView
+        android:id="@+id/bluetoothNewTextView"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/btnFindUnpairedDevices"
+        android:gravity="center"
+        android:text="Nearby Devices"
+        android:textSize="24dp"
+        />
+
+    <TextView
+        android:id="@+id/bluetoothPairedTextView"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/lvNewDevices"
+        android:gravity="center"
+        android:text="Paired Devices"
+        android:textSize="24dp"
+        />
+
+</RelativeLayout>
