@@ -13,6 +13,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -20,8 +21,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import android.util.Log;
-import org.json.JSONArray;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,16 +47,14 @@ public class RobotControlActivity extends AppCompatActivity {
     boolean turnedRight = false;
 
     GridMap gridMap;
-    ToggleButton explore, fastest;
+    ToggleButton exploreToggleBtn, fastestToggleBtn;
     TextView robotStatusTextView;
-    ImageButton moveForwardImageBtn, turnRightImageBtn, turnLeftImageBtn;
-    Button reset_map;
-    ToggleButton set_starting_point, set_way_point;
-    TextView xAxisTextView, yAxisTextView, directionAxisTextView, xAxisTextViewWP, yAxisTextViewWP;
-    TextView receivedP1, receivedP2;
-    TextView receivedImg1, receivedImg2, receivedImg3, receivedImg4, receivedImg5;
+    ImageButton moveForwardImageBtn, turnRightImageBtn, moveBackwardImageBtn, turnLeftImageBtn;
+    Button resetMapBtn;
+    ToggleButton setStartPointToggleBtn, setWaypointToggleBtn;
+    TextView xAxisTextView, yAxisTextView, directionAxisTextView, sentMessage, receivedMessage, xAxisTextViewWP, yAxisTextViewWP;
     ImageButton directionChangeImageBtn, exploredImageBtn, obstacleImageBtn, clearImageBtn;
-    ToggleButton auto_manual_switch;
+    ToggleButton manualAutoToggleBtn;
     Button buttonF1;
     Button buttonF2;
     Button manualUpdateBtn;
@@ -82,17 +80,20 @@ public class RobotControlActivity extends AppCompatActivity {
         editorConn = sharedPreferencesConn.edit();
 
         // create a new map
-        gridMap = new GridMap(
-                this);
+        gridMap = new GridMap(this);
 
         // find all view by id
         gridMap = findViewById(R.id.mapView);
-        explore = findViewById(R.id.explore);
-        fastest = findViewById(R.id.fastest);
+        exploreToggleBtn = findViewById(R.id.exploreToggleBtn);
+        fastestToggleBtn = findViewById(R.id.fastestToggleBtn);
         robotStatusTextView = findViewById(R.id.robotStatusTextView);
-        reset_map = findViewById(R.id.reset_map);
-        set_starting_point = findViewById(R.id.set_starting_point);
-        set_way_point = findViewById(R.id.set_way_point);
+        moveForwardImageBtn = findViewById(R.id.moveForwardImageBtn);
+        turnRightImageBtn = findViewById(R.id.turnRightImageBtn);
+        moveBackwardImageBtn = findViewById(R.id.moveBackwardImageBtn);
+        turnLeftImageBtn = findViewById(R.id.turnLeftImageBtn);
+        resetMapBtn = findViewById(R.id.resetMapBtn);
+        setStartPointToggleBtn = findViewById(R.id.setStartPointToggleBtn);
+        setWaypointToggleBtn = findViewById(R.id.setWaypointToggleBtn);
         xAxisTextView = findViewById(R.id.xAxisTextView);
         yAxisTextView = findViewById(R.id.yAxisTextView);
         directionAxisTextView = findViewById(R.id.directionAxisTextView);
@@ -100,16 +101,18 @@ public class RobotControlActivity extends AppCompatActivity {
         exploredImageBtn = findViewById(R.id.exploredImageBtn);
         obstacleImageBtn = findViewById(R.id.obstacleImageBtn);
         clearImageBtn = findViewById(R.id.clearImageBtn);
+        manualAutoToggleBtn = findViewById(R.id.manualAutoToggleBtn);
+        buttonF2 = findViewById(R.id.buttonF2);
+        buttonF1 = findViewById(R.id.buttonF1);
+        manualUpdateBtn = findViewById(R.id.manualUpdateBtn);
         connStatusTextView = findViewById(R.id.connStatusTextView);
+        sentMessage = findViewById(R.id.sentMessage);
+        receivedMessage = findViewById(R.id.receivedMessage);
         xAxisTextViewWP = findViewById(R.id.xAxisTextViewWP);
         yAxisTextViewWP = findViewById(R.id.yAxisTextViewWP);
-/*        receivedP1 = findViewById(R.id.receivedP1);
-        receivedP2 = findViewById(R.id.receivedP2);
-        receivedImg1 = findViewById(R.id.receivedImg1);
-        receivedImg2 = findViewById(R.id.receivedImg2);
-        receivedImg3 = findViewById(R.id.receivedImg3);
-        receivedImg4 = findViewById(R.id.receivedImg4);
-        receivedImg5 = findViewById(R.id.receivedImg5);
+
+        sentMessage.setMovementMethod(new ScrollingMovementMethod());
+        receivedMessage.setMovementMethod(new ScrollingMovementMethod());
         tiltSwitch = findViewById(R.id.tiltSwitch);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, new IntentFilter("incomingMessage"));
@@ -122,7 +125,7 @@ public class RobotControlActivity extends AppCompatActivity {
             connStatus = sharedPreferencesConn.getString("connStatus", "");
 
         connStatusTextView.setText(connStatus);
-*/
+
 
         tiltSensorListener = new SensorEventListener() {
             @Override
@@ -138,16 +141,16 @@ public class RobotControlActivity extends AppCompatActivity {
                         //gridMap.moveRobot("forward");
                         //refreshLabel();
                         showToast("device lifted up");
-                        gridMap.moveRobot("forward");
+                        //gridMap.moveRobot("forward");
                         //refreshLabel();
-                        util.printMessage(context,"Af");
+                        util.printMessage(context,"f");
                         return;
                     } else if (event.values[1] > 2.5f +delta-1) {
                         Util.showLog(TAG,"device lowered");
                         //gridMap.moveRobot("back");
                         //refreshLabel();
                         showToast("device lowered");
-                        gridMap.moveRobot("back");
+                        //gridMap.moveRobot("back");
                         //refreshLabel();
                         util.printMessage(context,"r");
                         return;
@@ -159,9 +162,9 @@ public class RobotControlActivity extends AppCompatActivity {
                             turnedLeft = false;
                         }
                         else {
-                            gridMap.moveRobot("left");
+                            //gridMap.moveRobot("left");
                             //refreshLabel();
-                            util.printMessage(context,"Al");
+                            util.printMessage(context,"tl");
                             turnedLeft = true;
                             return;
                         }
@@ -172,9 +175,9 @@ public class RobotControlActivity extends AppCompatActivity {
                             turnedRight = false;
                         }
                         else {
-                            gridMap.moveRobot("right");
+                            //gridMap.moveRobot("right");
                             //refreshLabel();
-                            util.printMessage(context,"Ar");
+                            util.printMessage(context,"tr");
                             turnedRight = true;
                             return;
                         }
@@ -189,110 +192,207 @@ public class RobotControlActivity extends AppCompatActivity {
         };
 
 //        sensorManager.registerListener(tiltSensorListener,tiltSensor, SensorManager.SENSOR_DELAY_NORMAL);
-//        sensorManager.registerListener(tiltSensorListener,tiltSensor, 1000000);
+        sensorManager.registerListener(tiltSensorListener,tiltSensor, 5000000);
 
 
-/*
         manualUpdateBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 util.printMessage(context, "sendArena");
             }
         });
-*/
 
-        explore.setOnClickListener(new View.OnClickListener() {
+        // TODO: INTEGRATE WITH ALGO
+        exploreToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                util.showLog(TAG, "Clicked explore");
-                Button explore = (Button) view;
-                if (explore.getText().equals("EXPLORE")) {
+                util.showLog(TAG, "Clicked exploreToggleBtn");
+                Button exploreToggleBtn = (Button) view;
+                if (exploreToggleBtn.getText().equals("EXPLORE")) {
                     //end exploration
                     util.printMessage(context, "Xg");
                     util.printMessage(context, "Ag");
                 }
-                else if (explore.getText().equals("STOP")) {
+                else if (exploreToggleBtn.getText().equals("STOP")) {
                     //start exploration
                     util.printMessage(context, "Xe");
                 }
                 else {
-                    showToast("Else statement: " + explore.getText());
+                    showToast("Else statement: " + exploreToggleBtn.getText());
                 }
-                util.showLog(TAG,"Exiting explore");
+                util.showLog(TAG,"Exiting exploreToggleBtn");
             }
         });
 
 
-        fastest.setOnClickListener(new View.OnClickListener() {
+        fastestToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                util.showLog(TAG, "Clicked fastest");
-                Button fastest = (Button) view;
-                if (fastest.getText().equals("FASTEST")) {
+                util.showLog(TAG, "Clicked fastestToggleBtn");
+                Button fastestToggleBtn = (Button) view;
+                if (fastestToggleBtn.getText().equals("FASTEST")) {
                     //end fastest path
                     util.printMessage(context, "Xg");
                     util.printMessage(context, "Ag");
                 }
-                else if (fastest.getText().equals("STOP")) {
+                else if (fastestToggleBtn.getText().equals("STOP")) {
                     //start fastest path
                     util.printMessage(context, "Xs");
                 }
                 else
-                    showToast(fastest.getText().toString());
-                util.showLog(TAG, "Exiting fastest");
+                    showToast(fastestToggleBtn.getText().toString());
+                util.showLog(TAG, "Exiting fastestToggleBtn");
             }
         });
 
 
-        //MAP DETAILS
-        reset_map.setOnClickListener(new View.OnClickListener() {
+        //ROBOT MOVEMENT
+        moveForwardImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                util.showLog(TAG,"Clicked reset_map");
-                showToast("Map Reset in progress...");
+                util.showLog(TAG,"Clicked moveForwardImageBtn");
+                if (gridMap.getAutoUpdate())
+                    updateStatus(Status.W2);
+                else if (gridMap.getCanDrawRobot() && !gridMap.getAutoUpdate()) {
+                    gridMap.moveRobot("forward");
+                    if (gridMap.getValidPosition())
+                        updateStatus(Status.MF);
+                    else
+                        updateStatus(Status.UF);
+                    util.printMessage(context, "Af");
+                    refreshLabel();
+                }
+                else
+                    updateStatus(Status.W1);
+                util.showLog(TAG, "Exiting moveForwardImageBtn");
+            }
+        });
+
+        turnRightImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                util.showLog(TAG,"Clicked turnRightImageBtn");
+                if (gridMap.getAutoUpdate())
+                    updateStatus(Status.W2);
+                else if (gridMap.getCanDrawRobot() && !gridMap.getAutoUpdate()) {
+                    gridMap.moveRobot("right");
+                    updateStatus(Status.TR);
+                    util.printMessage(context, "Ar");
+                    refreshLabel();
+                }
+                else
+                    updateStatus(Status.W1);
+                util.showLog(TAG,"Exiting turnRightImageBtn");
+            }
+        });
+
+        moveBackwardImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                util.showLog(TAG,"Clicked moveBackwardImageBtn");
+                if (gridMap.getAutoUpdate())
+                    updateStatus(Status.W2);
+                else if (gridMap.getCanDrawRobot() && !gridMap.getAutoUpdate()) {
+                    gridMap.moveRobot("back");
+                    refreshLabel();
+                    if (gridMap.getValidPosition())
+                        updateStatus(Status.MB);
+                    else
+                        updateStatus(Status.UB);
+                    util.printMessage(context, "r");
+                    refreshLabel();
+                }
+                else
+                    updateStatus(Status.W1);
+                util.showLog(TAG,"Exiting moveBackwardImageBtn");
+            }
+        });
+
+        turnLeftImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                util.showLog(TAG, "Clicked turnLeftImageBtn");
+                if (gridMap.getAutoUpdate())
+                    updateStatus(Status.W2);
+                else if (gridMap.getCanDrawRobot() && !gridMap.getAutoUpdate()) {
+                    gridMap.moveRobot("left");
+                    refreshLabel();
+                    updateStatus(Status.TL);
+                    util.printMessage(context,"Al");
+                    refreshLabel();
+                }
+                else
+                    updateStatus(Status.W1);
+                util.showLog(TAG, "Exiting turnLeftImageBtn");
+            }
+        });
+
+        buttonF1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                util.showLog(TAG,"Clicked buttonF1");
+                String firstFunction = pref.getString(FunctionsActivity.firstFunction, "");
+                if(firstFunction != ""){
+                    util.printMessage(context, firstFunction);
+                    refreshLabel();
+                }
+            }
+        });
+
+        buttonF2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                util.showLog(TAG,"Clicked buttonF2");
+                String secondFunction = pref.getString(FunctionsActivity.secondFunction, "");
+                if(secondFunction != ""){
+                    util.printMessage(context, secondFunction);
+                    refreshLabel();
+                }
+            }
+        });
+
+        //MAP DETAILS
+        resetMapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                util.showLog(TAG,"Clicked resetMapBtn");
+                showToast("Reseting map...");
                 gridMap.resetMap();
-/*              receivedP1.setText("P1: ");
-                receivedP2.setText("P2: ");
-                receivedImg1.setText("image1: ");
-                receivedImg2.setText("image2: ");
-                receivedImg3.setText("image3: ");
-                receivedImg4.setText("image4: ");
-                receivedImg5.setText("image5: ");*/
                 refreshLabel();
             }
         });
 
-        set_starting_point.setOnClickListener(new View.OnClickListener() {
+        setStartPointToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                util.showLog(TAG,"Clicked set_starting_point");
-                if (set_starting_point.getText().equals("Set Start Point"))
+                util.showLog(TAG,"Clicked setStartPointToggleBtn");
+                if (setStartPointToggleBtn.getText().equals("Set Start Point"))
                     showToast("Cancelled selecting starting point");
-                else if (set_starting_point.getText().equals("CANCEL") && !gridMap.getAutoUpdate()) {
+                else if (setStartPointToggleBtn.getText().equals("CANCEL") && !gridMap.getAutoUpdate()) {
                     showToast("Please select starting point");
                     gridMap.setStartCoordStatus(true);
-                    gridMap.toggleCheckedBtn("set_starting_point");
+                    gridMap.toggleCheckedBtn("setStartPointToggleBtn");
                     refreshLabel();
                 } else
                     showToast("Please select manual mode");
-                util.showLog(TAG,"Exiting set_starting_point");
+                util.showLog(TAG,"Exiting setStartPointToggleBtn");
             }
         });
 
-        set_way_point.setOnClickListener(new View.OnClickListener() {
+        setWaypointToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                util.showLog(TAG, "Clicked set_way_point");
-                if (set_way_point.getText().equals("Set Way Point"))
+                util.showLog(TAG, "Clicked setWaypointToggleBtn");
+                if (setWaypointToggleBtn.getText().equals("Set Way Point"))
                     showToast("Cancelled selecting waypoint");
-                else if (set_way_point.getText().equals("CANCEL")) {
+                else if (setWaypointToggleBtn.getText().equals("CANCEL")) {
                     showToast("Please select waypoint");
                     gridMap.setWaypointStatus(true);
-                    gridMap.toggleCheckedBtn("set_way_point");
+                    gridMap.toggleCheckedBtn("setWaypointToggleBtn");
                 }
                 else
                     showToast("Please select manual mode");
-                util.showLog(TAG, "Exiting set_way_point");
+                util.showLog(TAG, "Exiting setWaypointToggleBtn");
             }
         });
 
@@ -342,6 +442,83 @@ public class RobotControlActivity extends AppCompatActivity {
         });
 
 
+        // when manual auto button clicked
+        manualAutoToggleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                util.showLog(TAG,"Clicked manualAutoToggleBtn");
+                if (manualAutoToggleBtn.getText().equals("MANUAL")) {
+                    try {
+                        gridMap.setAutoUpdate(true);
+                        autoUpdate = true;
+                        gridMap.toggleCheckedBtn("None");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    (findViewById(R.id.exploreToggleBtn)).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.fastestToggleBtn)).setVisibility((View.VISIBLE));
+                    (findViewById(R.id.setWaypointToggleBtn)).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.wayPointLabel)).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.xLabelTextViewWP)).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.yAxisTextViewWP)).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.yLabelTextViewWP)).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.xAxisTextViewWP)).setVisibility(View.VISIBLE);
+
+                    (findViewById(R.id.buttonF1)).setVisibility(View.INVISIBLE);
+                    (findViewById(R.id.buttonF2)).setVisibility(View.INVISIBLE);
+                    (findViewById(R.id.moveForwardImageBtn)).setVisibility(View.INVISIBLE);
+                    (findViewById(R.id.turnLeftImageBtn)).setVisibility(View.INVISIBLE);
+                    (findViewById(R.id.turnRightImageBtn)).setVisibility(View.INVISIBLE);
+                    (findViewById(R.id.tiltSwitch)).setVisibility(View.INVISIBLE);
+                    gridMap.resetMap();
+                    showToast("AUTO mode");
+                }
+                else if (manualAutoToggleBtn.getText().equals("AUTO")) {
+                    try {
+                        gridMap.setAutoUpdate(false);
+                        autoUpdate = false;
+                        gridMap.toggleCheckedBtn("None");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    (findViewById(R.id.exploreToggleBtn)).setVisibility(View.INVISIBLE);
+                    (findViewById(R.id.fastestToggleBtn)).setVisibility((View.INVISIBLE));
+                    (findViewById(R.id.setWaypointToggleBtn)).setVisibility(View.INVISIBLE);
+                    (findViewById(R.id.wayPointLabel)).setVisibility(View.INVISIBLE);
+                    (findViewById(R.id.xLabelTextViewWP)).setVisibility(View.INVISIBLE);
+                    (findViewById(R.id.yAxisTextViewWP)).setVisibility(View.INVISIBLE);
+                    (findViewById(R.id.yLabelTextViewWP)).setVisibility(View.INVISIBLE);
+                    (findViewById(R.id.xAxisTextViewWP)).setVisibility(View.INVISIBLE);
+
+
+                    (findViewById(R.id.buttonF1)).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.buttonF2)).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.moveForwardImageBtn)).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.turnLeftImageBtn)).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.turnRightImageBtn)).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.tiltSwitch)).setVisibility(View.VISIBLE);
+                    gridMap.resetMap();
+
+                    showToast("MANUAL mode");
+                }
+                util.showLog(TAG,"Exiting manualAutoToggleBtn");
+            }
+        });
+
+        tiltSwitch.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                if (tiltControl){
+                    tiltControl = false;
+                    showToast("Tilt Control Disabled");
+                }
+                else{
+                    tiltControl = true;
+                    showToast("Tilt Control Enabled");
+                }
+            }
+        });
+
         //test
         RobotControlActivity.context = getApplicationContext();
         ProgressDialog myDialog;
@@ -365,48 +542,28 @@ public class RobotControlActivity extends AppCompatActivity {
         }
     }
 
+    private void updateSentMessage(){
+        String sent = sharedPreferences.getString("sentText", "");
+        if(sent.length()>0){
+            sentMessage.setText(sent);
+        } else{
+            sentMessage.setText("no sent message");
+        }
+    }
+
+    private void updateReceivedMessage(){
+        String received = sharedPreferences.getString("receivedText", "");
+        if(received.length()>0){
+            receivedMessage.setText(received);
+        } else{
+            receivedMessage.setText("no received message");
+        }
+    }
+
     private void updateStatus(String message) {
         robotStatusTextView.setText(message);
     }
-/*
-       private void updateImgString(){
-            System.out.println("UPDATE IMAGE");
-            System.out.println(sharedPreferences.getString("image1",""));
 
-            String image1 = "image1: " + reformatImgString(sharedPreferences.getString("image1",""));
-            receivedImg1.setText(image1);
-            String image2 = "image2: " + reformatImgString(sharedPreferences.getString("image2",""));
-            receivedImg2.setText(image2);
-            String image3 = "image3: " + reformatImgString(sharedPreferences.getString("image3",""));
-            receivedImg3.setText(image3);
-            String image4 = "image4: " + reformatImgString(sharedPreferences.getString("image4",""));
-            receivedImg4.setText(image4);
-            String image5 = "image5: " + reformatImgString(sharedPreferences.getString("image5",""));
-            receivedImg5.setText(image5);
-        }
-
-        private String reformatImgString(String imageString){
-            String imageX = "";
-            String imageY = "";
-            String imageType = "";
-            if (imageString.length() == 0){
-                return "";
-            }
-            if (imageString.charAt(0) == '0')
-            { imageX = imageString.substring(1,2);}
-            else
-            { imageX = imageString.substring(0,2);}
-            if (imageString.charAt(2) == '0')
-            { imageY = imageString.substring(3,4);}
-            else
-            { imageY = imageString.substring(2,4);}
-            if (imageString.charAt(4) == '0')
-            { imageType = imageString.substring(5,6);}
-            else
-            { imageType = imageString.substring(4,6);}
-            String finalString = "(".concat(imageType).concat(",").concat(imageX).concat(",").concat(imageY).concat(")");
-            return finalString;
-        }*/
     // for refreshing all the label in the screen
     private void refreshLabel() {
         util.showLog(TAG,"Entering Refresh Label");
@@ -416,8 +573,8 @@ public class RobotControlActivity extends AppCompatActivity {
         yAxisTextViewWP.setText(String.valueOf(gridMap.getWaypointCoord()[1]+1));
         String direction = sharedPreferences.getString("direction", "");
         directionAxisTextView.setText(sharedPreferences.getString("direction",""));
-        //updateP1P2();
-
+        updateSentMessage();
+        updateReceivedMessage();
         util.showLog(TAG,"Exiting Refresh Label");
     }
 
@@ -459,34 +616,9 @@ public class RobotControlActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra("receivedMessage");
             util.showLog(TAG, "receivedMessage: message --- " + message);
-            if(message.charAt(0) == 'q'){
-                util.printMessage(context, "XK");
-            }
             if(message.charAt(0) == '{'){
                 JSONObject parsedMessage = util.parseMDFString(message);
                 try {
-                    if(parsedMessage.has("map")){
-                        editor.putString("explored", parsedMessage.getJSONObject("map").getString("explored"));
-                        System.out.println("INSIDE EXPLORE");
-                        editor.putString("obstacle", parsedMessage.getJSONObject("map").getString("obstacle"));
-                        System.out.println("INSIDE OBSTACLE");
-
-
-                    }
-
-                    if (parsedMessage.has("image")){
-                        util.showLog(TAG,"found image info");
-                        JSONArray images = parsedMessage.getJSONArray("image");
-                        JSONObject image;
-                        //max 5 image
-                        for(int j=1; j<= images.length(); j++) {
-                            util.showLog(TAG, "image number"+j);
-                            image = images.getJSONObject(j-1);
-                            String imageString = image.getString("imageString");
-                            editor.putString("image"+j,imageString);
-                        }
-                        util.printMessage(context, "XI");
-                    }
                     gridMap.setReceivedJsonObject(parsedMessage);
                     gridMap.updateMapInformation();
                     util.showLog(TAG,"messageReceiver: try decode successful");
@@ -494,11 +626,11 @@ public class RobotControlActivity extends AppCompatActivity {
                     util.showLog(TAG, "messageReceiver: try decode unsuccessful");
                 }
             }
+
             String receivedText = sharedPreferences.getString("receivedText", "") + "\n " + message;
             editor.putString("receivedText", receivedText);
             editor.commit();
-            /*updateP1P2();
-            updateImgString();*/
+            updateReceivedMessage();
         }
     };
 

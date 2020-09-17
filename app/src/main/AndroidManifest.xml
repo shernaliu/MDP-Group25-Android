@@ -13,7 +13,6 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".BluetoothDeviceActivity" />
         <activity android:name=".RobotControlActivity" />
-        <activity android:name=".RobotControlManualActivity" />
         <activity android:name=".FunctionsActivity" />
         <activity android:name=".DebugActivity" />
         <activity android:name=".MainActivity">

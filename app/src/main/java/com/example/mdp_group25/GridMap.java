@@ -342,8 +342,8 @@ public class GridMap extends View {
             int column = (int) (event.getX() / cellSize);
             int row = this.convertRow((int) (event.getY() / cellSize)); // convert to screen coordinate
             // for toggling the button if it is set
-            ToggleButton set_starting_point = ((Activity)this.getContext()).findViewById(R.id.set_starting_point);
-            ToggleButton set_way_point = ((Activity)this. getContext()).findViewById(R.id.set_way_point);
+            ToggleButton setStartPointToggleBtn = ((Activity)this.getContext()).findViewById(R.id.setStartPointToggleBtn);
+            ToggleButton setWaypointToggleBtn = ((Activity)this. getContext()).findViewById(R.id.setWaypointToggleBtn);
 
             // if start coordinate status is true
             if (startCoordStatus) {
@@ -365,17 +365,17 @@ public class GridMap extends View {
                 // set start coordinate status to false
                 startCoordStatus = false;
 
-/*                try {
+                try {
                     util.printMessage(context, "starting", column, row);
                     sharedPreferences();
-                    //TextView sentMessage =  ((Activity)this.getContext()).findViewById(R.id.sentMessage);
-                    //sentMessage.setText(sharedPreferences.getString("sentText", ""));
+                    TextView sentMessage =  ((Activity)this.getContext()).findViewById(R.id.sentMessage);
+                    sentMessage.setText(sharedPreferences.getString("sentText", ""));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-*/                // if the button is checked, uncheck it
-                if (set_starting_point.isChecked())
-                    set_starting_point.toggle();
+                // if the button is checked, uncheck it
+                if (setStartPointToggleBtn.isChecked())
+                    setStartPointToggleBtn.toggle();
                 this.invalidate();
                 return true;
             }
@@ -397,14 +397,14 @@ public class GridMap extends View {
                     yAxisTextview.setText(Integer.toString(column-1));
 
                     sharedPreferences();
-//                    TextView sentMessage =  ((Activity)this.getContext()).findViewById(R.id.sentMessage);
-//                    sentMessage.setText(sharedPreferences.getString("sentText", ""));
+                    TextView sentMessage =  ((Activity)this.getContext()).findViewById(R.id.sentMessage);
+                    sentMessage.setText(sharedPreferences.getString("sentText", ""));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 // if the button is checked, uncheck it
-                if (set_way_point.isChecked())
-                    set_way_point.toggle();
+                if (setWaypointToggleBtn.isChecked())
+                    setWaypointToggleBtn.toggle();
                 this.invalidate();
                 return true;
             }
@@ -526,6 +526,7 @@ public class GridMap extends View {
         JSONObject mapInformation = this.getReceivedJsonObject();
         Util.showLog(TAG,"updateMapInformation --- mapInformation: " + mapInformation);
 
+        //SAMPE SINI BENER
         JSONObject infoJsonObject;
         String hexStringExplored, hexStringObstacle, exploredString, obstacleString;
         BigInteger hexBigIntegerExplored, hexBigIntegerObstacle;
@@ -598,7 +599,6 @@ public class GridMap extends View {
                         cells[waypointCoord[0]][20-waypointCoord[1]].setType("waypoint");
                     break;
                 case "image":
-                    System.out.print("IMAGES UPDATE MAP");
                     JSONArray images = mapInformation.getJSONArray("image");
                     JSONObject image;
                     for(int j=0; j< images.length(); j++){
@@ -617,15 +617,6 @@ public class GridMap extends View {
                     robotStatusTextView.setText(status);
                     break;
                 case "robot":
-                    System.out.println("CURRENT");
-                    System.out.println(getCurCoord());
-
-                    System.out.println("START");
-                    System.out.println(getStartCoord());
-                    //DONT MOVE ROBOT IF CURRENT COORDINATES ARE NOT SET
-                    if(getCurCoord()[0] == -1 & getCurCoord()[1] == -1){
-                        break;
-                    }
                     String robotMovements = mapInformation.getString("robot");
                     System.out.println("ROBOT MOVEMENT");
                     System.out.println(robotMovements);
@@ -654,21 +645,21 @@ public class GridMap extends View {
 
     // toggle all button if enabled/checked, except for the clicked button
     public void toggleCheckedBtn(String buttonName) {
-        ToggleButton set_starting_point = ((Activity)this.getContext()).findViewById(R.id.set_starting_point);
-        ToggleButton set_way_point = ((Activity)this.getContext()).findViewById(R.id.set_way_point);
+        ToggleButton setStartPointToggleBtn = ((Activity)this.getContext()).findViewById(R.id.setStartPointToggleBtn);
+        ToggleButton setWaypointToggleBtn = ((Activity)this.getContext()).findViewById(R.id.setWaypointToggleBtn);
         ImageButton obstacleImageBtn = ((Activity)this.getContext()).findViewById(R.id.obstacleImageBtn);
         ImageButton exploredImageBtn = ((Activity)this.getContext()).findViewById(R.id.exploredImageBtn);
         ImageButton clearImageBtn = ((Activity)this. getContext()).findViewById(R.id.clearImageBtn);
 
-        if (!buttonName.equals("set_starting_point"))
-            if (set_starting_point.isChecked()) {
+        if (!buttonName.equals("setStartPointToggleBtn"))
+            if (setStartPointToggleBtn.isChecked()) {
                 this.setStartCoordStatus(false);
-                set_starting_point.toggle();
+                setStartPointToggleBtn.toggle();
             }
-        if (!buttonName.equals("set_way_point"))
-            if (set_way_point.isChecked()) {
+        if (!buttonName.equals("setWaypointToggleBtn"))
+            if (setWaypointToggleBtn.isChecked()) {
                 this.setWaypointStatus(false);
-                set_way_point.toggle();
+                setWaypointToggleBtn.toggle();
             }
         if (!buttonName.equals("exploredImageBtn"))
             if (exploredImageBtn.isEnabled())
@@ -774,25 +765,17 @@ public class GridMap extends View {
         Util.showLog(TAG,"Entering resetMap");
         // reset screen text
         TextView robotStatusTextView =  ((Activity)this.getContext()).findViewById(R.id.robotStatusTextView);
-        ToggleButton auto_manual_switch = ((Activity)this.getContext()).findViewById(R.id.auto_manual_switch);
+        ToggleButton manualAutoToggleBtn = ((Activity)this.getContext()).findViewById(R.id.manualAutoToggleBtn);
         updateRobotAxis(0, 0, "None");
         robotStatusTextView.setText("status");
         sharedPreferences();
         editor.putString("receivedText", "");
         editor.putString("sentText", "");
         editor.putString("image", "");
-        editor.putString("image1", "");
-        editor.putString("image2", "");
-        editor.putString("image3", "");
-        editor.putString("image4", "");
-        editor.putString("image5", "");
-        editor.putString("explored", "");
-        editor.putString("obstacle", "");
-
         editor.commit();
 
-        if (auto_manual_switch.isChecked())
-            auto_manual_switch.toggle();
+        /*if (manualAutoToggleBtn.isChecked())
+            manualAutoToggleBtn.toggle();*/
         this.toggleCheckedBtn("None");
 
         // reset all the values
@@ -1007,8 +990,8 @@ public class GridMap extends View {
         cells[col][row].setType("waypoint");
 
         // toast is a small message displayed on the screen, similar to a popup notification that remains visible for a short time period
-//        util.printMessage(context, "waypoint", waypointCoord[0], waypointCoord[1]);
-//        Util.showLog(TAG,"Exiting setWaypointCoord");
+        util.printMessage(context, "waypoint", waypointCoord[0], waypointCoord[1]);
+        Util.showLog(TAG,"Exiting setWaypointCoord");
     }
 
     // get waypoint coordinate
