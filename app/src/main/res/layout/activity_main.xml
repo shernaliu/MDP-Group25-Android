@@ -14,57 +14,58 @@
         app:layout_constraintBottom_toTopOf="@+id/title_welcome"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <TextView
         android:id="@+id/title_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#EDEDED"
-        android:text="Welcome to MDP!"
-        android:textSize="30sp"
         android:layout_marginStart="113dp"
-        android:layout_marginTop="35dp"
         android:layout_marginEnd="89dp"
-        android:layout_marginBottom="185dp"
+        android:background="#EDEDED"
         android:ems="10"
+        android:text="Welcome to MDP!"
         android:textAlignment="center"
         android:textColor="#000000"
+        android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/findBluetoothButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.588"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.124" />
 
     <Button
         android:id="@+id/findBluetoothButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="104dp"
-        android:layout_marginBottom="372dp"
         android:background="#CAF1FC"
         android:clickable="false"
-        android:text="Bluetooth"
-        android:textColor="#000000"
         android:drawableLeft="@drawable/ic_bluetooth"
         android:padding="10dp"
+        android:text="Bluetooth"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.418" />
 
     <Button
         android:id="@+id/robotControls"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
         android:background="#FFE2D9"
-        android:text="Robot Controls"
         android:drawableLeft="@drawable/ic_robot_controls"
         android:padding="10dp"
+        android:text="Robot Controls"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/findBluetoothButton" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.535" />
 
     <Button
         android:id="@+id/functions"
@@ -73,29 +74,32 @@
         android:layout_marginTop="36dp"
         android:background="#DFEDD7"
         android:contextClickable="true"
-        android:text="Functions"
-        android:textAlignment="center"
         android:drawableLeft="@drawable/ic_functions"
         android:padding="10dp"
+        android:text="Functions"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/robotControls" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.636" />
 
     <Button
         android:id="@+id/debug"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
         android:background="#FFF0D9"
         android:contextClickable="true"
-        android:text="Debug"
-        android:textAlignment="center"
         android:drawableLeft="@drawable/ic_debug"
         android:padding="10dp"
+        android:text="Debug"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/functions" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.78" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
