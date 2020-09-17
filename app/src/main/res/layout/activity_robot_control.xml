@@ -371,18 +371,20 @@
 
     <ToggleButton
         android:id="@+id/manualAutoToggleBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_width="129dp"
+        android:layout_height="67dp"
         android:textAlignment="center"
         android:textOff="AUTO"
         android:textOn="MANUAL"
-        android:textStyle="bold"
+        android:textSize="24sp"
 
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.793"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.86"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.093" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/group"
@@ -421,14 +423,16 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:visibility="visible"
         android:id="@+id/manualUpdateBtn"
         android:layout_width="91dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="32dp"
         android:text="UPDATE"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/manualAutoToggleBtn" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.925"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/startPointLabel"
@@ -481,12 +485,10 @@
         android:text="no sent message"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toTopOf="@+id/manualAutoToggleBtn"
         app:layout_constraintEnd_toStartOf="@+id/receivedMessage"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/sentMessageLabel"
-        app:layout_constraintTop_toBottomOf="@+id/sentMessageLabel"
-        app:layout_constraintVertical_bias="0.069" />
+        app:layout_constraintTop_toBottomOf="@+id/sentMessageLabel" />
 
     <TextView
         android:id="@+id/receivedMessageLabel"
@@ -500,14 +502,14 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/receivedMessage"
         android:layout_width="180dp"
         android:layout_height="140dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/rectangle_border"
         android:scrollbars="vertical"
         android:text="no received message"
@@ -515,7 +517,7 @@
         android:textColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Switch
