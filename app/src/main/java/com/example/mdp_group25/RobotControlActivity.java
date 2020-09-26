@@ -138,21 +138,21 @@ public class RobotControlActivity extends AppCompatActivity {
                     float delta = 6;
                     if (event.values[1] < 2.5f-delta){
                         Util.showLog(TAG,"device lifted up");
-                        //gridMap.moveRobot("forward");
-                        //refreshLabel();
+                        gridMap.moveRobot("forward");
+                        refreshLabel();
                         showToast("device lifted up");
-                        //gridMap.moveRobot("forward");
-                        //refreshLabel();
-                        util.printMessage(context,"f");
+                        gridMap.moveRobot("forward");
+                        refreshLabel();
+                        util.printMessage(context,"AR>w");
                         return;
                     } else if (event.values[1] > 2.5f +delta-1) {
                         Util.showLog(TAG,"device lowered");
-                        //gridMap.moveRobot("back");
-                        //refreshLabel();
+                        gridMap.moveRobot("back");
+                        refreshLabel();
                         showToast("device lowered");
-                        //gridMap.moveRobot("back");
-                        //refreshLabel();
-                        util.printMessage(context,"r");
+                        gridMap.moveRobot("back");
+                        refreshLabel();
+                        util.printMessage(context,"AR>s");
                         return;
                     }
                     if (event.values[0] > 5.5){ //1.5+5 = 6.5
@@ -162,9 +162,9 @@ public class RobotControlActivity extends AppCompatActivity {
                             turnedLeft = false;
                         }
                         else {
-                            //gridMap.moveRobot("left");
-                            //refreshLabel();
-                            util.printMessage(context,"tl");
+                            gridMap.moveRobot("left");
+                            refreshLabel();
+                            util.printMessage(context,"AR>a");
                             turnedLeft = true;
                             return;
                         }
@@ -175,9 +175,9 @@ public class RobotControlActivity extends AppCompatActivity {
                             turnedRight = false;
                         }
                         else {
-                            //gridMap.moveRobot("right");
-                            //refreshLabel();
-                            util.printMessage(context,"tr");
+                            gridMap.moveRobot("right");
+                            refreshLabel();
+                            util.printMessage(context,"AR>d");
                             turnedRight = true;
                             return;
                         }
@@ -191,14 +191,14 @@ public class RobotControlActivity extends AppCompatActivity {
             }
         };
 
-//        sensorManager.registerListener(tiltSensorListener,tiltSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(tiltSensorListener,tiltSensor, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(tiltSensorListener,tiltSensor, 5000000);
 
 
         manualUpdateBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                util.printMessage(context, "sendArena");
+                util.printMessage(context, "AL>sa");
             }
         });
 
@@ -210,12 +210,11 @@ public class RobotControlActivity extends AppCompatActivity {
                 Button exploreToggleBtn = (Button) view;
                 if (exploreToggleBtn.getText().equals("EXPLORE")) {
                     //end exploration
-                    util.printMessage(context, "Xg");
-                    util.printMessage(context, "Ag");
+                    util.printMessage(context, "AL>st");
                 }
                 else if (exploreToggleBtn.getText().equals("STOP")) {
                     //start exploration
-                    util.printMessage(context, "Xe");
+                    util.printMessage(context, "AL>ex");
                 }
                 else {
                     showToast("Else statement: " + exploreToggleBtn.getText());
@@ -232,12 +231,11 @@ public class RobotControlActivity extends AppCompatActivity {
                 Button fastestToggleBtn = (Button) view;
                 if (fastestToggleBtn.getText().equals("FASTEST")) {
                     //end fastest path
-                    util.printMessage(context, "Xg");
-                    util.printMessage(context, "Ag");
+                    util.printMessage(context, "AL>st");
                 }
                 else if (fastestToggleBtn.getText().equals("STOP")) {
                     //start fastest path
-                    util.printMessage(context, "Xs");
+                    util.printMessage(context, "AL>fp");
                 }
                 else
                     showToast(fastestToggleBtn.getText().toString());
@@ -259,7 +257,7 @@ public class RobotControlActivity extends AppCompatActivity {
                         updateStatus(Status.MF);
                     else
                         updateStatus(Status.UF);
-                    util.printMessage(context, "Af");
+                    util.printMessage(context, "AR>w");
                     refreshLabel();
                 }
                 else
@@ -277,7 +275,7 @@ public class RobotControlActivity extends AppCompatActivity {
                 else if (gridMap.getCanDrawRobot() && !gridMap.getAutoUpdate()) {
                     gridMap.moveRobot("right");
                     updateStatus(Status.TR);
-                    util.printMessage(context, "Ar");
+                    util.printMessage(context, "AR>d");
                     refreshLabel();
                 }
                 else
@@ -318,7 +316,7 @@ public class RobotControlActivity extends AppCompatActivity {
                     gridMap.moveRobot("left");
                     refreshLabel();
                     updateStatus(Status.TL);
-                    util.printMessage(context,"Al");
+                    util.printMessage(context,"AR>a");
                     refreshLabel();
                 }
                 else
@@ -447,7 +445,7 @@ public class RobotControlActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 util.showLog(TAG,"Clicked manualAutoToggleBtn");
-                if (manualAutoToggleBtn.getText().equals("MANUAL")) {
+                if (manualAutoToggleBtn.getText().equals("AUTO")) {
                     try {
                         gridMap.setAutoUpdate(true);
                         autoUpdate = true;
@@ -473,7 +471,7 @@ public class RobotControlActivity extends AppCompatActivity {
                     gridMap.resetMap();
                     showToast("AUTO mode");
                 }
-                else if (manualAutoToggleBtn.getText().equals("AUTO")) {
+                else if (manualAutoToggleBtn.getText().equals("MANUAL")) {
                     try {
                         gridMap.setAutoUpdate(false);
                         autoUpdate = false;

@@ -86,7 +86,7 @@ public class GridMap extends View {
         init(attrs);
         blackPaint.setStyle(Paint.Style.FILL_AND_STROKE);   // for lines, etc
         obstacleColor.setColor(Color.BLACK);                // black = obstacles position
-        robotColor.setColor(Color.GREEN);                   // black = obstacles position
+        robotColor.setColor(Color.GREEN);                   // black = robot position
         endColor.setColor(Color.RED);                       // red = end position
         startColor.setColor(Color.CYAN);                    // green = start position
         waypointColor.setColor(Color.YELLOW);               // yellow = waypoint position
@@ -526,7 +526,7 @@ public class GridMap extends View {
         JSONObject mapInformation = this.getReceivedJsonObject();
         Util.showLog(TAG,"updateMapInformation --- mapInformation: " + mapInformation);
 
-        //SAMPE SINI BENER
+
         JSONObject infoJsonObject;
         String hexStringExplored, hexStringObstacle, exploredString, obstacleString;
         BigInteger hexBigIntegerExplored, hexBigIntegerObstacle;

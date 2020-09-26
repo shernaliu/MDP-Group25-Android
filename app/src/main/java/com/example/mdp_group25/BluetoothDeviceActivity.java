@@ -53,7 +53,7 @@ public class BluetoothDeviceActivity extends AppCompatActivity {
     private String connStatus;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-
+    String Raspberry_Pi_Physical_Address = "";
     // Create a BroadcastReceiver for ACTION_FOUND
     private final BroadcastReceiver mBroadcastReceiver1 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -277,7 +277,7 @@ public class BluetoothDeviceActivity extends AppCompatActivity {
 
                 Log.d(TAG, "onItemClick: deviceName = "+ deviceName);
                 Log.d(TAG, "onItemClick: deviceAddress = "+ deviceAddress);
-
+                Raspberry_Pi_Physical_Address = deviceAddress;
                 //create bond
                 Log.d(TAG, "Trying to pair with "+ deviceName + " " + deviceAddress);
                 mBTDevices.get(i).createBond();
@@ -338,7 +338,7 @@ public class BluetoothDeviceActivity extends AppCompatActivity {
     }
 
     //create method for starting connection
-    //***remember the conncction will fail and app will crash if you haven't paired first
+    //***remember the connection will fail and app will crash if you haven't paired first
     public void startConnection(){
         startBTConnection(mBTDevice,MY_UUID_INSECURE);
     }

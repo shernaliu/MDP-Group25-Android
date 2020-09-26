@@ -45,13 +45,15 @@ public class Util extends AppCompatActivity {
 
         public void printMessage(Context context, String message) {
             showLog(TAG,"Entering Print Message");
+            String str = message;
+            message=message+'\n';
             if (BluetoothConnectionService.BluetoothConnectionStatus == true) {
                 byte[] bytes = message.getBytes(Charset.defaultCharset());
                 BluetoothConnectionService.write(bytes);
             }
             sharedPreferences = context.getSharedPreferences("RobotControlActivity", MODE_PRIVATE);
             editor = sharedPreferences.edit();
-            editor.putString("sentText", sharedPreferences.getString("sentText", "") + "\n " + message);
+            editor.putString("sentText", sharedPreferences.getString("sentText", "") + "\n " + str);
             editor.commit();
             showLog(TAG, sharedPreferences.getString("sentText", ""));
         }
