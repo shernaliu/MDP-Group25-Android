@@ -25,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="25dp"
         android:text="Bluetooth"
         android:layout_below="@+id/toolbar"/>
 
@@ -43,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/bluetoothTitleTextView"
         android:layout_toRightOf="@id/btnStartConnection"
-        android:layout_marginHorizontal="70dp"
+        android:layout_marginLeft="200dp"
         android:onClick="btnDiscoverable"
         android:text="Make Discoverable" />
 
