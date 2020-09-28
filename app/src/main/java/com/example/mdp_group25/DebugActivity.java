@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DebugActivity extends AppCompatActivity {
     private static String TAG = "DEBUG_ACTIVITY";
@@ -21,6 +22,7 @@ public class DebugActivity extends AppCompatActivity {
 
     EditText sentMessage;
     TextView receivedMessage;
+    TextView sentMessageDisplay;
     Button sendButton;
 
     @Override
@@ -32,6 +34,7 @@ public class DebugActivity extends AppCompatActivity {
 
         sentMessage = findViewById(R.id.messageSent);
         receivedMessage = findViewById(R.id.receivedMessage);
+        sentMessageDisplay = findViewById(R.id.sentMessageDisplay);
         sendButton = findViewById(R.id.sendButton);
 
 
@@ -40,6 +43,9 @@ public class DebugActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String message = sentMessage.getText().toString();
                 util.printMessage(context, message);
+                sentMessageDisplay.append("\n"+message);
+                sentMessage.getText().clear();
+                // Toast.makeText(DebugActivity.this, message, Toast.LENGTH_LONG).show();
             }
         });
     }
