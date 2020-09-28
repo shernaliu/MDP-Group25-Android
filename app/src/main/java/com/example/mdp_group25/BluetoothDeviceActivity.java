@@ -264,7 +264,8 @@ public class BluetoothDeviceActivity extends AppCompatActivity {
 
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
+        if(mBluetoothAdapter.isEnabled())
+            mBluetoothAdapter.disable();
         lvNewDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override

@@ -213,7 +213,7 @@ public class GridMap extends View {
                     case "right":
                         robotDirection = "right";
                         break;
-                    case "down":
+                    case "back":
                         if (curCoord[1] != 2) {
                             curCoord[1] -= 1;
                             validPosition = true;
@@ -624,23 +624,29 @@ public class GridMap extends View {
                     String robotMovements = mapInformation.getString("robot");
                     System.out.println("ROBOT MOVEMENT");
                     System.out.println(robotMovements);
+                    robotStatusTextView =  ((Activity)this.getContext()).findViewById(R.id.robotStatusTextView);
+
                     for(int k =0; k< robotMovements.length(); k++){
                         switch(robotMovements.charAt(k)){
                             case 'w':
                                 moveRobot("forward");
                                 System.out.println("FORWARD");
+                                robotStatusTextView.setText("Moving Forward");
                                 break;
                             case 'd':
                                 moveRobot("right");
                                 System.out.println("RIGHT");
+                                robotStatusTextView.setText("Turning Right");
                                 break;
                             case 'a':
                                 moveRobot("left");
                                 System.out.println("LEFT");
+                                robotStatusTextView.setText("Turning Left");
                                 break;
                             case 's':
-                                moveRobot("down");
-                                System.out.println("DOWN");
+                                moveRobot("back");
+                                System.out.println("BACK");
+                                robotStatusTextView.setText("Moving Backward");
                                 break;
                         }
                     }
