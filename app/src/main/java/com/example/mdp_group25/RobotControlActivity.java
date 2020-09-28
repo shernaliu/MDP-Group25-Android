@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import java.util.concurrent.TimeUnit;
 
 
 public class RobotControlActivity extends AppCompatActivity {
@@ -45,7 +46,8 @@ public class RobotControlActivity extends AppCompatActivity {
 
     boolean turnedLeft = false;
     boolean turnedRight = false;
-
+    boolean goStraight = false;
+    boolean goback = false;
     GridMap gridMap;
     ToggleButton exploreToggleBtn, fastestToggleBtn;
     TextView robotStatusTextView;
@@ -65,12 +67,14 @@ public class RobotControlActivity extends AppCompatActivity {
     SensorManager sensorManager;
     Sensor tiltSensor;
     SensorEventListener tiltSensorListener;
+    String current_command = "";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_robot_control);
+
 
         //shared Preferences
         sharedPreferences = getApplicationContext().getSharedPreferences("RobotControlActivity", Context.MODE_PRIVATE);
@@ -127,9 +131,22 @@ public class RobotControlActivity extends AppCompatActivity {
         connStatusTextView.setText(connStatus);
 
 
+        final android.os.Handler customHandler = new android.os.Handler();
+        Runnable runthisthread = new Runnable()
+        {
+            public void run()
+            {
+                current_command = "";
+                customHandler.postDelayed(this, 3000);
+            }
+        };
+        customHandler.postDelayed(runthisthread, 0);
+
         tiltSensorListener = new SensorEventListener() {
+
             @Override
             public void onSensorChanged(SensorEvent event) {
+
                 if (tiltControl){
                     float[] rotationMatrix = new  float[16];
                     SensorManager.getRotationMatrixFromVector(rotationMatrix,event.values);
@@ -137,52 +154,66 @@ public class RobotControlActivity extends AppCompatActivity {
                     //default value = 9.81 (0-(-9.81))
                     float delta = 6;
                     if (event.values[1] < 2.5f-delta){
-                        Util.showLog(TAG,"device lifted up");
-                        gridMap.moveRobot("forward");
-                        refreshLabel();
-                        showToast("device lifted up");
-                        gridMap.moveRobot("forward");
-                        refreshLabel();
-                        util.printMessage(context,"AR>w");
-                        return;
-                    } else if (event.values[1] > 2.5f +delta-1) {
-                        Util.showLog(TAG,"device lowered");
+                        // Sensor is tilted forward
+                        if(!current_command.equals("Forward"))
+                        {
+                            Util.showLog(TAG, "device lifted up");
+                            gridMap.moveRobot("forward");
+                            refreshLabel();
+                            showToast("device lifted up");
+                            util.printMessage(context, "AR>w");
+                            current_command = "Forward";
+                            return;
+                        }
+                    }
+                    else if (event.values[1] > 2.5f +delta-1) {
+                        if(!current_command.equals("Backward"))
+                        {
+                        Util.showLog(TAG, "device lowered");
                         gridMap.moveRobot("back");
                         refreshLabel();
                         showToast("device lowered");
-                        gridMap.moveRobot("back");
-                        refreshLabel();
-                        util.printMessage(context,"AR>s");
+                        util.printMessage(context, "AR>s");
+                        current_command = "Backward";
                         return;
                     }
+                    }
                     if (event.values[0] > 5.5){ //1.5+5 = 6.5
-                        Util.showLog(TAG,"turned left");
-                        showToast("turned left");
-                        if (turnedLeft){
-                            turnedLeft = false;
-                        }
-                        else {
-                            gridMap.moveRobot("left");
-                            refreshLabel();
-                            util.printMessage(context,"AR>a");
-                            turnedLeft = true;
-                            return;
+                        if(!current_command.equals("Left"))
+                        {
+                            if (turnedLeft) {
+                                turnedLeft = false;
+                            }
+                            else {
+                                Util.showLog(TAG, "turned left");
+                                showToast("turned left");
+                                gridMap.moveRobot("left");
+                                refreshLabel();
+                                util.printMessage(context, "AR>a");
+                                turnedLeft = true;
+                                current_command = "Left";
+                                return;
+                            }
                         }
                     } else if (event.values[0] < -5.5) {//1.5-5 = -3.5
-                        Util.showLog(TAG,"turned right");
-                        showToast("turned right");
-                        if (turnedRight){
-                            turnedRight = false;
-                        }
-                        else {
-                            gridMap.moveRobot("right");
-                            refreshLabel();
-                            util.printMessage(context,"AR>d");
-                            turnedRight = true;
-                            return;
+                        if(!current_command.equals("Right")) {
+                            if (turnedRight){
+                                turnedRight = false;
+                            }
+                            else {
+                                Util.showLog(TAG, "turned right");
+                                showToast("turned right");
+                                gridMap.moveRobot("right");
+                                refreshLabel();
+                                util.printMessage(context, "AR>d");
+                                turnedRight = true;
+                                current_command = "Right";
+                                return;
+                            }
                         }
                     }
                 }
+
             }
 
             @Override
@@ -191,8 +222,8 @@ public class RobotControlActivity extends AppCompatActivity {
             }
         };
 
-        sensorManager.registerListener(tiltSensorListener,tiltSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(tiltSensorListener,tiltSensor, 5000000);
+        //sensorManager.registerListener(tiltSensorListener,tiltSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(tiltSensorListener,tiltSensor, 3000000);
 
 
         manualUpdateBtn.setOnClickListener(new View.OnClickListener(){

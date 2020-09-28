@@ -153,7 +153,7 @@ public class GridMap extends View {
         //start from 1.5 to accommodate grid number
         for (int x = 0; x <= COL; x++)
             for (int y = 0; y <= ROW; y++)
-                cells[x][y] = new Cell(x * cellSize + (cellSize / 30), y * cellSize + (cellSize / 30), (x + 1) * cellSize, (y + 1) * cellSize, unexploredColor, "unexplored");
+                cells[x][y] = new Cell( x * cellSize + (cellSize / 30), y * cellSize + (cellSize / 30), (x + 1) * cellSize, (y + 1) * cellSize, unexploredColor, "unexplored");
         Util.showLog(TAG,"Exiting createCell");
     }
 
@@ -213,7 +213,7 @@ public class GridMap extends View {
                     case "right":
                         robotDirection = "right";
                         break;
-                    case "back":
+                    case "down":
                         if (curCoord[1] != 2) {
                             curCoord[1] -= 1;
                             validPosition = true;
@@ -366,7 +366,7 @@ public class GridMap extends View {
                 startCoordStatus = false;
 
                 try {
-                    util.printMessage(context, "starting", column, row);
+                    util.printMessage(context, "S", column, row);
                     sharedPreferences();
                     TextView sentMessage =  ((Activity)this.getContext()).findViewById(R.id.sentMessage);
                     sentMessage.setText(sharedPreferences.getString("sentText", ""));
@@ -604,10 +604,14 @@ public class GridMap extends View {
                     for(int j=0; j< images.length(); j++){
                         image = images.getJSONObject(j);
                         String imageString = image.getString("imageString");
+                        Util.showLog(TAG,"imageString " + mapInformation);
                         String imageX = imageString.substring(0,2);
+                        Util.showLog(TAG,"imageString X" + imageX);
                         String imageY = imageString.substring(2,4);
+                        Util.showLog(TAG,"imageString Y" + imageY);
                         int imageType = Integer.parseInt(imageString.substring(4));
                         String imageTypeString = Integer.toString(imageType);
+                        Util.showLog(TAG,"imageString type" + imageTypeString);
                         this.setImageCoordinate(Integer.parseInt(imageX), Integer.parseInt(imageY), imageTypeString);
                     }
                     break;
@@ -622,17 +626,21 @@ public class GridMap extends View {
                     System.out.println(robotMovements);
                     for(int k =0; k< robotMovements.length(); k++){
                         switch(robotMovements.charAt(k)){
-                            case 'f':
+                            case 'w':
                                 moveRobot("forward");
                                 System.out.println("FORWARD");
                                 break;
-                            case 'r':
+                            case 'd':
                                 moveRobot("right");
                                 System.out.println("RIGHT");
                                 break;
-                            case 'l':
+                            case 'a':
                                 moveRobot("left");
                                 System.out.println("LEFT");
+                                break;
+                            case 's':
+                                moveRobot("down");
+                                System.out.println("DOWN");
                                 break;
                         }
                     }
@@ -990,7 +998,7 @@ public class GridMap extends View {
         cells[col][row].setType("waypoint");
 
         // toast is a small message displayed on the screen, similar to a popup notification that remains visible for a short time period
-        util.printMessage(context, "waypoint", waypointCoord[0], waypointCoord[1]);
+        util.printMessage(context, "W", waypointCoord[0], waypointCoord[1]);
         Util.showLog(TAG,"Exiting setWaypointCoord");
     }
 
