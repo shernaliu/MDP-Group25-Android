@@ -396,6 +396,9 @@ public class BluetoothDeviceActivity extends AppCompatActivity {
             mBluetoothAdapter.cancelDiscovery();
             Log.d(TAG, "btnDiscover: Canceling discovery.");
 
+            //check BT permissions in manifest
+            checkBTPermissions();
+
             mBluetoothAdapter.startDiscovery( );
             IntentFilter discoverDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
             registerReceiver(mBroadcastReceiver3, discoverDevicesIntent);
@@ -413,6 +416,28 @@ public class BluetoothDeviceActivity extends AppCompatActivity {
         mPairedDeviceListAdapter = new DeviceListAdapter(this, R.layout.device_adapter_view, mBTPairedDeviceArray);
         lvPairedDevices.setAdapter(mPairedDeviceListAdapter);
 
+    }
+    
+    /**
+     * Check and request for bluetooth permissions explicitly.
+     */
+    private void checkBTPermissions() {
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
+            int permissionCheck = 0;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                permissionCheck = this.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION");
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                permissionCheck += this.checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION");
+            }
+            if (permissionCheck != 0) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001); //Any number
+                }
+            }
+        }else{
+            Log.d(TAG, "checkBTPermissions: No need to check permissions. SDK version < LOLLIPOP.");
+        }
     }
 
 }
