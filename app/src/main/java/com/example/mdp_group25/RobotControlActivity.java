@@ -113,7 +113,7 @@ public class RobotControlActivity extends AppCompatActivity {
         manualUpdateBtn = findViewById(R.id.manualUpdateBtn);
         connStatusTextView = findViewById(R.id.connStatusTextView);
         sentMessage = findViewById(R.id.sentMessage);
-        receivedMessage = findViewById(R.id.receivedMessage);
+        receivedMessage = findViewById(R.id.receivedMsg);
         xAxisTextViewWP = findViewById(R.id.xAxisTextViewWP);
         yAxisTextViewWP = findViewById(R.id.yAxisTextViewWP);
 

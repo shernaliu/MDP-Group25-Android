@@ -514,7 +514,7 @@
         android:text="No sent message"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toStartOf="@+id/receivedMessage"
+        app:layout_constraintEnd_toStartOf="@+id/receivedMsg"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/sentMessageLabel"
         app:layout_constraintTop_toBottomOf="@+id/sentMessageLabel" />
@@ -535,7 +535,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/receivedMessage"
+        android:id="@+id/receivedMsg"
         android:layout_width="180dp"
         android:layout_height="140dp"
         android:layout_marginBottom="20dp"

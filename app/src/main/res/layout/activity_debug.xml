@@ -21,40 +21,40 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/receivedLabel"
+        android:id="@+id/msgReceivedTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:text="Message Received"
+        android:text="Received Message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.081"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/receivedMessage"
+        android:id="@+id/receivedMsg"
         android:layout_width="140dp"
-        android:layout_height="74dp"
+        android:layout_height="75dp"
         android:layout_marginTop="20dp"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.088"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/receivedLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/msgReceivedTitle" />
 
     <TextView
-        android:id="@+id/sentLabel2"
+        android:id="@+id/sentMsgTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Message Sent"
+        android:text="Sent Message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/receivedMessage" />
+        app:layout_constraintTop_toBottomOf="@+id/receivedMsg" />
 
     <EditText
-        android:id="@+id/messageSent"
+        android:id="@+id/msgInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="332dp"
@@ -74,11 +74,11 @@
         android:layout_marginBottom="387dp"
         android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/messageSent"
+        app:layout_constraintStart_toStartOf="@+id/msgInput"
         app:layout_constraintTop_toBottomOf="@+id/titleDebug" />
 
     <Button
-        android:id="@+id/sendButton"
+        android:id="@+id/sendBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#87ceeb"
@@ -89,7 +89,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/messageSent"
+        app:layout_constraintTop_toBottomOf="@+id/msgInput"
         app:layout_constraintVertical_bias="0.821" />
 
 
