@@ -69,6 +69,10 @@ public class GridMap extends View {
 
     private Util util = new Util();
 
+    int image_type [] = new int[]{-99,-99,-99,-99,-99};
+    int image_x_coordinate [] = new int[]{-99,-99,-99,-99,-99};
+    int image_y_coordinate [] = new int[]{-99,-99,-99,-99,-99};
+    int flag_for_image_coordinates = 0;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
@@ -541,15 +545,18 @@ public class GridMap extends View {
             switch(mapInformation.names().getString(i)){
                 case "map":
                     infoJsonObject = mapInformation.getJSONObject("map");
-
+                    System.out.println("infoJsonObject: "+infoJsonObject); // THis is extra
                     //set explored
                     hexStringExplored = infoJsonObject.getString("explored");
+                    System.out.println("hexStringExplored:"+hexStringExplored); // This is extra
                     hexBigIntegerExplored = new BigInteger(hexStringExplored, 16);
                     exploredString = hexBigIntegerExplored.toString(2);
                     //throw away padding bits
                     exploredString = exploredString.substring(2, 302);
+                    System.out.println("exploredString:"+exploredString); // This is extra
 
                     int length = infoJsonObject.getInt("length");
+                    System.out.println("length:"+length); // This is extra
                     hexStringObstacle = infoJsonObject.getString("obstacle");
                     if(hexStringObstacle.length()>0){
                         hexBigIntegerObstacle = new BigInteger(hexStringObstacle, 16);
@@ -606,10 +613,14 @@ public class GridMap extends View {
                         String imageString = image.getString("imageString");
                         Util.showLog(TAG,"imageString " + mapInformation);
                         String imageX = imageString.substring(0,2);
+                        image_x_coordinate[flag_for_image_coordinates] = Integer.parseInt(imageX);
                         Util.showLog(TAG,"imageString X" + imageX);
                         String imageY = imageString.substring(2,4);
+                        image_y_coordinate[flag_for_image_coordinates] = Integer.parseInt(imageY);
                         Util.showLog(TAG,"imageString Y" + imageY);
                         int imageType = Integer.parseInt(imageString.substring(4));
+                        image_type[flag_for_image_coordinates] = imageType;
+                        flag_for_image_coordinates++;
                         String imageTypeString = Integer.toString(imageType);
                         Util.showLog(TAG,"imageString type" + imageTypeString);
                         this.setImageCoordinate(Integer.parseInt(imageX), Integer.parseInt(imageY), imageTypeString);
@@ -647,6 +658,35 @@ public class GridMap extends View {
                                 moveRobot("back");
                                 System.out.println("BACK");
                                 robotStatusTextView.setText("Moving Backward");
+                                break;
+                            case 'z':
+                                moveRobot("left");
+                                System.out.println("LEFT");
+                                moveRobot("forward");
+                                System.out.println("FORWARD");
+                                robotStatusTextView.setText("Moving Forward");
+                                break;
+                            case 'c':
+                                moveRobot("right");
+                                moveRobot("right");
+                                System.out.println("DOUBLE RIGHT");
+                                moveRobot("forward");
+                                System.out.println("FORWARD");
+                                robotStatusTextView.setText("Moving Forward");
+                                break;
+                            case 'p':
+                                moveRobot("right");
+                                System.out.println("RIGHT");
+                                moveRobot("forward");
+                                System.out.println("FORWARD");
+                                robotStatusTextView.setText("Moving Forward");
+                                break;
+                            case 'm':
+                                moveRobot("forward");
+                                System.out.println("FORWARD");
+                                moveRobot("forward");
+                                System.out.println("FORWARD");
+                                robotStatusTextView.setText("Moving Forward");
                                 break;
                         }
                     }

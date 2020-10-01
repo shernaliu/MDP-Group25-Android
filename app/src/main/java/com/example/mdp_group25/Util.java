@@ -21,6 +21,7 @@ public class Util extends AppCompatActivity {
     private static SharedPreferences sharedPreferencesMain;
     private static SharedPreferences.Editor editorMain;
 
+    static String final_mdf_string = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,17 +31,19 @@ public class Util extends AppCompatActivity {
 
         public void printMessage(Context context, String messageType, int x, int y) throws JSONException {
             showLog(TAG,"Entering Print Message");
-            String message = "AL>" + messageType + "(" + (x-1) + "," + (y-1) + ")" + " \n";
-            if (BluetoothConnectionService.BluetoothConnectionStatus == true) {
-                byte[] bytes = message.getBytes(Charset.defaultCharset());
-                BluetoothConnectionService.write(bytes);
-            }
-            sharedPreferences = context.getSharedPreferences("RobotControlActivity", MODE_PRIVATE);
-            editor = sharedPreferences.edit();
-            showLog(TAG, message);
-            editor.putString("sentText", sharedPreferences.getString("sentText", "")+ " \n" + message);
-            editor.commit();
-            showLog(TAG, sharedPreferences.getString("sentText", ""));
+                String message = "AL>" + messageType + "(" + (x - 1) + "," + (y - 1) + ")" + " \n";
+                if (BluetoothConnectionService.BluetoothConnectionStatus == true) {
+                    byte[] bytes = message.getBytes(Charset.defaultCharset());
+                    BluetoothConnectionService.write(bytes);
+                }
+
+                sharedPreferences = context.getSharedPreferences("RobotControlActivity", MODE_PRIVATE);
+                editor = sharedPreferences.edit();
+                showLog(TAG, message);
+                editor.putString("sentText", sharedPreferences.getString("sentText", "") + " \n" + message);
+                editor.commit();
+                showLog(TAG, sharedPreferences.getString("sentText", ""));
+
         }
 
         public void printMessage(Context context, String message) {
@@ -79,6 +82,7 @@ public class Util extends AppCompatActivity {
                 switch(messageObject.names().getString(j)){
                     case "grid":
                         String mdfString = messageObject.getString("grid");
+                        final_mdf_string = "\""+mdfString+"\"";
                         String obstacle = "";
                         if(mdfString.length()> 76){
                             // explored string is also sent
@@ -113,7 +117,7 @@ public class Util extends AppCompatActivity {
                         System.out.println(images);
                         mapObject.put("image", images);
                         break;
-                    case "status":
+                    /*case "status":
                         String status = messageObject.getString("status");
                         switch(status){
                             case "MF":
@@ -134,7 +138,7 @@ public class Util extends AppCompatActivity {
                             default:
                                 break;
                         }
-                        break;
+                        break;*/
                     case "robot":
                         String robotMovement = messageObject.getString("robot");
                         mapObject.put("robot", robotMovement);

@@ -1,5 +1,7 @@
 package com.example.mdp_group25;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -27,6 +29,8 @@ import org.json.JSONObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -68,6 +72,7 @@ public class RobotControlActivity extends AppCompatActivity {
     Sensor tiltSensor;
     SensorEventListener tiltSensorListener;
     String current_command = "";
+    String mdf_string_final = "";
 
 
     @Override
@@ -125,6 +130,8 @@ public class RobotControlActivity extends AppCompatActivity {
         tiltSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
 
+
+
         if (sharedPreferencesConn.contains("connStatus"))
             connStatus = sharedPreferencesConn.getString("connStatus", "");
 
@@ -137,10 +144,11 @@ public class RobotControlActivity extends AppCompatActivity {
             public void run()
             {
                 current_command = "";
-                customHandler.postDelayed(this, 3000);
+                customHandler.postDelayed(this, 2000);
             }
         };
         customHandler.postDelayed(runthisthread, 0);
+
 
         tiltSensorListener = new SensorEventListener() {
 
@@ -221,9 +229,9 @@ public class RobotControlActivity extends AppCompatActivity {
 
             }
         };
-
-        //sensorManager.registerListener(tiltSensorListener,tiltSensor, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(tiltSensorListener,tiltSensor, 3000000);
+
+
 
 
         manualUpdateBtn.setOnClickListener(new View.OnClickListener(){
@@ -571,6 +579,7 @@ public class RobotControlActivity extends AppCompatActivity {
         }
     }
 
+
     private void updateSentMessage(){
         String sent = sharedPreferences.getString("sentText", "");
         if(sent.length()>0){
@@ -647,6 +656,7 @@ public class RobotControlActivity extends AppCompatActivity {
             util.showLog(TAG, "receivedMessage: message --- " + message);
             if(message.charAt(0) == '{'){
                 JSONObject parsedMessage = util.parseMDFString(message);
+
                 try {
                     gridMap.setReceivedJsonObject(parsedMessage);
                     gridMap.updateMapInformation();
@@ -655,6 +665,9 @@ public class RobotControlActivity extends AppCompatActivity {
                     util.showLog(TAG, "messageReceiver: try decode unsuccessful");
                 }
             }
+            else if(message.equals("stop"))
+                showdialog();
+
 
             String receivedText = sharedPreferences.getString("receivedText", "") + "\n " + message;
             editor.putString("receivedText", receivedText);
@@ -688,9 +701,26 @@ public class RobotControlActivity extends AppCompatActivity {
         }
     }
 
+    public void showdialog()
+    {
 
+        //Setting message manually and performing action on button click
+        String final_str="MDF String:"+Util.final_mdf_string+" \n";
+        for(int i=0;i<5;i++)
+        {
+            if(gridMap.image_type[i]!=-80)
+            {
+                final_str=final_str+"Image "+(i+1)+ " ID:"+gridMap.image_type[i]+", X:"+gridMap.image_x_coordinate[i]+" Y:"+gridMap.image_y_coordinate[i]+"\n";
+            }
+        }
+        new MaterialAlertDialogBuilder(this, R.style.CustomAlertDialogTheme)
+                .setTitle("\t \t \t Exploration Finished!")
+                .setMessage(final_str)
+                .setNegativeButton("Dismiss", /* listener = */ null)
+                .show();
+
+    }
     //logging & status display
-
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
