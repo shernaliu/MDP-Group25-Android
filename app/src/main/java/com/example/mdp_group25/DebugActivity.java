@@ -8,54 +8,51 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class DebugActivity extends AppCompatActivity {
     private static String TAG = "DEBUG_ACTIVITY";
     private static Context context;
-
     private Util util = new Util();
-
-    EditText sentMessage;
-    TextView receivedMessage;
+    Button sendBtn;
+    TextView receivedMsg;
     TextView sentMessageDisplay;
-    Button sendButton;
+    EditText sentMsgInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debug);
-        LocalBroadcastManager.getInstance(this).registerReceiver(debugMessageReceiver, new IntentFilter("incomingMessage"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(msgReceiver, new IntentFilter("incomingMessage"));
         DebugActivity.context = getApplicationContext();
-
-        sentMessage = findViewById(R.id.messageSent);
-        receivedMessage = findViewById(R.id.receivedMessage);
+        sentMsgInput = findViewById(R.id.msgInput);
+        receivedMsg = findViewById(R.id.receivedMsg);
+        receivedMsg.setMovementMethod(new ScrollingMovementMethod());
         sentMessageDisplay = findViewById(R.id.sentMessageDisplay);
-        sendButton = findViewById(R.id.sendButton);
+        sentMessageDisplay.setMovementMethod(new ScrollingMovementMethod());
+        sendBtn = findViewById(R.id.sendBtn);
 
-
-        sendButton.setOnClickListener(new View.OnClickListener() {
+        sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String message = sentMessage.getText().toString();
+                String message = sentMsgInput.getText().toString();
                 util.printMessage(context, message);
                 sentMessageDisplay.append("\n"+message);
-                sentMessage.getText().clear();
-                // Toast.makeText(DebugActivity.this, message, Toast.LENGTH_LONG).show();
+                sentMsgInput.getText().clear();
             }
         });
     }
 
-    BroadcastReceiver debugMessageReceiver = new BroadcastReceiver() {
+    BroadcastReceiver msgReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String message = intent.getStringExtra("receivedMessage");
-            Util.showLog(TAG,"receivedMessage: message --- " + message);
-            receivedMessage.setText(message);
+            String message = intent.getStringExtra("msgReceived");
+            Util.showLog(TAG,"msgReceived: message --- " + message);
+            receivedMsg.setText(message);
         }
     };
 
@@ -63,7 +60,7 @@ public class DebugActivity extends AppCompatActivity {
     protected void onDestroy(){
         super.onDestroy();
         try{
-            LocalBroadcastManager.getInstance(this).unregisterReceiver(debugMessageReceiver);
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(msgReceiver);
         } catch(IllegalArgumentException e){
             e.printStackTrace();
         }

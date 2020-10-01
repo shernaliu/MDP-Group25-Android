@@ -10,74 +10,73 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class FunctionsActivity extends AppCompatActivity {
+    private static String TAG = "FUNCTIONS_ACTIVITY";
 
-    Button savePreferences;
-    EditText firstFunctionValue;
-    EditText secondFunctionValue;
-    EditText firstLabelValue;
-    EditText secondLabelValue;
+    public static final String labelOne = "labelOne";
+    public static final String functionOne = "functionOne";
+    public static final String labelTwo = "labelTwo";
+    public static final String functionTwo = "functionTwo";
 
-    public static final String firstFunction = "firstFunction";
-    public static final String secondFunction = "secondFunction";
-    public static final String firstLabel = "firstLabel";
-    public static final String secondLabel="secondLabel";
+    EditText label1Input;
+    EditText function1Input;
+    EditText label2Input;
+    EditText function2Input;
+    Button saveBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_functions);
-
         SharedPreferences pref = getApplicationContext().getSharedPreferences("CommunicationsPreferences", 0);
         final SharedPreferences.Editor editor = pref.edit();
 
-        //Set the Text Field According to Function values saved in the Preferences
-        firstFunctionValue = findViewById(R.id.firstFunctionValue);
-        secondFunctionValue = findViewById(R.id.secondFunctionValue);
-        String savedFirstFunction = pref.getString(firstFunction, "");
-        String savedSecondFunction = pref.getString(secondFunction, "");
-        firstFunctionValue.setText(savedFirstFunction);
-        secondFunctionValue.setText(savedSecondFunction);
+        // retrieve components
+        label1Input = findViewById(R.id.label1Input);
+        function1Input = findViewById(R.id.function1Input);
+        label2Input = findViewById(R.id.label2Input);
+        function2Input = findViewById(R.id.function2Input);
+        saveBtn = findViewById(R.id.saveBtn);
 
-        firstLabelValue = findViewById(R.id.firstLabelValue);
-        secondLabelValue = findViewById(R.id.secondLabelValue);
-        String savedFirstLabel = pref.getString(firstLabel, "");
-        String savedSecondLabel = pref.getString(secondLabel, "");
-        firstLabelValue.setText(savedFirstLabel);
-        secondLabelValue.setText(savedSecondLabel);
+        // populate the functions textviews based on the data saved in FunctionsPreferences
+        String functionOneData = pref.getString(functionOne, "");
+        function1Input.setText(functionOneData);
+        String functionTwoData = pref.getString(functionTwo, "");
+        function2Input.setText(functionTwoData);
 
+        // populate the labels textviews based on the data saved in FunctionsPreferences
+        String labelOneData = pref.getString(labelOne, "");
+        String labelTwoData = pref.getString(labelTwo, "");
+        label1Input.setText(labelOneData);
+        label2Input.setText(labelTwoData);
 
-        savePreferences = findViewById(R.id.savePreferences);
-        savePreferences.setOnClickListener(new View.OnClickListener() {
+        saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //get the input value
-                String firstValueToSave;
-                String secondValueToSave;
-                String firstLabelToSave;
-                String secondLabelToSave;
-                firstFunctionValue = findViewById(R.id.firstFunctionValue);
-                firstLabelValue = findViewById(R.id.firstLabelValue);
-                secondFunctionValue = findViewById(R.id.secondFunctionValue);
-                secondLabelValue = findViewById(R.id.secondLabelValue);
-                firstValueToSave = firstFunctionValue.getText().toString();
-                secondValueToSave = secondFunctionValue.getText().toString();
+                // retrieve input values
+                String fnOneInput, fnTwoInput, labelOneInput, labelTwoInput;
 
-                firstLabelToSave = firstLabelValue.getText().toString();
-                secondLabelToSave = secondLabelValue.getText().toString();
+                function1Input = findViewById(R.id.function1Input);
+                label1Input = findViewById(R.id.label1Input);
+                function2Input = findViewById(R.id.function2Input);
+                label2Input = findViewById(R.id.label2Input);
+                fnOneInput = function1Input.getText().toString();
+                fnTwoInput = function2Input.getText().toString();
+                labelOneInput = label1Input.getText().toString();
+                labelTwoInput = label2Input.getText().toString();
 
+                // clear the editor, save the values into its respective variables and commit changes
                 editor.clear();
-
-                editor.putString(firstLabel, firstLabelToSave);
-                editor.putString(firstFunction, firstValueToSave);
-                editor.putString(secondLabel, secondLabelToSave);
-                editor.putString(secondFunction, secondValueToSave);
-
+                editor.putString(labelOne, labelOneInput);
+                editor.putString(functionOne, fnOneInput);
+                editor.putString(labelTwo, labelTwoInput);
+                editor.putString(functionTwo, fnTwoInput);
                 editor.commit();
 
-                firstFunctionValue.clearFocus();
-                secondFunctionValue.clearFocus();
-                firstLabelValue.clearFocus();
-                secondLabelValue.clearFocus();
+                function1Input.clearFocus();
+                function2Input.clearFocus();
+                label1Input.clearFocus();
+                label2Input.clearFocus();
                 Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
             }
         });
