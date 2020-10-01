@@ -7,7 +7,7 @@
     tools:context=".FunctionsActivity">
 
     <TextView
-        android:id="@+id/firstFunction"
+        android:id="@+id/functionOneTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="37dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/label1"
+        android:id="@+id/label1Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
@@ -27,10 +27,10 @@
         android:layout_marginTop="56dp"
         android:text="Label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstFunction" />
+        app:layout_constraintTop_toBottomOf="@+id/functionOneTitle" />
 
     <EditText
-        android:id="@+id/firstLabelValue"
+        android:id="@+id/label1Input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -40,10 +40,10 @@
         android:inputType="textPersonName"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstFunction" />
+        app:layout_constraintTop_toBottomOf="@+id/functionOneTitle" />
 
     <TextView
-        android:id="@+id/function1"
+        android:id="@+id/function1Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
@@ -51,10 +51,10 @@
         android:layout_marginTop="68dp"
         android:text="Function"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label1" />
+        app:layout_constraintTop_toBottomOf="@+id/label1Title" />
 
     <EditText
-        android:id="@+id/firstFunctionValue"
+        android:id="@+id/function1Input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
@@ -63,8 +63,8 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text=""
-        app:layout_constraintStart_toStartOf="@+id/firstLabelValue"
-        app:layout_constraintTop_toBottomOf="@+id/firstLabelValue" />
+        app:layout_constraintStart_toStartOf="@+id/label1Input"
+        app:layout_constraintTop_toBottomOf="@+id/label1Input" />
 
     <View
         android:id="@+id/divider"
@@ -83,7 +83,7 @@
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/secondFunction"
+        android:id="@+id/functionTwoTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
@@ -95,7 +95,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/label2"
+        android:id="@+id/label2Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -103,10 +103,10 @@
         android:layout_marginTop="376dp"
         android:text="Label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstFunction" />
+        app:layout_constraintTop_toBottomOf="@+id/functionOneTitle" />
 
     <EditText
-        android:id="@+id/secondLabelValue"
+        android:id="@+id/label2Input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="352dp"
@@ -116,11 +116,11 @@
         android:inputType="textPersonName"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstFunction" />
+        app:layout_constraintTop_toBottomOf="@+id/functionOneTitle" />
 
 
     <TextView
-        android:id="@+id/function2"
+        android:id="@+id/function2Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -128,10 +128,10 @@
         android:layout_marginTop="388dp"
         android:text="Function"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label1" />
+        app:layout_constraintTop_toBottomOf="@+id/label1Title" />
 
     <EditText
-        android:id="@+id/secondFunctionValue"
+        android:id="@+id/function2Input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -140,11 +140,11 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text=""
-        app:layout_constraintStart_toStartOf="@+id/firstLabelValue"
-        app:layout_constraintTop_toBottomOf="@+id/firstLabelValue" />
+        app:layout_constraintStart_toStartOf="@+id/label1Input"
+        app:layout_constraintTop_toBottomOf="@+id/label1Input" />
 
     <Button
-        android:id="@+id/savePreferences"
+        android:id="@+id/saveBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="37dp"

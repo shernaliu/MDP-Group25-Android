@@ -362,7 +362,7 @@ public class RobotControlActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 util.showLog(TAG,"Clicked buttonF1");
-                String firstFunction = pref.getString(FunctionsActivity.firstFunction, "");
+                String firstFunction = pref.getString(FunctionsActivity.functionOne, "");
                 if(firstFunction != ""){
                     util.printMessage(context, firstFunction);
                     refreshLabel();
@@ -374,7 +374,7 @@ public class RobotControlActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 util.showLog(TAG,"Clicked buttonF2");
-                String secondFunction = pref.getString(FunctionsActivity.secondFunction, "");
+                String secondFunction = pref.getString(FunctionsActivity.functionTwo, "");
                 if(secondFunction != ""){
                     util.printMessage(context, secondFunction);
                     refreshLabel();
