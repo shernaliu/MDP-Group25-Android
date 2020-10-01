@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MDP-Group25</string>
+    <string name="app_name">MDP-25</string>
     <string name="set_start_point">Set Start Point</string>
     <string name="set_way_point">Set Way Point</string>
     <string name="reset_map">Reset Map</string>
