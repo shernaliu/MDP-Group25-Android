@@ -496,6 +496,7 @@ public class RobotControlActivity extends AppCompatActivity {
                     (findViewById(R.id.buttonF1)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.buttonF2)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.moveForwardImageBtn)).setVisibility(View.INVISIBLE);
+                    (findViewById(R.id.moveBackwardImageBtn)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.turnLeftImageBtn)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.turnRightImageBtn)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.tiltSwitch)).setVisibility(View.INVISIBLE);
@@ -523,6 +524,7 @@ public class RobotControlActivity extends AppCompatActivity {
                     (findViewById(R.id.buttonF1)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.buttonF2)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.moveForwardImageBtn)).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.moveBackwardImageBtn)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.turnLeftImageBtn)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.turnRightImageBtn)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.tiltSwitch)).setVisibility(View.VISIBLE);

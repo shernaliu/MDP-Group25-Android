@@ -10,6 +10,20 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
+    <View
+        android:id="@+id/rectangle_bg"
+        android:layout_width="170dp"
+        android:layout_height="300dp"
+        android:layout_alignParentTop="true"
+        android:background="#ECEBEA"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25" />
+
     <view
         android:id="@+id/mapView"
         class="com.example.mdp_group25.GridMap"
@@ -56,9 +70,8 @@
         android:id="@+id/exploreToggleBtn"
         android:layout_width="150dp"
         android:layout_height="45dp"
-        android:background="#010203"
+        android:background="@drawable/function_btn_bg"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
         android:textOff="EXPLORE"
         android:textOn="STOP"
         android:textSize="12sp"
@@ -75,9 +88,8 @@
         android:layout_width="150dp"
         android:layout_height="45dp"
         android:layout_marginTop="12dp"
-        android:background="#010203"
+        android:background="@drawable/function_btn_bg"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
         android:textOff="FASTEST"
         android:textOn="STOP"
         android:textSize="12sp"
@@ -89,54 +101,59 @@
 
     <ImageButton
         android:id="@+id/moveForwardImageBtn"
-        android:layout_width="75dp"
+        android:layout_width="55dp"
         android:layout_height="75dp"
-        android:layout_marginBottom="216dp"
+        android:layout_marginBottom="300dp"
+        android:background="@drawable/control_button_bg"
         android:scaleType="fitCenter"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.857"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_arrow_move_forward" />
+        app:srcCompat="@drawable/ic_up" />
 
     <ImageButton
         android:id="@+id/moveBackwardImageBtn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="55dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="150dp"
+        android:background="@drawable/control_button_bg"
         android:scaleType="fitCenter"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/sentMessage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintHorizontal_bias="0.863"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_arrow_move_backward" />
+        app:srcCompat="@drawable/ic_down" />
+
     <ImageButton
         android:id="@+id/turnLeftImageBtn"
         android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginBottom="132dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="250dp"
+        android:background="@drawable/control_button_bg"
         android:scaleType="fitCenter"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.754"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_arrow_move_left" />
+        app:srcCompat="@drawable/ic_left" />
 
     <ImageButton
         android:id="@+id/turnRightImageBtn"
         android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginBottom="132dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="250dp"
+        android:background="@drawable/control_button_bg"
         android:scaleType="fitCenter"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.963"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_arrow_move_right" />
+        app:srcCompat="@drawable/ic_right" />
 
 
     <Button
@@ -144,9 +161,8 @@
         android:layout_width="150dp"
         android:layout_height="45dp"
         android:layout_marginTop="12dp"
-        android:background="#010203"
+        android:background="@drawable/function_btn_bg"
         android:text="Reset Map"
-        android:textColor="#FFFFFF"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/fastestToggleBtn"
         app:layout_constraintTop_toBottomOf="@+id/fastestToggleBtn" />
@@ -156,24 +172,22 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:background="#010203"
+        android:background="@drawable/function_btn_bg"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
         android:textOff="Set Start Point"
-
         android:textOn="CANCEL"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/resetMapBtn"
-        app:layout_constraintTop_toBottomOf="@id/resetMapBtn" />
+        app:layout_constraintTop_toBottomOf="@id/resetMapBtn"
+        />
 
     <ToggleButton
         android:id="@+id/setWaypointToggleBtn"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:background="#010203"
+        android:background="@drawable/function_btn_bg"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
         android:textOff="Set Way Point"
         android:textOn="CANCEL"
         android:textSize="12sp"
@@ -235,7 +249,6 @@
         app:layout_constraintTop_toBottomOf="@+id/mapView" />
 
     <TextView
-        android:visibility="invisible"
         android:id="@+id/xLabelTextViewWP"
         android:layout_width="30dp"
         android:layout_height="40dp"
@@ -244,12 +257,12 @@
         android:text="X:"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/xLabelTextView"
         app:layout_constraintStart_toEndOf="@+id/yAxisTextView"
         app:layout_constraintTop_toTopOf="@+id/xLabelTextView" />
 
     <TextView
-        android:visibility="invisible"
         android:id="@+id/xAxisTextViewWP"
         android:layout_width="45dp"
         android:layout_height="40dp"
@@ -258,13 +271,13 @@
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/yLabelTextViewWP"
         app:layout_constraintStart_toEndOf="@+id/yLabelTextViewWP"
         app:layout_constraintTop_toBottomOf="@+id/wayPointLabel"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:visibility="invisible"
         android:id="@+id/yLabelTextViewWP"
         android:layout_width="30dp"
         android:layout_height="40dp"
@@ -272,13 +285,13 @@
         android:text="Y:"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/yAxisTextViewWP"
         app:layout_constraintStart_toEndOf="@+id/yAxisTextViewWP"
         app:layout_constraintTop_toTopOf="@+id/yAxisTextViewWP"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:visibility="invisible"
         android:id="@+id/yAxisTextViewWP"
         android:layout_width="45dp"
         android:layout_height="40dp"
@@ -286,6 +299,7 @@
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/xLabelTextViewWP"
         app:layout_constraintStart_toEndOf="@+id/xLabelTextViewWP"
         app:layout_constraintTop_toTopOf="@+id/xLabelTextViewWP"
@@ -294,9 +308,9 @@
     <TextView
         android:id="@+id/directionLabelTextView"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="272dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="80dp"
         android:gravity="center_horizontal"
         android:text="Direction:"
         android:textSize="20sp"
@@ -321,22 +335,22 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
-        android:visibility="invisible"
         android:id="@+id/directionChangeImageBtn"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_marginBottom="15dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/directionLabelTextView"
         app:layout_constraintStart_toStartOf="@+id/clearImageBtn"
         app:layout_constraintTop_toBottomOf="@+id/clearImageBtn"
         app:srcCompat="@drawable/ic_change" />
 
     <ImageButton
-        android:visibility="invisible"
         android:id="@+id/exploredImageBtn"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_marginTop="52dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/directionChangeImageBtn"
         app:layout_constraintEnd_toEndOf="@+id/obstacleImageBtn"
         app:layout_constraintStart_toEndOf="@+id/directionChangeImageBtn"
@@ -345,10 +359,10 @@
         app:srcCompat="@drawable/ic_check" />
 
     <ImageButton
-        android:visibility="invisible"
         android:id="@+id/obstacleImageBtn"
         android:layout_width="55dp"
         android:layout_height="55dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/clearImageBtn"
         app:layout_constraintEnd_toEndOf="@+id/setWaypointToggleBtn"
         app:layout_constraintHorizontal_bias="0.0"
@@ -358,31 +372,30 @@
         app:srcCompat="@drawable/ic_arrow_error" />
 
     <ImageButton
-        android:visibility="invisible"
         android:id="@+id/clearImageBtn"
         android:layout_width="55dp"
         android:layout_height="55dp"
-
         android:layout_marginStart="36dp"
         android:layout_marginTop="11dp"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@+id/setWaypointToggleBtn"
         app:layout_constraintTop_toBottomOf="@+id/setWaypointToggleBtn"
         app:srcCompat="@drawable/ic_clear" />
 
     <ToggleButton
         android:id="@+id/manualAutoToggleBtn"
-        android:layout_width="129dp"
+        android:layout_width="170dp"
         android:layout_height="67dp"
+        android:background="@drawable/manual_auto_btn_bg"
         android:textAlignment="center"
+        android:textColor="#000000"
         android:textOff="MANUAL"
         android:textOn="AUTO"
         android:textSize="24sp"
-        android:background="#010203"
-        android:textColor="#FFF"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.86"
+        app:layout_constraintHorizontal_bias="0.92"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.093" />
@@ -399,11 +412,11 @@
 
     <Button
         android:id="@+id/buttonF1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="400dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="120dp"
+        android:background="@drawable/function_btn_bg"
         android:text="F1"
-        android:background="#dbf04a"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -412,22 +425,23 @@
 
     <Button
         android:id="@+id/buttonF2"
-        android:background="#be4fcc"
-        android:layout_width="91dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="400dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="120dp"
+        android:background="@drawable/function_btn_bg"
         android:text="F2"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.968"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/manualUpdateBtn"
-        android:layout_width="91dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/function_btn_bg"
         android:text="UPDATE"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -450,10 +464,10 @@
 
     <TextView
         android:id="@+id/wayPointLabel"
-        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Waypoint Coordinates"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/xAxisTextView"
         app:layout_constraintEnd_toEndOf="@+id/xAxisTextViewWP"
         app:layout_constraintHorizontal_bias="0.0"
@@ -533,7 +547,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.866"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
