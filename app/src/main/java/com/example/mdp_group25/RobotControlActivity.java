@@ -28,8 +28,6 @@ import org.json.JSONObject;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import java.util.concurrent.TimeUnit;
-
 
 public class RobotControlActivity extends AppCompatActivity {
 
@@ -49,6 +47,8 @@ public class RobotControlActivity extends AppCompatActivity {
     boolean goStraight = false;
     boolean goback = false;
     GridMap gridMap;
+    View rectangleBgManual;
+    View rectangleBgAuto;
     ToggleButton exploreToggleBtn, fastestToggleBtn;
     TextView robotStatusTextView;
     ImageButton moveForwardImageBtn, turnRightImageBtn, moveBackwardImageBtn, turnLeftImageBtn;
@@ -88,6 +88,8 @@ public class RobotControlActivity extends AppCompatActivity {
 
         // find all view by id
         gridMap = findViewById(R.id.mapView);
+        rectangleBgManual = findViewById(R.id.rectangle_bg_manual);
+        rectangleBgAuto = findViewById(R.id.rectangle_bg_auto);
         exploreToggleBtn = findViewById(R.id.exploreToggleBtn);
         fastestToggleBtn = findViewById(R.id.fastestToggleBtn);
         robotStatusTextView = findViewById(R.id.robotStatusTextView);
@@ -484,6 +486,9 @@ public class RobotControlActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    manualAutoToggleBtn.setBackgroundResource(R.drawable.btn_bg_auto);
+                    (findViewById(R.id.rectangle_bg_auto)).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.rectangle_bg_manual)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.exploreToggleBtn)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.fastestToggleBtn)).setVisibility((View.VISIBLE));
                     (findViewById(R.id.setWaypointToggleBtn)).setVisibility(View.VISIBLE);
@@ -511,6 +516,9 @@ public class RobotControlActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    manualAutoToggleBtn.setBackgroundResource(R.drawable.btn_bg_manual);
+                    (findViewById(R.id.rectangle_bg_auto)).setVisibility(View.INVISIBLE);
+                    (findViewById(R.id.rectangle_bg_manual)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.exploreToggleBtn)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.fastestToggleBtn)).setVisibility((View.INVISIBLE));
                     (findViewById(R.id.setWaypointToggleBtn)).setVisibility(View.INVISIBLE);

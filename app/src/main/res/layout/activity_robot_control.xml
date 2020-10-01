@@ -11,9 +11,23 @@
         layout="@layout/toolbar" />
 
     <View
-        android:id="@+id/rectangle_bg"
+        android:id="@+id/rectangle_bg_auto"
         android:layout_width="170dp"
         android:layout_height="300dp"
+        android:layout_alignParentTop="true"
+        android:background="#ECEBEA"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25" />
+
+    <View
+        android:id="@+id/rectangle_bg_manual"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
         android:layout_alignParentTop="true"
         android:background="#ECEBEA"
         android:visibility="visible"
@@ -22,7 +36,7 @@
         app:layout_constraintHorizontal_bias="0.92"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintVertical_bias="0.36" />
 
     <view
         android:id="@+id/mapView"
@@ -386,7 +400,7 @@
         android:id="@+id/manualAutoToggleBtn"
         android:layout_width="170dp"
         android:layout_height="67dp"
-        android:background="@drawable/manual_auto_btn_bg"
+        android:background="@drawable/btn_bg_manual"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textOff="MANUAL"
