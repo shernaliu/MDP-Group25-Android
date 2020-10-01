@@ -550,6 +550,7 @@ public class GridMap extends View {
                     hexStringExplored = infoJsonObject.getString("explored");
                     System.out.println("hexStringExplored:"+hexStringExplored); // This is extra
                     hexBigIntegerExplored = new BigInteger(hexStringExplored, 16);
+
                     exploredString = hexBigIntegerExplored.toString(2);
                     //throw away padding bits
                     exploredString = exploredString.substring(2, 302);
