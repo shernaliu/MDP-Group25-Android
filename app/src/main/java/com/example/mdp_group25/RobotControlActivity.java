@@ -240,7 +240,9 @@ public class RobotControlActivity extends AppCompatActivity {
 
         manualUpdateBtn.setOnClickListener(new View.OnClickListener(){
             @Override
+
             public void onClick(View view){
+                perform_haptic();
                 util.printMessage(context, "AL>sa");
             }
         });
@@ -250,20 +252,20 @@ public class RobotControlActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 perform_haptic();
-                util.showLog(TAG, "Clicked exploreToggleBtn");
-                Button exploreToggleBtn = (Button) view;
-                if (exploreToggleBtn.getText().equals("EXPLORE")) {
-                    //end exploration
-                    util.printMessage(context, "AL>st");
+                if (check_valid_time("Explore")) {
+                    util.showLog(TAG, "Clicked exploreToggleBtn");
+                    Button exploreToggleBtn = (Button) view;
+                    if (exploreToggleBtn.getText().equals("EXPLORE")) {
+                        //end exploration
+                        util.printMessage(context, "AL>st");
+                    } else if (exploreToggleBtn.getText().equals("STOP")) {
+                        //start exploration
+                        util.printMessage(context, "AL>ex");
+                    } else {
+                        showToast("Else statement: " + exploreToggleBtn.getText());
+                    }
+                    util.showLog(TAG, "Exiting exploreToggleBtn");
                 }
-                else if (exploreToggleBtn.getText().equals("STOP")) {
-                    //start exploration
-                    util.printMessage(context, "AL>ex");
-                }
-                else {
-                    showToast("Else statement: " + exploreToggleBtn.getText());
-                }
-                util.showLog(TAG,"Exiting exploreToggleBtn");
             }
         });
 
@@ -753,6 +755,11 @@ public class RobotControlActivity extends AppCompatActivity {
     {
         getWindow().getDecorView().performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
 
+    }
+
+    public boolean check_valid_time(String str)
+    {
+        return(true);
     }
     //logging & status display
     private void showToast(String message) {
