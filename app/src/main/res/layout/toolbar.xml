@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="400dp"
         android:text="Disconnected"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="10sp" />
 
 </androidx.appcompat.widget.Toolbar>
