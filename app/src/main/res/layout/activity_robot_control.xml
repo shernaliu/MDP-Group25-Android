@@ -85,6 +85,7 @@
         android:layout_width="150dp"
         android:layout_height="45dp"
         android:background="@drawable/btn_function_bg"
+        android:hapticFeedbackEnabled="true"
         android:textAlignment="center"
         android:textOff="EXPLORE"
         android:textOn="STOP"
@@ -103,6 +104,7 @@
         android:layout_height="45dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/btn_function_bg"
+        android:hapticFeedbackEnabled="true"
         android:textAlignment="center"
         android:textOff="FASTEST"
         android:textOn="STOP"
@@ -113,62 +115,70 @@
         app:layout_constraintStart_toStartOf="@+id/exploreToggleBtn"
         app:layout_constraintTop_toBottomOf="@+id/exploreToggleBtn" />
 
+
     <ImageButton
-        android:id="@+id/moveForwardImageBtn"
-        android:layout_width="55dp"
-        android:layout_height="75dp"
-        android:layout_marginBottom="300dp"
+        android:id="@+id/turnRightImageBtn"
+        android:layout_width="75dp"
+        android:layout_height="55dp"
         android:background="@drawable/control_button_bg"
+        android:hapticFeedbackEnabled="true"
         android:scaleType="fitCenter"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.857"
+        app:layout_constraintHorizontal_bias="0.969"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_up" />
-
-    <ImageButton
-        android:id="@+id/moveBackwardImageBtn"
-        android:layout_width="55dp"
-        android:layout_height="75dp"
-        android:layout_marginBottom="150dp"
-        android:background="@drawable/control_button_bg"
-        android:scaleType="fitCenter"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/sentMessage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.863"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_down" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.65"
+        app:srcCompat="@drawable/ic_right" />
 
     <ImageButton
         android:id="@+id/turnLeftImageBtn"
         android:layout_width="75dp"
         android:layout_height="55dp"
-        android:layout_marginBottom="250dp"
         android:background="@drawable/control_button_bg"
+        android:hapticFeedbackEnabled="true"
         android:scaleType="fitCenter"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.754"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.65"
         app:srcCompat="@drawable/ic_left" />
 
     <ImageButton
-        android:id="@+id/turnRightImageBtn"
-        android:layout_width="75dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="250dp"
+        android:id="@+id/moveForwardImageBtn"
+        android:layout_width="55dp"
+        android:layout_height="75dp"
         android:background="@drawable/control_button_bg"
+        android:hapticFeedbackEnabled="true"
         android:scaleType="fitCenter"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.963"
+        app:layout_constraintHorizontal_bias="0.851"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_right" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.581"
+        app:srcCompat="@drawable/ic_up" />
 
+    <ImageButton
+        android:id="@+id/moveBackwardImageBtn"
+        android:layout_width="55dp"
+        android:layout_height="75dp"
+        android:background="@drawable/control_button_bg"
+        android:hapticFeedbackEnabled="true"
+        android:scaleType="fitCenter"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.851"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.727"
+        app:srcCompat="@drawable/ic_down" />
 
     <Button
         android:id="@+id/resetMapBtn"
@@ -176,6 +186,7 @@
         android:layout_height="45dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/btn_function_bg"
+        android:hapticFeedbackEnabled="true"
         android:text="Reset Map"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/fastestToggleBtn"
@@ -187,13 +198,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:background="@drawable/btn_function_bg"
+        android:hapticFeedbackEnabled="true"
         android:textAlignment="center"
         android:textOff="Set Start Point"
         android:textOn="CANCEL"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/resetMapBtn"
-        app:layout_constraintTop_toBottomOf="@id/resetMapBtn"
-        />
+        app:layout_constraintTop_toBottomOf="@id/resetMapBtn" />
 
     <ToggleButton
         android:id="@+id/setWaypointToggleBtn"
@@ -201,6 +212,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:background="@drawable/btn_function_bg"
+        android:hapticFeedbackEnabled="true"
         android:textAlignment="center"
         android:textOff="Set Way Point"
         android:textOn="CANCEL"
@@ -323,8 +335,8 @@
         android:id="@+id/directionLabelTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="272dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginStart="284dp"
+        android:layout_marginTop="44dp"
         android:gravity="center_horizontal"
         android:text="Direction:"
         android:textSize="20sp"
@@ -367,6 +379,7 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/directionChangeImageBtn"
         app:layout_constraintEnd_toEndOf="@+id/obstacleImageBtn"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/directionChangeImageBtn"
         app:layout_constraintTop_toTopOf="@+id/directionChangeImageBtn"
         app:layout_constraintVertical_bias="1.0"
@@ -401,6 +414,7 @@
         android:layout_width="170dp"
         android:layout_height="67dp"
         android:background="@drawable/btn_bg_manual"
+        android:hapticFeedbackEnabled="true"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textOff="MANUAL"
@@ -428,39 +442,41 @@
         android:id="@+id/buttonF1"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:layout_marginBottom="120dp"
         android:background="@drawable/btn_function_bg"
         android:text="F1"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.773"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.72"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.761" />
 
     <Button
         android:id="@+id/buttonF2"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:layout_marginBottom="120dp"
         android:background="@drawable/btn_function_bg"
         android:text="F2"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.968"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.996"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.762" />
 
     <Button
         android:id="@+id/manualUpdateBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/btn_function_bg"
         android:text="UPDATE"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.925"
+        app:layout_constraintHorizontal_bias="0.949"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView

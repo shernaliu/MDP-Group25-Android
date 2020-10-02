@@ -16,6 +16,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -73,7 +74,8 @@ public class RobotControlActivity extends AppCompatActivity {
     SensorEventListener tiltSensorListener;
     String current_command = "";
     String mdf_string_final = "";
-
+    View rectangleBgManual;
+    View rectangleBgAuto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +121,8 @@ public class RobotControlActivity extends AppCompatActivity {
         receivedMessage = findViewById(R.id.receivedMsg);
         xAxisTextViewWP = findViewById(R.id.xAxisTextViewWP);
         yAxisTextViewWP = findViewById(R.id.yAxisTextViewWP);
+        rectangleBgManual = findViewById(R.id.rectangle_bg_manual);
+        rectangleBgAuto = findViewById(R.id.rectangle_bg_auto);
 
         sentMessage.setMovementMethod(new ScrollingMovementMethod());
         receivedMessage.setMovementMethod(new ScrollingMovementMethod());
@@ -245,6 +249,7 @@ public class RobotControlActivity extends AppCompatActivity {
         exploreToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                perform_haptic();
                 util.showLog(TAG, "Clicked exploreToggleBtn");
                 Button exploreToggleBtn = (Button) view;
                 if (exploreToggleBtn.getText().equals("EXPLORE")) {
@@ -266,6 +271,7 @@ public class RobotControlActivity extends AppCompatActivity {
         fastestToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                perform_haptic();
                 util.showLog(TAG, "Clicked fastestToggleBtn");
                 Button fastestToggleBtn = (Button) view;
                 if (fastestToggleBtn.getText().equals("FASTEST")) {
@@ -287,6 +293,7 @@ public class RobotControlActivity extends AppCompatActivity {
         moveForwardImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                perform_haptic();
                 util.showLog(TAG,"Clicked moveForwardImageBtn");
                 if (gridMap.getAutoUpdate())
                     updateStatus(Status.W2);
@@ -308,6 +315,7 @@ public class RobotControlActivity extends AppCompatActivity {
         turnRightImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                perform_haptic();
                 util.showLog(TAG,"Clicked turnRightImageBtn");
                 if (gridMap.getAutoUpdate())
                     updateStatus(Status.W2);
@@ -326,6 +334,7 @@ public class RobotControlActivity extends AppCompatActivity {
         moveBackwardImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                perform_haptic();
                 util.showLog(TAG,"Clicked moveBackwardImageBtn");
                 if (gridMap.getAutoUpdate())
                     updateStatus(Status.W2);
@@ -348,6 +357,7 @@ public class RobotControlActivity extends AppCompatActivity {
         turnLeftImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                perform_haptic();
                 util.showLog(TAG, "Clicked turnLeftImageBtn");
                 if (gridMap.getAutoUpdate())
                     updateStatus(Status.W2);
@@ -367,8 +377,9 @@ public class RobotControlActivity extends AppCompatActivity {
         buttonF1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                perform_haptic();
                 util.showLog(TAG,"Clicked buttonF1");
-                String firstFunction = pref.getString(FunctionsActivity.firstFunction, "");
+                String firstFunction = pref.getString(FunctionsActivity.functionOne, "");
                 if(firstFunction != ""){
                     util.printMessage(context, firstFunction);
                     refreshLabel();
@@ -379,8 +390,9 @@ public class RobotControlActivity extends AppCompatActivity {
         buttonF2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                perform_haptic();
                 util.showLog(TAG,"Clicked buttonF2");
-                String secondFunction = pref.getString(FunctionsActivity.secondFunction, "");
+                String secondFunction = pref.getString(FunctionsActivity.functionTwo, "");
                 if(secondFunction != ""){
                     util.printMessage(context, secondFunction);
                     refreshLabel();
@@ -392,6 +404,7 @@ public class RobotControlActivity extends AppCompatActivity {
         resetMapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                perform_haptic();
                 util.showLog(TAG,"Clicked resetMapBtn");
                 showToast("Reseting map...");
                 gridMap.resetMap();
@@ -402,6 +415,7 @@ public class RobotControlActivity extends AppCompatActivity {
         setStartPointToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                perform_haptic();
                 util.showLog(TAG,"Clicked setStartPointToggleBtn");
                 if (setStartPointToggleBtn.getText().equals("Set Start Point"))
                     showToast("Cancelled selecting starting point");
@@ -419,6 +433,7 @@ public class RobotControlActivity extends AppCompatActivity {
         setWaypointToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                perform_haptic();
                 util.showLog(TAG, "Clicked setWaypointToggleBtn");
                 if (setWaypointToggleBtn.getText().equals("Set Way Point"))
                     showToast("Cancelled selecting waypoint");
@@ -436,6 +451,7 @@ public class RobotControlActivity extends AppCompatActivity {
         exploredImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                perform_haptic();
                 util.showLog(TAG,"Clicked exploredImageBtn");
                 if (!gridMap.getExploredStatus()) {
                     showToast("Please check cell");
@@ -483,6 +499,7 @@ public class RobotControlActivity extends AppCompatActivity {
         manualAutoToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                perform_haptic();
                 util.showLog(TAG,"Clicked manualAutoToggleBtn");
                 if (manualAutoToggleBtn.getText().equals("AUTO")) {
                     try {
@@ -492,6 +509,10 @@ public class RobotControlActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    manualAutoToggleBtn.setBackgroundResource(R.drawable.btn_bg_auto);
+                    (findViewById(R.id.rectangle_bg_auto)).setVisibility(View.VISIBLE);
+
+
                     (findViewById(R.id.exploreToggleBtn)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.fastestToggleBtn)).setVisibility((View.VISIBLE));
                     (findViewById(R.id.setWaypointToggleBtn)).setVisibility(View.VISIBLE);
@@ -501,12 +522,15 @@ public class RobotControlActivity extends AppCompatActivity {
                     (findViewById(R.id.yLabelTextViewWP)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.xAxisTextViewWP)).setVisibility(View.VISIBLE);
 
+                    (findViewById(R.id.moveBackwardImageBtn)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.buttonF1)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.buttonF2)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.moveForwardImageBtn)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.turnLeftImageBtn)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.turnRightImageBtn)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.tiltSwitch)).setVisibility(View.INVISIBLE);
+                    (findViewById(R.id.rectangle_bg_manual)).setVisibility(View.INVISIBLE);
+                    (findViewById(R.id.manualUpdateBtn)).setVisibility(View.INVISIBLE);
                     gridMap.resetMap();
                     showToast("AUTO mode");
                 }
@@ -518,6 +542,9 @@ public class RobotControlActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    manualAutoToggleBtn.setBackgroundResource(R.drawable.btn_bg_manual);
+                    (findViewById(R.id.rectangle_bg_auto)).setVisibility(View.INVISIBLE);
+                    (findViewById(R.id.rectangle_bg_manual)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.exploreToggleBtn)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.fastestToggleBtn)).setVisibility((View.INVISIBLE));
                     (findViewById(R.id.setWaypointToggleBtn)).setVisibility(View.INVISIBLE);
@@ -534,6 +561,8 @@ public class RobotControlActivity extends AppCompatActivity {
                     (findViewById(R.id.turnLeftImageBtn)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.turnRightImageBtn)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.tiltSwitch)).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.moveBackwardImageBtn)).setVisibility(View.VISIBLE);
+                    (findViewById(R.id.manualUpdateBtn)).setVisibility(View.VISIBLE);
                     gridMap.resetMap();
 
                     showToast("MANUAL mode");
@@ -705,7 +734,7 @@ public class RobotControlActivity extends AppCompatActivity {
     {
 
         //Setting message manually and performing action on button click
-        String final_str="MDF String:"+Util.final_mdf_string+" \n";
+        String final_str="MDF String Explored:"+Util.final_mdf_string_explored+" \n"+"MDF String Obstacle:"+Util.final_mdf_string_obstacle+" \n";
         for(int i=0;i<5;i++)
         {
             if(gridMap.image_type[i]!=-80)
@@ -714,10 +743,15 @@ public class RobotControlActivity extends AppCompatActivity {
             }
         }
         new MaterialAlertDialogBuilder(this, R.style.CustomAlertDialogTheme)
-                .setTitle("\t \t \t Exploration Finished!")
+                .setTitle("\t Exploration Finished!")
                 .setMessage(final_str)
-                .setNegativeButton("Dismiss", /* listener = */ null)
+                .setPositiveButton("Dismiss", /* listener = */ null)
                 .show();
+
+    }
+    public void perform_haptic()
+    {
+        getWindow().getDecorView().performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
 
     }
     //logging & status display

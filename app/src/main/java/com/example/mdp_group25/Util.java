@@ -21,7 +21,8 @@ public class Util extends AppCompatActivity {
     private static SharedPreferences sharedPreferencesMain;
     private static SharedPreferences.Editor editorMain;
 
-    static String final_mdf_string = "";
+    static String final_mdf_string_explored = "";
+    static String final_mdf_string_obstacle = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,12 +83,14 @@ public class Util extends AppCompatActivity {
                 switch(messageObject.names().getString(j)){
                     case "grid":
                         String mdfString = messageObject.getString("grid");
-                        final_mdf_string = "\""+mdfString+"\"";
+
                         String obstacle = "";
                         if(mdfString.length()> 76){
                             // explored string is also sent
                             explored = mdfString.substring(0, 76);
+                            final_mdf_string_explored = "\""+explored+"\"";
                             obstacle = mdfString.substring(76);
+                            final_mdf_string_obstacle = "\""+obstacle+"\"";
                         }
 
                         if(mdfString.length()==76){
