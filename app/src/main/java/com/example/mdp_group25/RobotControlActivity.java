@@ -737,7 +737,7 @@ public class RobotControlActivity extends AppCompatActivity {
         String final_str="MDF String Explored:"+Util.final_mdf_string_explored+" \n"+"MDF String Obstacle:"+Util.final_mdf_string_obstacle+" \n";
         for(int i=0;i<5;i++)
         {
-            if(gridMap.image_type[i]!=-80)
+            if(gridMap.image_type[i]!=-99)
             {
                 final_str=final_str+"Image "+(i+1)+ " ID:"+gridMap.image_type[i]+", X:"+gridMap.image_x_coordinate[i]+" Y:"+gridMap.image_y_coordinate[i]+"\n";
             }
