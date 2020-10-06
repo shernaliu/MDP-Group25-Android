@@ -15,7 +15,7 @@
         android:layout_width="170dp"
         android:layout_height="300dp"
         android:layout_alignParentTop="true"
-        android:background="#ECEBEA"
+        android:background="@drawable/round"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -118,8 +118,8 @@
 
     <ImageButton
         android:id="@+id/turnRightImageBtn"
-        android:layout_width="75dp"
-        android:layout_height="55dp"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
         android:background="@drawable/control_button_bg"
         android:hapticFeedbackEnabled="true"
         android:scaleType="fitCenter"
@@ -127,7 +127,7 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.969"
+        app:layout_constraintHorizontal_bias="0.979"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.65"
@@ -135,8 +135,8 @@
 
     <ImageButton
         android:id="@+id/turnLeftImageBtn"
-        android:layout_width="75dp"
-        android:layout_height="55dp"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
         android:background="@drawable/control_button_bg"
         android:hapticFeedbackEnabled="true"
         android:scaleType="fitCenter"
@@ -144,7 +144,7 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.754"
+        app:layout_constraintHorizontal_bias="0.764"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.65"
@@ -152,8 +152,8 @@
 
     <ImageButton
         android:id="@+id/moveForwardImageBtn"
-        android:layout_width="55dp"
-        android:layout_height="75dp"
+        android:layout_width="50dp"
+        android:layout_height="70dp"
         android:background="@drawable/control_button_bg"
         android:hapticFeedbackEnabled="true"
         android:scaleType="fitCenter"
@@ -161,7 +161,7 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.851"
+        app:layout_constraintHorizontal_bias="0.861"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.581"
@@ -169,8 +169,8 @@
 
     <ImageButton
         android:id="@+id/moveBackwardImageBtn"
-        android:layout_width="55dp"
-        android:layout_height="75dp"
+        android:layout_width="50dp"
+        android:layout_height="70dp"
         android:background="@drawable/control_button_bg"
         android:hapticFeedbackEnabled="true"
         android:scaleType="fitCenter"
@@ -178,7 +178,7 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.851"
+        app:layout_constraintHorizontal_bias="0.861"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.727"
@@ -445,28 +445,28 @@
 
     <Button
         android:id="@+id/buttonF1"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:background="@drawable/btn_function_bg"
         android:text="F1"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.72"
+        app:layout_constraintHorizontal_bias="0.745"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.761" />
 
     <Button
         android:id="@+id/buttonF2"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:background="@drawable/btn_function_bg"
         android:text="F2"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.996"
+        app:layout_constraintHorizontal_bias="0.98"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.762" />
@@ -481,7 +481,7 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.949"
+        app:layout_constraintHorizontal_bias="0.88"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
