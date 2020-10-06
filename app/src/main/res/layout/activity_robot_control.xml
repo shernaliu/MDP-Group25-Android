@@ -29,7 +29,7 @@
         android:layout_width="170dp"
         android:layout_height="170dp"
         android:layout_alignParentTop="true"
-        android:background="#ECEBEA"
+        android:background="@drawable/round"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
