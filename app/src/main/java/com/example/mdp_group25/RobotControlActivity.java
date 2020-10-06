@@ -663,7 +663,7 @@ public class RobotControlActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                Toast.makeText(RobotControlActivity.this, "Device now connected to "+mDevice.getName(), Toast.LENGTH_LONG).show();
+                Toast.makeText(RobotControlActivity.this, "Device now connected to " + mDevice.getName(), Toast.LENGTH_LONG).show();
                 editorConn.putString("connStatus", "Connected to " + mDevice.getName());
             }
             else if(status.equals("disconnected")){
