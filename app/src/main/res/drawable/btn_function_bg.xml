@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="false">
+
         <shape android:shape="rectangle">
             <corners android:radius="1000dp" />
-            <solid android:color="#FFF4E2" />
+            <solid android:color="#FFFFFF" />
             <stroke
-                android:width="2dip"
-                android:color="#FFF4E2" />
+                android:width="1dp"
+                android:color="#000000"
+                />
+
+
             <padding
                 android:bottom="4dp"
                 android:left="4dp"

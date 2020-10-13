@@ -251,15 +251,24 @@ public class RobotControlActivity extends AppCompatActivity {
         exploreToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 perform_haptic();
                 if (check_valid_time("Explore")) {
                     util.showLog(TAG, "Clicked exploreToggleBtn");
                     Button exploreToggleBtn = (Button) view;
                     if (exploreToggleBtn.getText().equals("EXPLORE")) {
                         //end exploration
+                        fastestToggleBtn.setEnabled(true);
+                        resetMapBtn.setEnabled(true);
+                        setStartPointToggleBtn.setEnabled(true);
+                        setWaypointToggleBtn.setEnabled(true);
                         util.printMessage(context, "AL>st");
                     } else if (exploreToggleBtn.getText().equals("STOP")) {
                         //start exploration
+                        fastestToggleBtn.setEnabled(false);
+                        resetMapBtn.setEnabled(false);
+                        setStartPointToggleBtn.setEnabled(false);
+                        setWaypointToggleBtn.setEnabled(false);
                         util.printMessage(context, "AL>ex");
                     } else {
                         showToast("Else statement: " + exploreToggleBtn.getText());
@@ -274,15 +283,18 @@ public class RobotControlActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 perform_haptic();
+                setWaypointToggleBtn.setEnabled(false);
                 util.showLog(TAG, "Clicked fastestToggleBtn");
                 Button fastestToggleBtn = (Button) view;
                 if (fastestToggleBtn.getText().equals("FASTEST")) {
                     //end fastest path
+                    setWaypointToggleBtn.setEnabled(true);
                     util.printMessage(context, "AL>st");
                 }
                 else if (fastestToggleBtn.getText().equals("STOP")) {
                     //start fastest path
                     util.printMessage(context, "AL>fp");
+
                 }
                 else
                     showToast(fastestToggleBtn.getText().toString());
@@ -684,26 +696,66 @@ public class RobotControlActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra("receivedMessage");
-            util.showLog(TAG, "receivedMessage: message --- " + message);
-            if(message.charAt(0) == '{'){
-                JSONObject parsedMessage = util.parseMDFString(message);
+            String arr_queue[] = new String[5];
+            String mess_new = "";
+            int index = 0;
+            boolean flag = false;
+            for (int i = 0; i < message.length(); i++) {
 
-                try {
-                    gridMap.setReceivedJsonObject(parsedMessage);
-                    gridMap.updateMapInformation();
-                    util.showLog(TAG,"messageReceiver: try decode successful");
-                } catch (JSONException e) {
-                    util.showLog(TAG, "messageReceiver: try decode unsuccessful");
+                char b = message.charAt(i);
+                if (b == '{') {
+                    flag = true;
+                }
+                if (b == '}') {
+                    flag = false;
+                    mess_new = mess_new + '}';
+
+                    arr_queue[index] = mess_new;
+                    mess_new = "";
+                    index++;
+                }
+                if (flag == true) {
+                    mess_new = mess_new + b;
                 }
             }
-            else if(message.equals("stop"))
-                showdialog();
+            for(int i=0;i<index;i++) {
+                message = arr_queue[i];
+                util.showLog(TAG, "receivedMessage: message --- " + message);
+                if (message.charAt(0) == '{') {
+                    JSONObject parsedMessage = util.parseMDFString(message);
 
+                    try {
+                        gridMap.setReceivedJsonObject(parsedMessage);
+                        gridMap.updateMapInformation();
+                        util.showLog(TAG, "messageReceiver: try decode successful");
+                    } catch (JSONException e) {
+                        util.showLog(TAG, "messageReceiver: try decode unsuccessful");
+                    }
+                } else if (message.equals("stope")) {
+                    exploreToggleBtn.setChecked(false);
+                    exploreToggleBtn.setEnabled(false);
+                    setWaypointToggleBtn.setEnabled(true);
+                    fastestToggleBtn.setEnabled(true);
+                    resetMapBtn.setEnabled(false);
+                    setStartPointToggleBtn.setEnabled(false);
+                    showdialog_explore();
 
-            String receivedText = sharedPreferences.getString("receivedText", "") + "\n " + message;
-            editor.putString("receivedText", receivedText);
-            editor.commit();
-            updateReceivedMessage();
+                } else if (message.equals("stopf")) {
+                    exploreToggleBtn.setEnabled(true);
+                    exploreToggleBtn.setChecked(false);
+
+                    fastestToggleBtn.setChecked(false);
+                    resetMapBtn.setEnabled(true);
+                    setStartPointToggleBtn.setEnabled(true);
+                    setWaypointToggleBtn.setEnabled(true);
+                    showdialog_fastest();
+                }
+
+                String receivedText = sharedPreferences.getString("receivedText", "") + "\n " + message;
+                editor.putString("receivedText", receivedText);
+                editor.commit();
+                updateReceivedMessage();
+            }
         }
     };
 
@@ -732,7 +784,7 @@ public class RobotControlActivity extends AppCompatActivity {
         }
     }
 
-    public void showdialog()
+    public void showdialog_explore()
     {
 
         //Setting message manually and performing action on button click
@@ -745,8 +797,19 @@ public class RobotControlActivity extends AppCompatActivity {
             }
         }
         new MaterialAlertDialogBuilder(this, R.style.CustomAlertDialogTheme)
-                .setTitle("\t Exploration Finished!")
+                .setTitle(" Exploration Finished!")
                 .setMessage(final_str)
+                .setPositiveButton("Dismiss", /* listener = */ null)
+                .show();
+
+    }
+
+    public void showdialog_fastest()
+    {
+
+        //Setting message manually and performing action on button click
+        new MaterialAlertDialogBuilder(this, R.style.CustomAlertDialogTheme)
+                .setTitle(" Fastest Path Finished!")
                 .setPositiveButton("Dismiss", /* listener = */ null)
                 .show();
 

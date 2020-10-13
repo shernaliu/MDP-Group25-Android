@@ -7,7 +7,7 @@
     </item>
     <item android:state_pressed="false">
         <set>
-            <objectAnimator android:duration="100" android:propertyName="translationZ" android:valueTo="2dp" android:valueType="floatType" />
+            <objectAnimator android:duration="100" android:propertyName="translationZ" android:valueTo="4dp" android:valueType="floatType" />
         </set>
     </item>
 </selector>

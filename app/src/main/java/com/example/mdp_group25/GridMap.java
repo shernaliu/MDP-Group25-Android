@@ -96,7 +96,7 @@ public class GridMap extends View {
         waypointColor.setColor(Color.YELLOW);               // yellow = waypoint position
         unexploredColor.setColor(Color.GRAY);               // gray = unexplored position
         exploredColor.setColor(Color.WHITE);                // white = explored position
-        fastestPathColor.setColor(Color.MAGENTA);           // magenta = fastest path position
+        fastestPathColor.setColor(Color.BLUE);           // magenta = fastest path position
         imageColor.setColor(Color.BLACK);                   // black = image color
     }
 
@@ -121,7 +121,7 @@ public class GridMap extends View {
         int[] curCoord = this.getCurCoord();
 
         if (!this.getMapDrawn()) {
-            canvas.drawColor(Color.parseColor("#e9d8f2"));
+            canvas.drawColor(Color.parseColor("#FFFFFF"));
             // image
             String[] placeholderImageCoord = new String[3];
             placeholderImageCoord[0] = "999";
@@ -556,23 +556,38 @@ public class GridMap extends View {
                     exploredString = exploredString.substring(2, 302);
                     System.out.println("exploredString:"+exploredString); // This is extra
 
+                    int count_zero = 0;
+                    int count_one = 0;
+
+                    for (int z = 0; z < exploredString.length(); z++) {
+                        char b = exploredString.charAt(z);
+                        if (b == '0')
+                            count_zero++;
+                        else
+                            count_one++;
+                    }
+                    System.out.println("Number of ones"+count_one);
+
                     int length = infoJsonObject.getInt("length");
-                    System.out.println("length:"+length); // This is extra
+
                     hexStringObstacle = infoJsonObject.getString("obstacle");
+
                     if(hexStringObstacle.length()>0){
+                        System.out.println(count_one);
                         hexBigIntegerObstacle = new BigInteger(hexStringObstacle, 16);
                         obstacleString = hexBigIntegerObstacle.toString(2);
+                        System.out.println("The length of the explored stirng is "+obstacleString.length());
+                        int pad_number = length - obstacleString.length();
+                        System.out.println("The pad value is "+pad_number);
+
+                        for(int j=0;j<pad_number;j++)
+                            obstacleString = '0'+obstacleString;
+                        System.out.println("The obstacle string length after padding"+obstacleString.length());
+
+                        obstacleString = obstacleString.substring(0,count_one);
+                        System.out.println("The string after substring"+obstacleString);
+
                     }
-
-                    //calculate 1 in explored string
-//                    int exploredLength = 0;
-//                    for(int k = 0; k< exploredString.length(); k++){
-//                        if(String.valueOf(exploredString.charAt(k)).equals("1")){
-//                            exploredLength++;
-//                        }
-//                    }
-
-                    //check if exploredLength is equal to obstacleLength
 
                     int x, y;
                     for(int j =0; j<exploredString.length(); j++){
@@ -588,9 +603,9 @@ public class GridMap extends View {
                     }
 
                     //pad front of obstacle string
-                    while(obstacleString.length()<length){
+                    /*while(obstacleString.length()<length){
                         obstacleString = "0" + obstacleString;
-                    }
+                    }*/
 
                     int kj = 0;
                     for (int row = ROW-1; row >= 0; row--)

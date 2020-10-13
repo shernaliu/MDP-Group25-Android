@@ -447,41 +447,41 @@
         android:id="@+id/buttonF1"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="@drawable/btn_function_bg"
+        android:background="@drawable/function_btn_1"
         android:text="F1"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.745"
+        app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.761" />
+        app:layout_constraintVertical_bias="0.781" />
 
     <Button
         android:id="@+id/buttonF2"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="@drawable/btn_function_bg"
+        android:background="@drawable/function_btn_1"
         android:text="F2"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintHorizontal_bias="0.979"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.762" />
+        app:layout_constraintVertical_bias="0.78" />
 
     <Button
         android:id="@+id/manualUpdateBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/btn_function_bg"
+        android:layout_marginBottom="16dp"
+        android:background="@animator/update_btn"
         android:text="UPDATE"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.88"
+        app:layout_constraintHorizontal_bias="0.968"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
