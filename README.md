@@ -22,6 +22,6 @@ Functionalities:
 
 ```
 # clone this project
-git clone https://github.com/shernaliu/weatheroo.git
+git clone https://github.com/shernaliu/MDP-Group25-Android.git
 ```
 Run the project in Android Studio.
