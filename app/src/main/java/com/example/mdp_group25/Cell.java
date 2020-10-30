@@ -69,7 +69,7 @@ public class Cell {
                 this.paint = imageColor;
                 break;
             default:
-                Util.showLog(TAG, "Type: " + type);
+                UtilityTool.log(TAG, "Type: " + type);
                 break;
         }
     }
