@@ -1,28 +1,25 @@
 package com.example.mdp_group25;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.content.SharedPreferences;
 import android.widget.Toast;
+import android.widget.EditText;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class FunctionsActivity extends AppCompatActivity {
-    private static String TAG = "FUNCTIONS_ACTIVITY";
-
+    private static String TAG = "FunctionsActivity";
     public static final String labelOne = "labelOne";
     public static final String functionOne = "functionOne";
     public static final String labelTwo = "labelTwo";
     public static final String functionTwo = "functionTwo";
-
     EditText label1Input;
     EditText function1Input;
     EditText label2Input;
     EditText function2Input;
     Button saveBtn;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +28,7 @@ public class FunctionsActivity extends AppCompatActivity {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("CommunicationsPreferences", 0);
         final SharedPreferences.Editor editor = pref.edit();
 
-        // retrieve components
+        // retrieve components in FunctionsActivity
         label1Input = findViewById(R.id.label1Input);
         function1Input = findViewById(R.id.function1Input);
         label2Input = findViewById(R.id.label2Input);
@@ -55,7 +52,6 @@ public class FunctionsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // retrieve input values
                 String fnOneInput, fnTwoInput, labelOneInput, labelTwoInput;
-
                 function1Input = findViewById(R.id.function1Input);
                 label1Input = findViewById(R.id.label1Input);
                 function2Input = findViewById(R.id.function2Input);
@@ -73,11 +69,12 @@ public class FunctionsActivity extends AppCompatActivity {
                 editor.putString(functionTwo, fnTwoInput);
                 editor.commit();
 
+                // clear the focus for each input
                 function1Input.clearFocus();
                 function2Input.clearFocus();
                 label1Input.clearFocus();
                 label2Input.clearFocus();
-                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Saved all changes!", Toast.LENGTH_LONG).show();
             }
         });
 
