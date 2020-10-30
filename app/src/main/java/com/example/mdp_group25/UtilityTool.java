@@ -1,16 +1,13 @@
 package com.example.mdp_group25;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-
+import android.content.SharedPreferences;
+import java.nio.charset.Charset;
+import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.nio.charset.Charset;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class UtilityTool extends AppCompatActivity {
