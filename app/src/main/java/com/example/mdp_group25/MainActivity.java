@@ -1,25 +1,20 @@
 package com.example.mdp_group25;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-
-    Button findBluetoothButton;
-    Button functions;
-    Button robotControl;
-    Button debugButton;
-    SharedPreferences sharedPreferences;
-    SharedPreferences robotsharedPreferences;
-    SharedPreferences.Editor editor,roboteditor;
+    Button bluetoothBtn, robotControlBtn, functionsBtn, debugBtn;
+    SharedPreferences mainSharedPrefs, robotsharedPrefs;
+    SharedPreferences.Editor editor, roboteditor;
     String connStatus;
     TextView connStatusTextView;
 
@@ -27,49 +22,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        bluetoothBtn = findViewById(R.id.bluetooth);
+        functionsBtn = findViewById(R.id.functions);
+        robotControlBtn = findViewById(R.id.robotControls);
+        debugBtn = findViewById(R.id.debug);
         connStatusTextView = (TextView) findViewById(R.id.connStatusTextView);
 
-        sharedPreferences = getApplicationContext().getSharedPreferences("Shared Preferences", Context.MODE_PRIVATE);
-        robotsharedPreferences = getApplicationContext().getSharedPreferences("RobotControlActivity", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        roboteditor = robotsharedPreferences.edit();
-        editor.putString("explored","");
-        editor.putString("obstacle","");
-        //initialize connection status on toolbar
-        if (sharedPreferences.contains("connStatus")){
-            editor.putString("connStatus", "Disconnected");
-            TextView connStatusTextView = findViewById(R.id.connStatusTextView);
-            connStatusTextView.setText("Disconnected");
-        }
-
-        if (robotsharedPreferences.contains("sentText"))    {
-            roboteditor.putString("sentText", "");
-        }
-        if (robotsharedPreferences.contains("receivedText"))    {
-            roboteditor.putString("receivedText", "");
-        }
-        if (robotsharedPreferences.contains("image1"))    {
-            roboteditor.putString("image1", "");
-        }
-        if (robotsharedPreferences.contains("image2"))    {
-            roboteditor.putString("image2", "");
-        }
-        if (robotsharedPreferences.contains("image3"))    {
-            roboteditor.putString("image3", "");
-        }
-        if (robotsharedPreferences.contains("image4"))    {
-            roboteditor.putString("image4", "");
-        }
-        if (robotsharedPreferences.contains("image5"))    {
-            roboteditor.putString("image5", "");
-        }
-
-        roboteditor.commit();
-        editor.commit();
-
-
-        findBluetoothButton = findViewById(R.id.findBluetoothButton);
-        findBluetoothButton.setOnClickListener(new View.OnClickListener() {
+        /* OnClickListener event handler to open up the different pages*/
+        bluetoothBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), BluetoothDeviceActivity.class);
@@ -77,8 +37,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        functions = findViewById(R.id.functions);
-        functions.setOnClickListener(new View.OnClickListener() {
+        functionsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), FunctionsActivity.class);
@@ -86,31 +45,64 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        robotControl = findViewById(R.id.robotControls);
-        robotControl.setOnClickListener(new View.OnClickListener() {
+        robotControlBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), RobotControlActivity.class);
+                Intent myIntent = new Intent(view.getContext(), RobotActivity.class);
                 startActivity(myIntent);
             }
         });
 
-        debugButton = findViewById(R.id.debug);
-        debugButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               Intent myIntent = new Intent(view.getContext(), DebugActivity.class);
-               startActivity(myIntent);
+        debugBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), DebugActivity.class);
+                startActivity(myIntent);
             }
         });
 
+        /* Shared Peferences for various items */
+        mainSharedPrefs = getApplicationContext().getSharedPreferences("Shared Preferences", Context.MODE_PRIVATE);
+        robotsharedPrefs = getApplicationContext().getSharedPreferences("RobotControlActivity", Context.MODE_PRIVATE);
+        editor = mainSharedPrefs.edit();
+        roboteditor = robotsharedPrefs.edit();
+        editor.putString("explored", "");
+        editor.putString("obstacle", "");
+        if (mainSharedPrefs.contains("connStatus")) {
+            editor.putString("connStatus", "Disconnected");
+            TextView connStatusTextView = findViewById(R.id.connStatusTextView);
+            connStatusTextView.setText("Disconnected");
+        }
+        if (robotsharedPrefs.contains("sentText")) {
+            roboteditor.putString("sentText", "");
+        }
+        if (robotsharedPrefs.contains("receivedText")) {
+            roboteditor.putString("receivedText", "");
+        }
+        if (robotsharedPrefs.contains("image1")) {
+            roboteditor.putString("image1", "");
+        }
+        if (robotsharedPrefs.contains("image2")) {
+            roboteditor.putString("image2", "");
+        }
+        if (robotsharedPrefs.contains("image3")) {
+            roboteditor.putString("image3", "");
+        }
+        if (robotsharedPrefs.contains("image4")) {
+            roboteditor.putString("image4", "");
+        }
+        if (robotsharedPrefs.contains("image5")) {
+            roboteditor.putString("image5", "");
+        }
+        roboteditor.commit();
+        editor.commit();
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
-        if (sharedPreferences.contains("connStatus"))
-            connStatus = sharedPreferences.getString("connStatus", "");
+        if (mainSharedPrefs.contains("connStatus"))
+            connStatus = mainSharedPrefs.getString("connStatus", "");
 
         connStatusTextView.setText(connStatus);
     }
