@@ -32,7 +32,7 @@ public class RobotActivity extends AppCompatActivity {
 
     private static SharedPreferences robotSharedPrefs;
     private static SharedPreferences.Editor editor, editorConn;
-    BluetoothConnectionService mBluetoothConnection;
+    BluetoothConnService mBluetoothConnection;
     private static Context context;
     private static SharedPreferences pref;
     private static boolean autoUpdate = false;
@@ -647,7 +647,7 @@ public class RobotActivity extends AppCompatActivity {
             else if(status.equals("disconnected")){
                 String msg = "Disconnected from " + mDevice.getName();
                 displayToast(msg);
-                mBluetoothConnection = new BluetoothConnectionService(RobotActivity.this);
+                mBluetoothConnection = new BluetoothConnService(RobotActivity.this);
                 mBluetoothConnection.start();
                 editorConn.putString("connStatus", "Disconnected");
             }

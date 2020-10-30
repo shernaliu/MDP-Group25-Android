@@ -5,11 +5,10 @@ import android.graphics.Paint;
 
 // cell class
 public class Cell {
-    private static String TAG = "CELL";
-    float startX, startY, endX, endY;
+    private static String TAG = "Cell";
+    float startX, endX, startY, endY;
     Paint paint;
     String type;
-
     private Paint obstacleColor = new Paint();      // black = obstacles position
     private Paint robotColor = new Paint();         // cyan = robot position
     private Paint endColor = new Paint();           // red = end position
@@ -28,15 +27,15 @@ public class Cell {
         this.paint = paint;
         this.type = type;
 
-        obstacleColor.setColor(Color.BLACK);                // black = obstacles position
-        robotColor.setColor(Color.GREEN);                   // black = obstacles position
-        endColor.setColor(Color.RED);                       // red = end position
-        startColor.setColor(Color.CYAN);                    // green = start position
-        waypointColor.setColor(Color.YELLOW);               // yellow = waypoint position
-        unexploredColor.setColor(Color.GRAY);               // gray = unexplored position
-        exploredColor.setColor(Color.WHITE);                // white = explored position
-        fastestPathColor.setColor(Color.MAGENTA);           // magenta = fastest path position
-        imageColor.setColor(Color.BLACK);                   // black = image color
+        obstacleColor.setColor(Color.BLACK);
+        robotColor.setColor(Color.GREEN);
+        endColor.setColor(Color.RED);
+        startColor.setColor(Color.CYAN);
+        waypointColor.setColor(Color.YELLOW);
+        unexploredColor.setColor(Color.GRAY);
+        exploredColor.setColor(Color.WHITE);
+        fastestPathColor.setColor(Color.MAGENTA);
+        imageColor.setColor(Color.BLACK);
     }
 
     public void setType(String type) {
@@ -70,7 +69,7 @@ public class Cell {
                 this.paint = imageColor;
                 break;
             default:
-                Util.showLog(TAG, "setTtype default: " + type);
+                Util.showLog(TAG, "Type: " + type);
                 break;
         }
     }
