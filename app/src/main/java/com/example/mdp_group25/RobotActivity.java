@@ -38,7 +38,7 @@ public class RobotActivity extends AppCompatActivity {
     private static boolean autoUpdate = false;
     private static boolean tiltControl = false;
     private static String TAG = "RobotActivity";
-    private UtilityTool utilityTool = new UtilityTool();
+    private Util util = new Util();
     boolean turnedLeft = false;
     boolean turnedRight = false;
     boolean goStraight = false;
@@ -143,11 +143,11 @@ public class RobotActivity extends AppCompatActivity {
                         // Sensor is tilted forward
                         if(!current_command.equals("Forward"))
                         {
-                            UtilityTool.log(TAG, "Tablet is lifted up!");
+                            Util.showLog(TAG, "Tablet is lifted up!");
                             gridMap.moveRobot("forward");
                             updateTextViews();
                             displayToast("Tablet is lifted up!");
-                            utilityTool.printMsg(context, "AR>w");
+                            util.printMessage(context, "AR>w");
                             current_command = "Forward";
                             return;
                         }
@@ -155,11 +155,11 @@ public class RobotActivity extends AppCompatActivity {
                     else if (event.values[1] > 2.5f +delta-1) {
                         if(!current_command.equals("Backward"))
                         {
-                        UtilityTool.log(TAG, "Tablet is lowered!");
+                        Util.showLog(TAG, "Tablet is lowered!");
                         gridMap.moveRobot("back");
                         updateTextViews();
                         displayToast("Tablet is lowered!");
-                        utilityTool.printMsg(context, "AR>s");
+                        util.printMessage(context, "AR>s");
                         current_command = "Backward";
                         return;
                     }
@@ -171,11 +171,11 @@ public class RobotActivity extends AppCompatActivity {
                                 turnedLeft = false;
                             }
                             else {
-                                UtilityTool.log(TAG, "Tablet is tilted left!");
+                                Util.showLog(TAG, "Tablet is tilted left!");
                                 displayToast("Tablet is tilted left!");
                                 gridMap.moveRobot("left");
                                 updateTextViews();
-                                utilityTool.printMsg(context, "AR>a");
+                                util.printMessage(context, "AR>a");
                                 turnedLeft = true;
                                 current_command = "Left";
                                 return;
@@ -187,11 +187,11 @@ public class RobotActivity extends AppCompatActivity {
                                 turnedRight = false;
                             }
                             else {
-                                UtilityTool.log(TAG, "Tablet is tilted right!");
+                                Util.showLog(TAG, "Tablet is tilted right!");
                                 displayToast("Tablet is tilted right!");
                                 gridMap.moveRobot("right");
                                 updateTextViews();
-                                utilityTool.printMsg(context, "AR>d");
+                                util.printMessage(context, "AR>d");
                                 turnedRight = true;
                                 current_command = "Right";
                                 return;
@@ -204,7 +204,7 @@ public class RobotActivity extends AppCompatActivity {
 
             @Override
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
-                UtilityTool.log(TAG, "Accuracy changed.");
+                Util.showLog(TAG, "Accuracy changed.");
             }
         };
         sensorManager.registerListener(tiltSensorListener,tiltSensor, 3000000);
@@ -214,7 +214,7 @@ public class RobotActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 performHaptic();
-                utilityTool.printMsg(context, "AL>sa");
+                util.printMessage(context, "AL>sa");
             }
         });
 
@@ -224,7 +224,7 @@ public class RobotActivity extends AppCompatActivity {
             public void onClick(View view) {
                 performHaptic();
                 if (check_valid_time("Explore")) {
-                    utilityTool.log(TAG, "Clicked exploreToggleBtn");
+                    util.showLog(TAG, "Clicked exploreToggleBtn");
                     Button exploreToggleBtn = (Button) view;
                     if (exploreToggleBtn.getText().equals("EXPLORE")) {
                         // end exploration
@@ -232,18 +232,18 @@ public class RobotActivity extends AppCompatActivity {
                         resetMapBtn.setEnabled(true);
                         setStartPointToggleBtn.setEnabled(true);
                         setWaypointToggleBtn.setEnabled(true);
-                        utilityTool.printMsg(context, "AL>st");
+                        util.printMessage(context, "AL>st");
                     } else if (exploreToggleBtn.getText().equals("STOP")) {
                         // start exploration
                         fastestToggleBtn.setEnabled(false);
                         resetMapBtn.setEnabled(false);
                         setStartPointToggleBtn.setEnabled(false);
                         setWaypointToggleBtn.setEnabled(false);
-                        utilityTool.printMsg(context, "AL>ex");
+                        util.printMessage(context, "AL>ex");
                     } else {
                         displayToast("Else statement: " + exploreToggleBtn.getText());
                     }
-                    utilityTool.log(TAG, "Exiting exploreToggleBtn");
+                    util.showLog(TAG, "Exiting exploreToggleBtn");
                 }
             }
         });
@@ -254,21 +254,21 @@ public class RobotActivity extends AppCompatActivity {
             public void onClick(View view) {
                 performHaptic();
                 setWaypointToggleBtn.setEnabled(false);
-                utilityTool.log(TAG, "Clicked fastestToggleBtn");
+                util.showLog(TAG, "Clicked fastestToggleBtn");
                 Button fastestToggleBtn = (Button) view;
                 if (fastestToggleBtn.getText().equals("FASTEST")) {
                     // end fastest path
                     setWaypointToggleBtn.setEnabled(true);
-                    utilityTool.printMsg(context, "AL>st");
+                    util.printMessage(context, "AL>st");
                 }
                 else if (fastestToggleBtn.getText().equals("STOP")) {
                     // start fastest path
-                    utilityTool.printMsg(context, "AL>fp");
+                    util.printMessage(context, "AL>fp");
 
                 }
                 else
                     displayToast(fastestToggleBtn.getText().toString());
-                utilityTool.log(TAG, "Exiting fastestToggleBtn");
+                util.showLog(TAG, "Exiting fastestToggleBtn");
             }
         });
 
@@ -277,7 +277,7 @@ public class RobotActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 performHaptic();
-                utilityTool.log(TAG,"Pressed moveForwardImageBtn!");
+                util.showLog(TAG,"Pressed moveForwardImageBtn!");
                 if (gridMap.getAutomaticUpdate())
                     updateStatus(StatusRobot.ManualModeReq);
                 else if (gridMap.getCanDrawRobot() && !gridMap.getAutomaticUpdate()) {
@@ -286,12 +286,12 @@ public class RobotActivity extends AppCompatActivity {
                         updateStatus(StatusRobot.MoveForward);
                     else
                         updateStatus(StatusRobot.UnableForward);
-                    utilityTool.printMsg(context, "AR>w");
+                    util.printMessage(context, "AR>w");
                     updateTextViews();
                 }
                 else
                     updateStatus(StatusRobot.SetStartPoint);
-                utilityTool.log(TAG, "Exiting moveForwardImageBtn");
+                util.showLog(TAG, "Exiting moveForwardImageBtn");
             }
         });
 
@@ -300,7 +300,7 @@ public class RobotActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 performHaptic();
-                utilityTool.log(TAG,"Pressed moveBackwardImageBtn!");
+                util.showLog(TAG,"Pressed moveBackwardImageBtn!");
                 if (gridMap.getAutomaticUpdate())
                     updateStatus(StatusRobot.ManualModeReq);
                 else if (gridMap.getCanDrawRobot() && !gridMap.getAutomaticUpdate()) {
@@ -310,12 +310,12 @@ public class RobotActivity extends AppCompatActivity {
                         updateStatus(StatusRobot.MoveBackward);
                     else
                         updateStatus(StatusRobot.UnableBackward);
-                    utilityTool.printMsg(context, "r");
+                    util.printMessage(context, "r");
                     updateTextViews();
                 }
                 else
                     updateStatus(StatusRobot.SetStartPoint);
-                utilityTool.log(TAG,"Exiting moveBackwardImageBtn");
+                util.showLog(TAG,"Exiting moveBackwardImageBtn");
             }
         });
 
@@ -324,18 +324,18 @@ public class RobotActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 performHaptic();
-                utilityTool.log(TAG,"Pressed turnRightImageBtn!");
+                util.showLog(TAG,"Pressed turnRightImageBtn!");
                 if (gridMap.getAutomaticUpdate())
                     updateStatus(StatusRobot.ManualModeReq);
                 else if (gridMap.getCanDrawRobot() && !gridMap.getAutomaticUpdate()) {
                     gridMap.moveRobot("right");
                     updateStatus(StatusRobot.TurinRight);
-                    utilityTool.printMsg(context, "AR>d");
+                    util.printMessage(context, "AR>d");
                     updateTextViews();
                 }
                 else
                     updateStatus(StatusRobot.SetStartPoint);
-                utilityTool.log(TAG,"Exiting turnRightImageBtn");
+                util.showLog(TAG,"Exiting turnRightImageBtn");
             }
         });
 
@@ -344,19 +344,19 @@ public class RobotActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 performHaptic();
-                utilityTool.log(TAG, "Pressed turnLeftImageBtn!");
+                util.showLog(TAG, "Pressed turnLeftImageBtn!");
                 if (gridMap.getAutomaticUpdate())
                     updateStatus(StatusRobot.ManualModeReq);
                 else if (gridMap.getCanDrawRobot() && !gridMap.getAutomaticUpdate()) {
                     gridMap.moveRobot("left");
                     updateTextViews();
                     updateStatus(StatusRobot.TurinLeft);
-                    utilityTool.printMsg(context,"AR>a");
+                    util.printMessage(context,"AR>a");
                     updateTextViews();
                 }
                 else
                     updateStatus(StatusRobot.SetStartPoint);
-                utilityTool.log(TAG, "Exiting turnLeftImageBtn");
+                util.showLog(TAG, "Exiting turnLeftImageBtn");
             }
         });
 
@@ -365,10 +365,10 @@ public class RobotActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 performHaptic();
-                utilityTool.log(TAG,"Pressed buttonF1!");
+                util.showLog(TAG,"Pressed buttonF1!");
                 String firstFunction = pref.getString(FunctionsActivity.functionOne, "");
                 if(firstFunction != ""){
-                    utilityTool.printMsg(context, firstFunction);
+                    util.printMessage(context, firstFunction);
                     updateTextViews();
                 }
             }
@@ -379,10 +379,10 @@ public class RobotActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 performHaptic();
-                utilityTool.log(TAG,"Pressed buttonF2!");
+                util.showLog(TAG,"Pressed buttonF2!");
                 String secondFunction = pref.getString(FunctionsActivity.functionTwo, "");
                 if(secondFunction != ""){
-                    utilityTool.printMsg(context, secondFunction);
+                    util.printMessage(context, secondFunction);
                     updateTextViews();
                 }
             }
@@ -393,7 +393,7 @@ public class RobotActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 performHaptic();
-                utilityTool.log(TAG,"Pressed resetMapBtn!");
+                util.showLog(TAG,"Pressed resetMapBtn!");
                 gridMap.resetMap();
                 displayToast("GridMap reset!");
                 updateTextViews();
@@ -405,7 +405,7 @@ public class RobotActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 performHaptic();
-                utilityTool.log(TAG,"Pressed setStartPointToggleBtn!");
+                util.showLog(TAG,"Pressed setStartPointToggleBtn!");
                 if (setStartPointToggleBtn.getText().equals("Set Start Point"))
                     displayToast("Cancelled selecting starting point!");
                 else if (setStartPointToggleBtn.getText().equals("CANCEL") && !gridMap.getAutomaticUpdate()) {
@@ -415,7 +415,7 @@ public class RobotActivity extends AppCompatActivity {
                     updateTextViews();
                 } else
                     displayToast("Please select manual mode!");
-                utilityTool.log(TAG,"Exiting setStartPointToggleBtn!");
+                util.showLog(TAG,"Exiting setStartPointToggleBtn!");
             }
         });
 
@@ -424,7 +424,7 @@ public class RobotActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 performHaptic();
-                utilityTool.log(TAG, "Pressed setWaypointToggleBtn!");
+                util.showLog(TAG, "Pressed setWaypointToggleBtn!");
                 if (setWaypointToggleBtn.getText().equals("Set Way Point"))
                     displayToast("Cancelled selecting waypoint!");
                 else if (setWaypointToggleBtn.getText().equals("CANCEL")) {
@@ -434,7 +434,7 @@ public class RobotActivity extends AppCompatActivity {
                 }
                 else
                     displayToast("Please select manual mode!");
-                utilityTool.log(TAG, "Exiting setWaypointToggleBtn!");
+                util.showLog(TAG, "Exiting setWaypointToggleBtn!");
             }
         });
 
@@ -443,7 +443,7 @@ public class RobotActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 performHaptic();
-                utilityTool.log(TAG,"Pressed exploredImageBtn!");
+                util.showLog(TAG,"Pressed exploredImageBtn!");
                 if (!gridMap.getExploredStatus()) {
                     displayToast("Please check cell!");
                     gridMap.setExploredStatus(true);
@@ -451,7 +451,7 @@ public class RobotActivity extends AppCompatActivity {
                 }
                 else if (gridMap.getExploredStatus())
                     gridMap.setSetObstacleStatus(false);
-                utilityTool.log(TAG,"Exiting exploredImageBtn!");
+                util.showLog(TAG,"Exiting exploredImageBtn!");
             }
         });
 
@@ -459,7 +459,7 @@ public class RobotActivity extends AppCompatActivity {
         obstacleImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                utilityTool.log(TAG,"Pressed obstacleImageBtn!");
+                util.showLog(TAG,"Pressed obstacleImageBtn!");
                 if (!gridMap.getSetObstacleStatus()) {
                     displayToast("Please plot obstacles!");
                     gridMap.setSetObstacleStatus(true);
@@ -467,7 +467,7 @@ public class RobotActivity extends AppCompatActivity {
                 }
                 else if (gridMap.getSetObstacleStatus())
                     gridMap.setSetObstacleStatus(false);
-                utilityTool.log(TAG,"Exiting obstacleImageBtn!");
+                util.showLog(TAG,"Exiting obstacleImageBtn!");
             }
         });
 
@@ -475,7 +475,7 @@ public class RobotActivity extends AppCompatActivity {
         clearImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                utilityTool.log(TAG,"Pressed clearImageBtn!");
+                util.showLog(TAG,"Pressed clearImageBtn!");
                 if (!gridMap.getUnSetCellStatus()) {
                     displayToast("Please remove cells!");
                     gridMap.toggleCheckedBtn("clearImageBtn");
@@ -483,7 +483,7 @@ public class RobotActivity extends AppCompatActivity {
                 }
                 else if (gridMap.getUnSetCellStatus())
                     gridMap.setUnSetCellStatus(false);
-                utilityTool.log(TAG,"Exiting clearImageBtn!");
+                util.showLog(TAG,"Exiting clearImageBtn!");
             }
         });
 
@@ -492,7 +492,7 @@ public class RobotActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 performHaptic();
-                utilityTool.log(TAG,"Pressed manualAutoToggleBtn!");
+                util.showLog(TAG,"Pressed manualAutoToggleBtn!");
                 if (manualAutoToggleBtn.getText().equals("AUTO")) {
                     try {
                         gridMap.setAutomaticUpdate(true);
@@ -553,7 +553,7 @@ public class RobotActivity extends AppCompatActivity {
                     gridMap.resetMap();
                     displayToast("MANUAL mode");
                 }
-                utilityTool.log(TAG,"Exiting manualAutoToggleBtn");
+                util.showLog(TAG,"Exiting manualAutoToggleBtn");
             }
         });
 
@@ -625,7 +625,7 @@ public class RobotActivity extends AppCompatActivity {
         directionAxisTextView.setText(robotSharedPrefs.getString("direction",""));
         updateSentMessage();
         updateReceivedMessage();
-        utilityTool.log(TAG,"updateTextViews(): Updated all TextViews!");
+        util.showLog(TAG,"updateTextViews(): Updated all TextViews!");
     }
 
     /* Bluetooth BroadcastReceiver methods for bluetooth functionalities. */
@@ -686,16 +686,16 @@ public class RobotActivity extends AppCompatActivity {
             }
             for(int i=0;i<index;i++) {
                 message = arr_queue[i];
-                utilityTool.log(TAG, "receivedMessage: message --- " + message);
+                util.showLog(TAG, "receivedMessage: message --- " + message);
                 if (message.charAt(0) == '{') {
-                    JSONObject parsedMessage = utilityTool.parseMDFString(message);
+                    JSONObject parsedMessage = util.parseMDFString(message);
 
                     try {
                         gridMap.setRcveJsonObject(parsedMessage);
                         gridMap.updateMapInfo();
-                        utilityTool.log(TAG, "messageReceiver: try decode successful");
+                        util.showLog(TAG, "messageReceiver: try decode successful");
                     } catch (JSONException e) {
-                        utilityTool.log(TAG, "messageReceiver: try decode unsuccessful");
+                        util.showLog(TAG, "messageReceiver: try decode unsuccessful");
                     }
                 } else if (message.equals("stope")) {
                     exploreToggleBtn.setChecked(false);
@@ -755,7 +755,7 @@ public class RobotActivity extends AppCompatActivity {
     public void displayExploreDialog()
     {
         // Setting message manually and performing action on button click
-        String final_str = "MDF String Explored:" + UtilityTool.explored_mdf + " \n" + "MDF String Obstacle:" + UtilityTool.obstacle_mdf +" \n";
+        String final_str = "MDF String Explored:" + Util.final_mdf_string_explored + " \n" + "MDF String Obstacle:" + Util.final_mdf_string_obstacle+" \n";
         for(int i=0;i<5;i++)
         {
             if(gridMap.image_type[i]!=-99)

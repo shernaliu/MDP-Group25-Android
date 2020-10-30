@@ -49,7 +49,7 @@ public class GridMap extends View {
     private static boolean status_unsetCell = false;
     private static boolean status_setExplored = false;
     private static boolean validPos = false;
-    private UtilityTool utilityTool = new UtilityTool();
+    private Util util = new Util();
     int image_type[] = new int[]{-99, -99, -99, -99, -99};
     int image_x_coordinate[] = new int[]{-99, -99, -99, -99, -99};
     int image_y_coordinate[] = new int[]{-99, -99, -99, -99, -99};
@@ -122,9 +122,9 @@ public class GridMap extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        UtilityTool.log(TAG, "onDraw()");
+        Util.showLog(TAG, "onDraw()");
         super.onDraw(canvas);
-        UtilityTool.log(TAG, "Redrawing the map!");
+        Util.showLog(TAG, "Redrawing the map!");
         ArrayList<String[]> imageCoords = this.getImageCoordinates();
         int[] curCoord = this.getCurCoord();
         if (!this.getMapDrawn()) {
@@ -288,7 +288,7 @@ public class GridMap extends View {
     }
 
     private void updateRobotAxis(int col, int row, String direction) {
-        UtilityTool.log(TAG, direction);
+        Util.showLog(TAG, direction);
         TextView xAxisTextView = ((Activity) this.getContext()).findViewById(R.id.xAxisTextView);
         TextView yAxisTextView = ((Activity) this.getContext()).findViewById(R.id.yAxisTextView);
         TextView directionAxisTextView = ((Activity) this.getContext()).findViewById(R.id.directionAxisTextView);
@@ -298,7 +298,7 @@ public class GridMap extends View {
     }
 
     public void setAutomaticUpdate(boolean autoUpdate) throws JSONException {
-        UtilityTool.log(TAG, String.valueOf(backupMapInformation));
+        Util.showLog(TAG, String.valueOf(backupMapInformation));
         if (!autoUpdate)
             backupMapInformation = this.getRcveJsonObject();
         else {
@@ -335,7 +335,7 @@ public class GridMap extends View {
                 status_startCoord = false;
 
                 try {
-                    utilityTool.printMsg(ctx, "S", column, row);
+                    util.printMessage(ctx, "S", column, row);
                     sharedPreferences();
                     TextView sentMessage = ((Activity) this.getContext()).findViewById(R.id.sentMessage);
                     sentMessage.setText(sharedPrefs.getString("sentText", ""));
@@ -469,7 +469,7 @@ public class GridMap extends View {
                 Toast.makeText(this.getContext(), "Error with drawing robot (unknown direction)", Toast.LENGTH_LONG).show();
                 break;
         }
-        UtilityTool.log(TAG, "Exiting drawRobot");
+        Util.showLog(TAG, "Exiting drawRobot");
     }
 
     private void calculateDimen() {
@@ -478,7 +478,7 @@ public class GridMap extends View {
 
     public void updateMapInfo() throws JSONException {
         JSONObject mapInfo = this.getRcveJsonObject();
-        UtilityTool.log(TAG, "updateMapInformation(): mapInfo: " + mapInfo);
+        Util.showLog(TAG, "updateMapInformation(): mapInfo: " + mapInfo);
         JSONObject infoJsonObj;
         String hexStrObstacle, hexStrExplored, exploredStr;
         BigInteger hexExploredBI, hexObstacleBI;
@@ -648,7 +648,7 @@ public class GridMap extends View {
                 int column = Integer.parseInt(imgCoord.get(i)[0]);
                 int row = rowConversion(Integer.parseInt(imgCoord.get(i)[1]));
                 rect = new RectF(column * cellSize, row * cellSize, (column + 1) * cellSize, (row + 1) * cellSize);
-                UtilityTool.log(TAG, imgCoord.get(i)[2]);
+                Util.showLog(TAG, imgCoord.get(i)[2]);
                 switch (imgCoord.get(i)[2]) {
                     case "1":
                         img = BitmapFactory.decodeResource(getResources(), R.drawable.one);
@@ -878,7 +878,7 @@ public class GridMap extends View {
         for (int x = column - 1; x <= column + 1; x++)
             for (int y = row - 1; y <= row + 1; y++)
                 cells[x][y].setType("robot");
-        UtilityTool.log(TAG, "Exiting setCurCoord");
+        Util.showLog(TAG, "Exiting setCurCoord");
     }
 
     /**
@@ -921,7 +921,7 @@ public class GridMap extends View {
         waypointCoord[1] = row;
         row = this.rowConversion(row);
         cells[column][row].setType("waypoint");
-        utilityTool.printMsg(ctx, "W", waypointCoord[0], waypointCoord[1]);
+        util.printMessage(ctx, "W", waypointCoord[0], waypointCoord[1]);
     }
 
     /**

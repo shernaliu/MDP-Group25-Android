@@ -28,7 +28,7 @@ public class BluetoothConnService {
     private ConnectThread mConnectThread;
     private BluetoothDevice mBluetoothDevice;
     private static ConnectedThread mConnectedThread;
-    public static boolean BTConnectionStatus = false;
+    public static boolean BluetoothConnectionStatus = false;
     Intent connectionStatus;
     ProgressDialog mProgressDialog;
 
@@ -177,7 +177,7 @@ public class BluetoothConnService {
             connectionStatus.putExtra("Status", "connected");
             connectionStatus.putExtra("Device", mBluetoothDevice);
             LocalBroadcastManager.getInstance(mContext).sendBroadcast(connectionStatus);
-            BTConnectionStatus = true;
+            BluetoothConnectionStatus = true;
             mSocket = socket;
             InputStream inputStream = null;
             OutputStream outputStream = null;
@@ -212,7 +212,7 @@ public class BluetoothConnService {
                     connectionStatus.putExtra("Status", "disconnected");
                     connectionStatus.putExtra("Device", mBluetoothDevice);
                     LocalBroadcastManager.getInstance(mContext).sendBroadcast(connectionStatus);
-                    BTConnectionStatus = false;
+                    BluetoothConnectionStatus = false;
                     break;
                 }
             }

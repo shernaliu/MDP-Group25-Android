@@ -17,7 +17,7 @@ import android.widget.TextView;
 public class DebugActivity extends AppCompatActivity {
     private static String TAG = "DEBUG_ACTIVITY";
     private static Context context;
-    private UtilityTool utilityTool = new UtilityTool();
+    private Util util = new Util();
     Button sendBtn;
     TextView receivedMsg;
     TextView sentMessageDisplay;
@@ -40,7 +40,7 @@ public class DebugActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String message = sentMsgInput.getText().toString();
-                utilityTool.printMsg(context, message);
+                util.printMessage(context, message);
                 sentMessageDisplay.append("\n"+message);
                 sentMsgInput.getText().clear();
             }
@@ -51,7 +51,7 @@ public class DebugActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra("msgReceived");
-            UtilityTool.log(TAG,"msgReceived: message --- " + message);
+            Util.showLog(TAG,"msgReceived: message --- " + message);
             receivedMsg.setText(message);
         }
     };
