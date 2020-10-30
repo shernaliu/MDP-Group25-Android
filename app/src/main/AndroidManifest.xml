@@ -21,7 +21,7 @@
             android:name=".BluetoothDeviceActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".RobotControlActivity"
+            android:name=".RobotActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".FunctionsActivity"
