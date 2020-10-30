@@ -279,18 +279,18 @@ public class RobotActivity extends AppCompatActivity {
                 performHaptic();
                 util.showLog(TAG,"Pressed moveForwardImageBtn!");
                 if (gridMap.getAutomaticUpdate())
-                    updateStatus(Status.W2);
+                    updateStatus(StatusRobot.ManualModeReq);
                 else if (gridMap.getCanDrawRobot() && !gridMap.getAutomaticUpdate()) {
                     gridMap.moveRobot("forward");
                     if (gridMap.getValidPosition())
-                        updateStatus(Status.MF);
+                        updateStatus(StatusRobot.MoveForward);
                     else
-                        updateStatus(Status.UF);
+                        updateStatus(StatusRobot.UnableForward);
                     util.printMessage(context, "AR>w");
                     updateTextViews();
                 }
                 else
-                    updateStatus(Status.W1);
+                    updateStatus(StatusRobot.SetStartPoint);
                 util.showLog(TAG, "Exiting moveForwardImageBtn");
             }
         });
@@ -302,19 +302,19 @@ public class RobotActivity extends AppCompatActivity {
                 performHaptic();
                 util.showLog(TAG,"Pressed moveBackwardImageBtn!");
                 if (gridMap.getAutomaticUpdate())
-                    updateStatus(Status.W2);
+                    updateStatus(StatusRobot.ManualModeReq);
                 else if (gridMap.getCanDrawRobot() && !gridMap.getAutomaticUpdate()) {
                     gridMap.moveRobot("back");
                     updateTextViews();
                     if (gridMap.getValidPosition())
-                        updateStatus(Status.MB);
+                        updateStatus(StatusRobot.MoveBackward);
                     else
-                        updateStatus(Status.UB);
+                        updateStatus(StatusRobot.UnableBackward);
                     util.printMessage(context, "r");
                     updateTextViews();
                 }
                 else
-                    updateStatus(Status.W1);
+                    updateStatus(StatusRobot.SetStartPoint);
                 util.showLog(TAG,"Exiting moveBackwardImageBtn");
             }
         });
@@ -326,15 +326,15 @@ public class RobotActivity extends AppCompatActivity {
                 performHaptic();
                 util.showLog(TAG,"Pressed turnRightImageBtn!");
                 if (gridMap.getAutomaticUpdate())
-                    updateStatus(Status.W2);
+                    updateStatus(StatusRobot.ManualModeReq);
                 else if (gridMap.getCanDrawRobot() && !gridMap.getAutomaticUpdate()) {
                     gridMap.moveRobot("right");
-                    updateStatus(Status.TR);
+                    updateStatus(StatusRobot.TurinRight);
                     util.printMessage(context, "AR>d");
                     updateTextViews();
                 }
                 else
-                    updateStatus(Status.W1);
+                    updateStatus(StatusRobot.SetStartPoint);
                 util.showLog(TAG,"Exiting turnRightImageBtn");
             }
         });
@@ -346,16 +346,16 @@ public class RobotActivity extends AppCompatActivity {
                 performHaptic();
                 util.showLog(TAG, "Pressed turnLeftImageBtn!");
                 if (gridMap.getAutomaticUpdate())
-                    updateStatus(Status.W2);
+                    updateStatus(StatusRobot.ManualModeReq);
                 else if (gridMap.getCanDrawRobot() && !gridMap.getAutomaticUpdate()) {
                     gridMap.moveRobot("left");
                     updateTextViews();
-                    updateStatus(Status.TL);
+                    updateStatus(StatusRobot.TurinLeft);
                     util.printMessage(context,"AR>a");
                     updateTextViews();
                 }
                 else
-                    updateStatus(Status.W1);
+                    updateStatus(StatusRobot.SetStartPoint);
                 util.showLog(TAG, "Exiting turnLeftImageBtn");
             }
         });
