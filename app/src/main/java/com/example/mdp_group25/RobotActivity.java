@@ -278,9 +278,9 @@ public class RobotActivity extends AppCompatActivity {
             public void onClick(View view) {
                 performHaptic();
                 util.showLog(TAG,"Pressed moveForwardImageBtn!");
-                if (gridMap.getAutoUpdate())
+                if (gridMap.getAutomaticUpdate())
                     updateStatus(Status.W2);
-                else if (gridMap.getCanDrawRobot() && !gridMap.getAutoUpdate()) {
+                else if (gridMap.getCanDrawRobot() && !gridMap.getAutomaticUpdate()) {
                     gridMap.moveRobot("forward");
                     if (gridMap.getValidPosition())
                         updateStatus(Status.MF);
@@ -301,9 +301,9 @@ public class RobotActivity extends AppCompatActivity {
             public void onClick(View view) {
                 performHaptic();
                 util.showLog(TAG,"Pressed moveBackwardImageBtn!");
-                if (gridMap.getAutoUpdate())
+                if (gridMap.getAutomaticUpdate())
                     updateStatus(Status.W2);
-                else if (gridMap.getCanDrawRobot() && !gridMap.getAutoUpdate()) {
+                else if (gridMap.getCanDrawRobot() && !gridMap.getAutomaticUpdate()) {
                     gridMap.moveRobot("back");
                     updateTextViews();
                     if (gridMap.getValidPosition())
@@ -325,9 +325,9 @@ public class RobotActivity extends AppCompatActivity {
             public void onClick(View view) {
                 performHaptic();
                 util.showLog(TAG,"Pressed turnRightImageBtn!");
-                if (gridMap.getAutoUpdate())
+                if (gridMap.getAutomaticUpdate())
                     updateStatus(Status.W2);
-                else if (gridMap.getCanDrawRobot() && !gridMap.getAutoUpdate()) {
+                else if (gridMap.getCanDrawRobot() && !gridMap.getAutomaticUpdate()) {
                     gridMap.moveRobot("right");
                     updateStatus(Status.TR);
                     util.printMessage(context, "AR>d");
@@ -345,9 +345,9 @@ public class RobotActivity extends AppCompatActivity {
             public void onClick(View view) {
                 performHaptic();
                 util.showLog(TAG, "Pressed turnLeftImageBtn!");
-                if (gridMap.getAutoUpdate())
+                if (gridMap.getAutomaticUpdate())
                     updateStatus(Status.W2);
-                else if (gridMap.getCanDrawRobot() && !gridMap.getAutoUpdate()) {
+                else if (gridMap.getCanDrawRobot() && !gridMap.getAutomaticUpdate()) {
                     gridMap.moveRobot("left");
                     updateTextViews();
                     updateStatus(Status.TL);
@@ -408,7 +408,7 @@ public class RobotActivity extends AppCompatActivity {
                 util.showLog(TAG,"Pressed setStartPointToggleBtn!");
                 if (setStartPointToggleBtn.getText().equals("Set Start Point"))
                     displayToast("Cancelled selecting starting point!");
-                else if (setStartPointToggleBtn.getText().equals("CANCEL") && !gridMap.getAutoUpdate()) {
+                else if (setStartPointToggleBtn.getText().equals("CANCEL") && !gridMap.getAutomaticUpdate()) {
                     displayToast("Please select starting point!");
                     gridMap.setStartCoordStatus(true);
                     gridMap.toggleCheckedBtn("setStartPointToggleBtn");
@@ -495,7 +495,7 @@ public class RobotActivity extends AppCompatActivity {
                 util.showLog(TAG,"Pressed manualAutoToggleBtn!");
                 if (manualAutoToggleBtn.getText().equals("AUTO")) {
                     try {
-                        gridMap.setAutoUpdate(true);
+                        gridMap.setAutomaticUpdate(true);
                         autoUpdate = true;
                         gridMap.toggleCheckedBtn("None");
                     } catch (JSONException e) {
@@ -525,7 +525,7 @@ public class RobotActivity extends AppCompatActivity {
                 }
                 else if (manualAutoToggleBtn.getText().equals("MANUAL")) {
                     try {
-                        gridMap.setAutoUpdate(false);
+                        gridMap.setAutomaticUpdate(false);
                         autoUpdate = false;
                         gridMap.toggleCheckedBtn("None");
                     } catch (JSONException e) {
@@ -691,8 +691,8 @@ public class RobotActivity extends AppCompatActivity {
                     JSONObject parsedMessage = util.parseMDFString(message);
 
                     try {
-                        gridMap.setReceivedJsonObject(parsedMessage);
-                        gridMap.updateMapInformation();
+                        gridMap.setRcveJsonObject(parsedMessage);
+                        gridMap.updateMapInfo();
                         util.showLog(TAG, "messageReceiver: try decode successful");
                     } catch (JSONException e) {
                         util.showLog(TAG, "messageReceiver: try decode unsuccessful");
