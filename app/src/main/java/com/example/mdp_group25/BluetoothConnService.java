@@ -1,14 +1,13 @@
 package com.example.mdp_group25;
 
-import android.app.ProgressDialog;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
-import android.content.Context;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.content.Context;
 import android.util.Log;
-
+import android.app.ProgressDialog;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -17,15 +16,11 @@ import java.util.UUID;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-
 public class BluetoothConnectionService {
     BluetoothDeviceActivity mBluetoothDeviceActivity;
     private static BluetoothConnectionService instance;
-
     private static final String TAG = "BluetoothConnectionServ";
-
     private static final String appName = "MYAPP";
-
     private static final UUID MY_UUID_INSECURE =
             UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
@@ -49,10 +44,6 @@ public class BluetoothConnectionService {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         start();
     }
-
-
-
-
 
     /**
      * This thread runs while listening for incoming connections. It behaves
@@ -186,8 +177,6 @@ public class BluetoothConnectionService {
         }
     }
 
-
-
     /**
      * Start the chat service. Specifically start AcceptThread to begin a
      * session in listening (server) mode. Called by the Activity onResume()
@@ -207,11 +196,9 @@ public class BluetoothConnectionService {
     }
 
     /**
-
      AcceptThread starts and sits waiting for a connection.
      Then ConnectThread starts and attempts to make a connection with the other devices AcceptThread.
      **/
-
     public void startClient(BluetoothDevice device,UUID uuid){
         Log.d(TAG, "startClient: Started.");
 
@@ -241,9 +228,6 @@ public class BluetoothConnectionService {
             connectionStatus.putExtra("Device", mmDevice);
             LocalBroadcastManager.getInstance(mContext).sendBroadcast(connectionStatus);
             BluetoothConnectionStatus = true;
-
-
-
 
             mmSocket = socket;
             InputStream tmpIn = null;
