@@ -1,72 +1,56 @@
 package com.example.mdp_group25;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.view.HapticFeedbackConstants;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.view.HapticFeedbackConstants;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Switch;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Switch;
+import android.app.ProgressDialog;
 import android.widget.ToggleButton;
-
-import org.json.JSONException;
 import org.json.JSONObject;
-
+import org.json.JSONException;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+public class RobotActivity extends AppCompatActivity {
 
-import java.util.concurrent.TimeUnit;
-
-
-public class RobotControlActivity extends AppCompatActivity {
-
-    private static SharedPreferences sharedPreferences;
-    private static SharedPreferences.Editor editor;
-    private static SharedPreferences.Editor editorConn;
+    private static SharedPreferences robotSharedPrefs;
+    private static SharedPreferences.Editor editor, editorConn;
     BluetoothConnectionService mBluetoothConnection;
     private static Context context;
     private static SharedPreferences pref;
     private static boolean autoUpdate = false;
     private static boolean tiltControl = false;
-    private static String TAG="ROBOT_CONTROL_ACTIVITY";
+    private static String TAG = "RobotActivity";
     private Util util = new Util();
-
     boolean turnedLeft = false;
     boolean turnedRight = false;
     boolean goStraight = false;
     boolean goback = false;
     GridMap gridMap;
-    ToggleButton exploreToggleBtn, fastestToggleBtn;
-    TextView robotStatusTextView;
+    View rectangleBgManual, rectangleBgAuto;
+    Button resetMapBtn, fn1Btn, fn2Btn, manualUpdateBtn;
+    ToggleButton manualAutoToggleBtn, exploreToggleBtn, fastestToggleBtn, setStartPointToggleBtn, setWaypointToggleBtn;
+    TextView robotStatusTextView, connStatusTextView, xAxisTextView, yAxisTextView, directionAxisTextView, sentMessage, receivedMessage, xAxisTextViewWP, yAxisTextViewWP;
     ImageButton moveForwardImageBtn, turnRightImageBtn, moveBackwardImageBtn, turnLeftImageBtn;
-    Button resetMapBtn;
-    ToggleButton setStartPointToggleBtn, setWaypointToggleBtn;
-    TextView xAxisTextView, yAxisTextView, directionAxisTextView, sentMessage, receivedMessage, xAxisTextViewWP, yAxisTextViewWP;
     ImageButton directionChangeImageBtn, exploredImageBtn, obstacleImageBtn, clearImageBtn;
-    ToggleButton manualAutoToggleBtn;
-    Button buttonF1;
-    Button buttonF2;
-    Button manualUpdateBtn;
     SharedPreferences sharedPreferencesConn;
-    TextView connStatusTextView;
     String connStatus;
     Switch tiltSwitch;
     SensorManager sensorManager;
@@ -74,75 +58,68 @@ public class RobotControlActivity extends AppCompatActivity {
     SensorEventListener tiltSensorListener;
     String current_command = "";
     String mdf_string_final = "";
-    View rectangleBgManual;
-    View rectangleBgAuto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_robot_control);
+        setContentView(R.layout.activity_robot);
 
-
-        //shared Preferences
-        sharedPreferences = getApplicationContext().getSharedPreferences("RobotControlActivity", Context.MODE_PRIVATE);
+        /* Shared Preferences for  retrieving, storing and writing data */
+        robotSharedPrefs = getApplicationContext().getSharedPreferences("RobotControlActivity", Context.MODE_PRIVATE);
         sharedPreferencesConn = getApplicationContext().getSharedPreferences("Shared Preferences", Context.MODE_PRIVATE);
         pref = getApplicationContext().getSharedPreferences("CommunicationsPreferences", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+        editor = robotSharedPrefs.edit();
         editorConn = sharedPreferencesConn.edit();
 
-        // create a new map
+        /* Init GridMap */
         gridMap = new GridMap(this);
 
-        // find all view by id
+        /* Get a reference to all the required components in RobotActivity */
         gridMap = findViewById(R.id.mapView);
-        exploreToggleBtn = findViewById(R.id.exploreToggleBtn);
+        manualAutoToggleBtn = findViewById(R.id.manualAutoToggleBtn);
         fastestToggleBtn = findViewById(R.id.fastestToggleBtn);
+        exploreToggleBtn = findViewById(R.id.exploreToggleBtn);
         robotStatusTextView = findViewById(R.id.robotStatusTextView);
         moveForwardImageBtn = findViewById(R.id.moveForwardImageBtn);
-        turnRightImageBtn = findViewById(R.id.turnRightImageBtn);
         moveBackwardImageBtn = findViewById(R.id.moveBackwardImageBtn);
+        turnRightImageBtn = findViewById(R.id.turnRightImageBtn);
         turnLeftImageBtn = findViewById(R.id.turnLeftImageBtn);
         resetMapBtn = findViewById(R.id.resetMapBtn);
-        setStartPointToggleBtn = findViewById(R.id.setStartPointToggleBtn);
-        setWaypointToggleBtn = findViewById(R.id.setWaypointToggleBtn);
+        fn1Btn = findViewById(R.id.buttonF1);
+        fn2Btn = findViewById(R.id.buttonF2);
         xAxisTextView = findViewById(R.id.xAxisTextView);
         yAxisTextView = findViewById(R.id.yAxisTextView);
         directionAxisTextView = findViewById(R.id.directionAxisTextView);
         directionChangeImageBtn = findViewById(R.id.directionChangeImageBtn);
+        setStartPointToggleBtn = findViewById(R.id.setStartPointToggleBtn);
+        setWaypointToggleBtn = findViewById(R.id.setWaypointToggleBtn);
         exploredImageBtn = findViewById(R.id.exploredImageBtn);
         obstacleImageBtn = findViewById(R.id.obstacleImageBtn);
         clearImageBtn = findViewById(R.id.clearImageBtn);
-        manualAutoToggleBtn = findViewById(R.id.manualAutoToggleBtn);
-        buttonF2 = findViewById(R.id.buttonF2);
-        buttonF1 = findViewById(R.id.buttonF1);
         manualUpdateBtn = findViewById(R.id.manualUpdateBtn);
         connStatusTextView = findViewById(R.id.connStatusTextView);
         sentMessage = findViewById(R.id.sentMessage);
         receivedMessage = findViewById(R.id.receivedMsg);
         xAxisTextViewWP = findViewById(R.id.xAxisTextViewWP);
         yAxisTextViewWP = findViewById(R.id.yAxisTextViewWP);
+        tiltSwitch = findViewById(R.id.tiltSwitch);
+        receivedMessage.setMovementMethod(new ScrollingMovementMethod());
+        sentMessage.setMovementMethod(new ScrollingMovementMethod());
         rectangleBgManual = findViewById(R.id.rectangle_bg_manual);
         rectangleBgAuto = findViewById(R.id.rectangle_bg_auto);
 
-        sentMessage.setMovementMethod(new ScrollingMovementMethod());
-        receivedMessage.setMovementMethod(new ScrollingMovementMethod());
-        tiltSwitch = findViewById(R.id.tiltSwitch);
-
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, new IntentFilter("incomingMessage"));
-
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         tiltSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-
-
-
-        if (sharedPreferencesConn.contains("connStatus"))
+        if (sharedPreferencesConn.contains("connStatus")){
             connStatus = sharedPreferencesConn.getString("connStatus", "");
-
+        }
         connStatusTextView.setText(connStatus);
 
-
         final android.os.Handler customHandler = new android.os.Handler();
+
+        /* Create a new thread for the customHandler */
         Runnable runthisthread = new Runnable()
         {
             public void run()
@@ -153,26 +130,23 @@ public class RobotControlActivity extends AppCompatActivity {
         };
         customHandler.postDelayed(runthisthread, 0);
 
-
+        /* TiltSensor event handler to perform robot movements based on tilting of tablet. */
         tiltSensorListener = new SensorEventListener() {
-
             @Override
             public void onSensorChanged(SensorEvent event) {
 
                 if (tiltControl){
                     float[] rotationMatrix = new  float[16];
                     SensorManager.getRotationMatrixFromVector(rotationMatrix,event.values);
-                    //z value
-                    //default value = 9.81 (0-(-9.81))
                     float delta = 6;
                     if (event.values[1] < 2.5f-delta){
                         // Sensor is tilted forward
                         if(!current_command.equals("Forward"))
                         {
-                            Util.showLog(TAG, "device lifted up");
+                            Util.showLog(TAG, "Tablet is lifted up!");
                             gridMap.moveRobot("forward");
-                            refreshLabel();
-                            showToast("device lifted up");
+                            updateTextViews();
+                            displayToast("Tablet is lifted up!");
                             util.printMessage(context, "AR>w");
                             current_command = "Forward";
                             return;
@@ -181,42 +155,42 @@ public class RobotControlActivity extends AppCompatActivity {
                     else if (event.values[1] > 2.5f +delta-1) {
                         if(!current_command.equals("Backward"))
                         {
-                        Util.showLog(TAG, "device lowered");
+                        Util.showLog(TAG, "Tablet is lowered!");
                         gridMap.moveRobot("back");
-                        refreshLabel();
-                        showToast("device lowered");
+                        updateTextViews();
+                        displayToast("Tablet is lowered!");
                         util.printMessage(context, "AR>s");
                         current_command = "Backward";
                         return;
                     }
                     }
-                    if (event.values[0] > 5.5){ //1.5+5 = 6.5
+                    if (event.values[0] > 5.5){
                         if(!current_command.equals("Left"))
                         {
                             if (turnedLeft) {
                                 turnedLeft = false;
                             }
                             else {
-                                Util.showLog(TAG, "turned left");
-                                showToast("turned left");
+                                Util.showLog(TAG, "Tablet is tilted left!");
+                                displayToast("Tablet is tilted left!");
                                 gridMap.moveRobot("left");
-                                refreshLabel();
+                                updateTextViews();
                                 util.printMessage(context, "AR>a");
                                 turnedLeft = true;
                                 current_command = "Left";
                                 return;
                             }
                         }
-                    } else if (event.values[0] < -5.5) {//1.5-5 = -3.5
+                    } else if (event.values[0] < -5.5) {
                         if(!current_command.equals("Right")) {
                             if (turnedRight){
                                 turnedRight = false;
                             }
                             else {
-                                Util.showLog(TAG, "turned right");
-                                showToast("turned right");
+                                Util.showLog(TAG, "Tablet is tilted right!");
+                                displayToast("Tablet is tilted right!");
                                 gridMap.moveRobot("right");
-                                refreshLabel();
+                                updateTextViews();
                                 util.printMessage(context, "AR>d");
                                 turnedRight = true;
                                 current_command = "Right";
@@ -230,19 +204,16 @@ public class RobotControlActivity extends AppCompatActivity {
 
             @Override
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
+                Util.showLog(TAG, "Accuracy changed.");
             }
         };
         sensorManager.registerListener(tiltSensorListener,tiltSensor, 3000000);
 
-
-
-
+        /* Button event handler to perform update. */
         manualUpdateBtn.setOnClickListener(new View.OnClickListener(){
             @Override
-
             public void onClick(View view){
-                perform_haptic();
+                performHaptic();
                 util.printMessage(context, "AL>sa");
             }
         });
@@ -251,64 +222,62 @@ public class RobotControlActivity extends AppCompatActivity {
         exploreToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                perform_haptic();
+                performHaptic();
                 if (check_valid_time("Explore")) {
                     util.showLog(TAG, "Clicked exploreToggleBtn");
                     Button exploreToggleBtn = (Button) view;
                     if (exploreToggleBtn.getText().equals("EXPLORE")) {
-                        //end exploration
+                        // end exploration
                         fastestToggleBtn.setEnabled(true);
                         resetMapBtn.setEnabled(true);
                         setStartPointToggleBtn.setEnabled(true);
                         setWaypointToggleBtn.setEnabled(true);
                         util.printMessage(context, "AL>st");
                     } else if (exploreToggleBtn.getText().equals("STOP")) {
-                        //start exploration
+                        // start exploration
                         fastestToggleBtn.setEnabled(false);
                         resetMapBtn.setEnabled(false);
                         setStartPointToggleBtn.setEnabled(false);
                         setWaypointToggleBtn.setEnabled(false);
                         util.printMessage(context, "AL>ex");
                     } else {
-                        showToast("Else statement: " + exploreToggleBtn.getText());
+                        displayToast("Else statement: " + exploreToggleBtn.getText());
                     }
                     util.showLog(TAG, "Exiting exploreToggleBtn");
                 }
             }
         });
 
-
+        /* Button event handler to perform fastest path. */
         fastestToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                perform_haptic();
+                performHaptic();
                 setWaypointToggleBtn.setEnabled(false);
                 util.showLog(TAG, "Clicked fastestToggleBtn");
                 Button fastestToggleBtn = (Button) view;
                 if (fastestToggleBtn.getText().equals("FASTEST")) {
-                    //end fastest path
+                    // end fastest path
                     setWaypointToggleBtn.setEnabled(true);
                     util.printMessage(context, "AL>st");
                 }
                 else if (fastestToggleBtn.getText().equals("STOP")) {
-                    //start fastest path
+                    // start fastest path
                     util.printMessage(context, "AL>fp");
 
                 }
                 else
-                    showToast(fastestToggleBtn.getText().toString());
+                    displayToast(fastestToggleBtn.getText().toString());
                 util.showLog(TAG, "Exiting fastestToggleBtn");
             }
         });
 
-
-        //ROBOT MOVEMENT
+        /* Button event handler to allow robot to move forward. */
         moveForwardImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                perform_haptic();
-                util.showLog(TAG,"Clicked moveForwardImageBtn");
+                performHaptic();
+                util.showLog(TAG,"Pressed moveForwardImageBtn!");
                 if (gridMap.getAutoUpdate())
                     updateStatus(Status.W2);
                 else if (gridMap.getCanDrawRobot() && !gridMap.getAutoUpdate()) {
@@ -318,7 +287,7 @@ public class RobotControlActivity extends AppCompatActivity {
                     else
                         updateStatus(Status.UF);
                     util.printMessage(context, "AR>w");
-                    refreshLabel();
+                    updateTextViews();
                 }
                 else
                     updateStatus(Status.W1);
@@ -326,41 +295,23 @@ public class RobotControlActivity extends AppCompatActivity {
             }
         });
 
-        turnRightImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                perform_haptic();
-                util.showLog(TAG,"Clicked turnRightImageBtn");
-                if (gridMap.getAutoUpdate())
-                    updateStatus(Status.W2);
-                else if (gridMap.getCanDrawRobot() && !gridMap.getAutoUpdate()) {
-                    gridMap.moveRobot("right");
-                    updateStatus(Status.TR);
-                    util.printMessage(context, "AR>d");
-                    refreshLabel();
-                }
-                else
-                    updateStatus(Status.W1);
-                util.showLog(TAG,"Exiting turnRightImageBtn");
-            }
-        });
-
+        /* Button event handler to allow robot to move backward. */
         moveBackwardImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                perform_haptic();
-                util.showLog(TAG,"Clicked moveBackwardImageBtn");
+                performHaptic();
+                util.showLog(TAG,"Pressed moveBackwardImageBtn!");
                 if (gridMap.getAutoUpdate())
                     updateStatus(Status.W2);
                 else if (gridMap.getCanDrawRobot() && !gridMap.getAutoUpdate()) {
                     gridMap.moveRobot("back");
-                    refreshLabel();
+                    updateTextViews();
                     if (gridMap.getValidPosition())
                         updateStatus(Status.MB);
                     else
                         updateStatus(Status.UB);
                     util.printMessage(context, "r");
-                    refreshLabel();
+                    updateTextViews();
                 }
                 else
                     updateStatus(Status.W1);
@@ -368,19 +319,40 @@ public class RobotControlActivity extends AppCompatActivity {
             }
         });
 
+        /* Button event handler to allow robot to turn right. */
+        turnRightImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                performHaptic();
+                util.showLog(TAG,"Pressed turnRightImageBtn!");
+                if (gridMap.getAutoUpdate())
+                    updateStatus(Status.W2);
+                else if (gridMap.getCanDrawRobot() && !gridMap.getAutoUpdate()) {
+                    gridMap.moveRobot("right");
+                    updateStatus(Status.TR);
+                    util.printMessage(context, "AR>d");
+                    updateTextViews();
+                }
+                else
+                    updateStatus(Status.W1);
+                util.showLog(TAG,"Exiting turnRightImageBtn");
+            }
+        });
+
+        /* Button event handler to allow robot to turn left. */
         turnLeftImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                perform_haptic();
-                util.showLog(TAG, "Clicked turnLeftImageBtn");
+                performHaptic();
+                util.showLog(TAG, "Pressed turnLeftImageBtn!");
                 if (gridMap.getAutoUpdate())
                     updateStatus(Status.W2);
                 else if (gridMap.getCanDrawRobot() && !gridMap.getAutoUpdate()) {
                     gridMap.moveRobot("left");
-                    refreshLabel();
+                    updateTextViews();
                     updateStatus(Status.TL);
                     util.printMessage(context,"AR>a");
-                    refreshLabel();
+                    updateTextViews();
                 }
                 else
                     updateStatus(Status.W1);
@@ -388,133 +360,139 @@ public class RobotControlActivity extends AppCompatActivity {
             }
         });
 
-        buttonF1.setOnClickListener(new View.OnClickListener() {
+        /* Button event handler to perform function 1. */
+        fn1Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                perform_haptic();
-                util.showLog(TAG,"Clicked buttonF1");
+                performHaptic();
+                util.showLog(TAG,"Pressed buttonF1!");
                 String firstFunction = pref.getString(FunctionsActivity.functionOne, "");
                 if(firstFunction != ""){
                     util.printMessage(context, firstFunction);
-                    refreshLabel();
+                    updateTextViews();
                 }
             }
         });
 
-        buttonF2.setOnClickListener(new View.OnClickListener() {
+        /* Button event handler to perform function 2. */
+        fn2Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                perform_haptic();
-                util.showLog(TAG,"Clicked buttonF2");
+                performHaptic();
+                util.showLog(TAG,"Pressed buttonF2!");
                 String secondFunction = pref.getString(FunctionsActivity.functionTwo, "");
                 if(secondFunction != ""){
                     util.printMessage(context, secondFunction);
-                    refreshLabel();
+                    updateTextViews();
                 }
             }
         });
 
-        //MAP DETAILS
+        /* Button event handler to reset the GridMap. */
         resetMapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                perform_haptic();
-                util.showLog(TAG,"Clicked resetMapBtn");
-                showToast("Reseting map...");
+                performHaptic();
+                util.showLog(TAG,"Pressed resetMapBtn!");
                 gridMap.resetMap();
-                refreshLabel();
+                displayToast("GridMap reset!");
+                updateTextViews();
             }
         });
 
+        /* Button event handler to set the start point. */
         setStartPointToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                perform_haptic();
-                util.showLog(TAG,"Clicked setStartPointToggleBtn");
+                performHaptic();
+                util.showLog(TAG,"Pressed setStartPointToggleBtn!");
                 if (setStartPointToggleBtn.getText().equals("Set Start Point"))
-                    showToast("Cancelled selecting starting point");
+                    displayToast("Cancelled selecting starting point!");
                 else if (setStartPointToggleBtn.getText().equals("CANCEL") && !gridMap.getAutoUpdate()) {
-                    showToast("Please select starting point");
+                    displayToast("Please select starting point!");
                     gridMap.setStartCoordStatus(true);
                     gridMap.toggleCheckedBtn("setStartPointToggleBtn");
-                    refreshLabel();
+                    updateTextViews();
                 } else
-                    showToast("Please select manual mode");
-                util.showLog(TAG,"Exiting setStartPointToggleBtn");
+                    displayToast("Please select manual mode!");
+                util.showLog(TAG,"Exiting setStartPointToggleBtn!");
             }
         });
 
+        /* Button event handler to set the way point. */
         setWaypointToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                perform_haptic();
-                util.showLog(TAG, "Clicked setWaypointToggleBtn");
+                performHaptic();
+                util.showLog(TAG, "Pressed setWaypointToggleBtn!");
                 if (setWaypointToggleBtn.getText().equals("Set Way Point"))
-                    showToast("Cancelled selecting waypoint");
+                    displayToast("Cancelled selecting waypoint!");
                 else if (setWaypointToggleBtn.getText().equals("CANCEL")) {
-                    showToast("Please select waypoint");
+                    displayToast("Please select waypoint!");
                     gridMap.setWaypointStatus(true);
                     gridMap.toggleCheckedBtn("setWaypointToggleBtn");
                 }
                 else
-                    showToast("Please select manual mode");
-                util.showLog(TAG, "Exiting setWaypointToggleBtn");
+                    displayToast("Please select manual mode!");
+                util.showLog(TAG, "Exiting setWaypointToggleBtn!");
             }
         });
 
+        /* Button event handler to perform exploration. */
         exploredImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                perform_haptic();
-                util.showLog(TAG,"Clicked exploredImageBtn");
+                performHaptic();
+                util.showLog(TAG,"Pressed exploredImageBtn!");
                 if (!gridMap.getExploredStatus()) {
-                    showToast("Please check cell");
+                    displayToast("Please check cell!");
                     gridMap.setExploredStatus(true);
                     gridMap.toggleCheckedBtn("exploredImageBtn");
                 }
                 else if (gridMap.getExploredStatus())
                     gridMap.setSetObstacleStatus(false);
-                util.showLog(TAG,"Exiting exploredImageBtn");
+                util.showLog(TAG,"Exiting exploredImageBtn!");
             }
         });
 
+        /* Button event handler to perform placement of obstacles in GridMap. */
         obstacleImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                util.showLog(TAG,"Clicked obstacleImageBtn");
+                util.showLog(TAG,"Pressed obstacleImageBtn!");
                 if (!gridMap.getSetObstacleStatus()) {
-                    showToast("Please plot obstacles");
+                    displayToast("Please plot obstacles!");
                     gridMap.setSetObstacleStatus(true);
                     gridMap.toggleCheckedBtn("obstacleImageBtn");
                 }
                 else if (gridMap.getSetObstacleStatus())
                     gridMap.setSetObstacleStatus(false);
-                util.showLog(TAG,"Exiting obstacleImageBtn");
+                util.showLog(TAG,"Exiting obstacleImageBtn!");
             }
         });
 
+        /* Button event handler to clear all. */
         clearImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                util.showLog(TAG,"Clicked clearImageBtn");
+                util.showLog(TAG,"Pressed clearImageBtn!");
                 if (!gridMap.getUnSetCellStatus()) {
-                    showToast("Please remove cells");
+                    displayToast("Please remove cells!");
                     gridMap.toggleCheckedBtn("clearImageBtn");
                     gridMap.setUnSetCellStatus(true);
                 }
                 else if (gridMap.getUnSetCellStatus())
                     gridMap.setUnSetCellStatus(false);
-                util.showLog(TAG,"Exiting clearImageBtn");
+                util.showLog(TAG,"Exiting clearImageBtn!");
             }
         });
 
-
-        // when manual auto button clicked
+        /* Button event handler to toggle between Auto and Manual mode. */
         manualAutoToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                perform_haptic();
-                util.showLog(TAG,"Clicked manualAutoToggleBtn");
+                performHaptic();
+                util.showLog(TAG,"Pressed manualAutoToggleBtn!");
                 if (manualAutoToggleBtn.getText().equals("AUTO")) {
                     try {
                         gridMap.setAutoUpdate(true);
@@ -525,8 +503,6 @@ public class RobotControlActivity extends AppCompatActivity {
                     }
                     manualAutoToggleBtn.setBackgroundResource(R.drawable.btn_bg_auto);
                     (findViewById(R.id.rectangle_bg_auto)).setVisibility(View.VISIBLE);
-
-
                     (findViewById(R.id.exploreToggleBtn)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.fastestToggleBtn)).setVisibility((View.VISIBLE));
                     (findViewById(R.id.setWaypointToggleBtn)).setVisibility(View.VISIBLE);
@@ -535,7 +511,6 @@ public class RobotControlActivity extends AppCompatActivity {
                     (findViewById(R.id.yAxisTextViewWP)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.yLabelTextViewWP)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.xAxisTextViewWP)).setVisibility(View.VISIBLE);
-
                     (findViewById(R.id.moveBackwardImageBtn)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.buttonF1)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.buttonF2)).setVisibility(View.INVISIBLE);
@@ -546,7 +521,7 @@ public class RobotControlActivity extends AppCompatActivity {
                     (findViewById(R.id.rectangle_bg_manual)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.manualUpdateBtn)).setVisibility(View.INVISIBLE);
                     gridMap.resetMap();
-                    showToast("AUTO mode");
+                    displayToast("AUTO mode");
                 }
                 else if (manualAutoToggleBtn.getText().equals("MANUAL")) {
                     try {
@@ -567,8 +542,6 @@ public class RobotControlActivity extends AppCompatActivity {
                     (findViewById(R.id.yAxisTextViewWP)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.yLabelTextViewWP)).setVisibility(View.INVISIBLE);
                     (findViewById(R.id.xAxisTextViewWP)).setVisibility(View.INVISIBLE);
-
-
                     (findViewById(R.id.buttonF1)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.buttonF2)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.moveForwardImageBtn)).setVisibility(View.VISIBLE);
@@ -578,35 +551,34 @@ public class RobotControlActivity extends AppCompatActivity {
                     (findViewById(R.id.moveBackwardImageBtn)).setVisibility(View.VISIBLE);
                     (findViewById(R.id.manualUpdateBtn)).setVisibility(View.VISIBLE);
                     gridMap.resetMap();
-
-                    showToast("MANUAL mode");
+                    displayToast("MANUAL mode");
                 }
                 util.showLog(TAG,"Exiting manualAutoToggleBtn");
             }
         });
 
+        /* Button event handler for Tilt switch. */
         tiltSwitch.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 if (tiltControl){
                     tiltControl = false;
-                    showToast("Tilt Control Disabled");
+                    displayToast("Tilt Control is disabled!");
                 }
                 else{
                     tiltControl = true;
-                    showToast("Tilt Control Enabled");
+                    displayToast("Tilt Control is enabled!");
                 }
             }
         });
 
-        //test
-        RobotControlActivity.context = getApplicationContext();
-        ProgressDialog myDialog;
-
-        myDialog = new ProgressDialog(RobotControlActivity.this);
-        myDialog.setMessage("Waiting for other device to reconnect...");
-        myDialog.setCancelable(false);
-        myDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+        // progressDialog
+        RobotActivity.context = getApplicationContext();
+        ProgressDialog progressDialog;
+        progressDialog = new ProgressDialog(RobotActivity.this);
+        progressDialog.setMessage("Waiting for other device to reconnect...");
+        progressDialog.setCancelable(false);
+        progressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -614,7 +586,7 @@ public class RobotControlActivity extends AppCompatActivity {
         });
 
         try{
-            //Broadcasts when bluetooth state changes (connected, disconnected etc) custom receiver
+            // Broadcast whenever the state of the bluetooth changes (e.g. connected, disconnected)
             IntentFilter filter2 = new IntentFilter("ConnectionStatus");
             LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver5, filter2);
         } catch(IllegalArgumentException e){
@@ -622,9 +594,8 @@ public class RobotControlActivity extends AppCompatActivity {
         }
     }
 
-
     private void updateSentMessage(){
-        String sent = sharedPreferences.getString("sentText", "");
+        String sent = robotSharedPrefs.getString("sentText", "");
         if(sent.length()>0){
             sentMessage.setText(sent);
         } else{
@@ -633,7 +604,7 @@ public class RobotControlActivity extends AppCompatActivity {
     }
 
     private void updateReceivedMessage(){
-        String received = sharedPreferences.getString("receivedText", "");
+        String received = robotSharedPrefs.getString("receivedText", "");
         if(received.length()>0){
             receivedMessage.setText(received);
         } else{
@@ -645,43 +616,38 @@ public class RobotControlActivity extends AppCompatActivity {
         robotStatusTextView.setText(message);
     }
 
-    // for refreshing all the label in the screen
-    private void refreshLabel() {
-        util.showLog(TAG,"Entering Refresh Label");
+    /* Method to update the required TextViews in RobotActivity. */
+    private void updateTextViews() {
         xAxisTextView.setText(String.valueOf(gridMap.getCurCoord()[0]+1));
         yAxisTextView.setText(String.valueOf(gridMap.getCurCoord()[1]+1));
         xAxisTextViewWP.setText(String.valueOf(gridMap.getWaypointCoord()[0]+1));
         yAxisTextViewWP.setText(String.valueOf(gridMap.getWaypointCoord()[1]+1));
-        String direction = sharedPreferences.getString("direction", "");
-        directionAxisTextView.setText(sharedPreferences.getString("direction",""));
+        directionAxisTextView.setText(robotSharedPrefs.getString("direction",""));
         updateSentMessage();
         updateReceivedMessage();
-        util.showLog(TAG,"Exiting Refresh Label");
+        util.showLog(TAG,"updateTextViews(): Updated all TextViews!");
     }
 
-    // for bluetooth
+    /* Bluetooth BroadcastReceiver methods for bluetooth functionalities. */
     private BroadcastReceiver mBroadcastReceiver5 = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             BluetoothDevice mDevice = intent.getParcelableExtra("Device");
             String status = intent.getStringExtra("Status");
-
             if(status.equals("connected")){
-                //When the device reconnects, this broadcast will be called again to enter CONNECTED if statement
-                //must dismiss the previous dialog that is waiting for connection if not it will block the execution
                 try {
-                    //myDialog.dismiss();
+                    // progressDialog.dismiss();
                 } catch(NullPointerException e){
                     e.printStackTrace();
                 }
-
-                Toast.makeText(RobotControlActivity.this, "Device now connected to " + mDevice.getName(), Toast.LENGTH_LONG).show();
+                String msg = "Tablet is now connected to " + mDevice.getName();
+                displayToast(msg);
                 editorConn.putString("connStatus", "Connected to " + mDevice.getName());
             }
             else if(status.equals("disconnected")){
-                Toast.makeText(RobotControlActivity.this, "Disconnected from "+mDevice.getName(), Toast.LENGTH_LONG).show();
-                //start accept thread and wait on the SAME device again
-                mBluetoothConnection = new BluetoothConnectionService(RobotControlActivity.this);
+                String msg = "Disconnected from " + mDevice.getName();
+                displayToast(msg);
+                mBluetoothConnection = new BluetoothConnectionService(RobotActivity.this);
                 mBluetoothConnection.start();
                 editorConn.putString("connStatus", "Disconnected");
             }
@@ -738,7 +704,7 @@ public class RobotControlActivity extends AppCompatActivity {
                     fastestToggleBtn.setEnabled(true);
                     resetMapBtn.setEnabled(false);
                     setStartPointToggleBtn.setEnabled(false);
-                    showdialog_explore();
+                    displayExploreDialog();
 
                 } else if (message.equals("stopf")) {
                     exploreToggleBtn.setEnabled(true);
@@ -748,10 +714,10 @@ public class RobotControlActivity extends AppCompatActivity {
                     resetMapBtn.setEnabled(true);
                     setStartPointToggleBtn.setEnabled(true);
                     setWaypointToggleBtn.setEnabled(true);
-                    showdialog_fastest();
+                    displayFastestDialog();
                 }
 
-                String receivedText = sharedPreferences.getString("receivedText", "") + "\n " + message;
+                String receivedText = robotSharedPrefs.getString("receivedText", "") + "\n " + message;
                 editor.putString("receivedText", receivedText);
                 editor.commit();
                 updateReceivedMessage();
@@ -760,12 +726,12 @@ public class RobotControlActivity extends AppCompatActivity {
     };
 
 
-    //register bluetooth connection status broadcast when the activity resumes
+    /* onResume: When the activity resumes, register the bluetooth connection status. */
     @Override
     protected void onResume(){
         super.onResume();
         try{
-            //Broadcasts when bluetooth state changes (connected, disconnected etc) custom receiver
+            // Broadcast whenever the state of the bluetooth changes (e.g. connected, disconnected)
             IntentFilter filter2 = new IntentFilter("ConnectionStatus");
             LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver5, filter2);
         } catch(IllegalArgumentException e){
@@ -773,6 +739,7 @@ public class RobotControlActivity extends AppCompatActivity {
         }
     }
 
+    /* onDestroy: Unregister all receivers. */
     @Override
     protected void onDestroy(){
         super.onDestroy();
@@ -784,11 +751,11 @@ public class RobotControlActivity extends AppCompatActivity {
         }
     }
 
-    public void showdialog_explore()
+    /* Display the dialog for Exploration. */
+    public void displayExploreDialog()
     {
-
-        //Setting message manually and performing action on button click
-        String final_str="MDF String Explored:"+Util.final_mdf_string_explored+" \n"+"MDF String Obstacle:"+Util.final_mdf_string_obstacle+" \n";
+        // Setting message manually and performing action on button click
+        String final_str = "MDF String Explored:" + Util.final_mdf_string_explored + " \n" + "MDF String Obstacle:" + Util.final_mdf_string_obstacle+" \n";
         for(int i=0;i<5;i++)
         {
             if(gridMap.image_type[i]!=-99)
@@ -804,29 +771,30 @@ public class RobotControlActivity extends AppCompatActivity {
 
     }
 
-    public void showdialog_fastest()
+    /* Display the dialog for Fastest Path. */
+    public void displayFastestDialog()
     {
-
-        //Setting message manually and performing action on button click
+        // Setting message manually and performing action on button click
         new MaterialAlertDialogBuilder(this, R.style.CustomAlertDialogTheme)
                 .setTitle(" Fastest Path Finished!")
                 .setPositiveButton("Dismiss", /* listener = */ null)
                 .show();
-
     }
-    public void perform_haptic()
+
+    /* Method to perform haptic. */
+    public void performHaptic()
     {
         getWindow().getDecorView().performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
-
     }
 
+    /* Method to check valid time. */
     public boolean check_valid_time(String str)
     {
         return(true);
     }
-    //logging & status display
-    private void showToast(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-    }
 
+    /* Shortcut method to display Toast messages. */
+    private void displayToast(String txtMsg) {
+        Toast.makeText(getApplicationContext(), txtMsg, Toast.LENGTH_SHORT).show();
+    }
 }
