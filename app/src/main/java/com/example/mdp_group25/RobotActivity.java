@@ -59,6 +59,7 @@ public class RobotActivity extends AppCompatActivity {
     String current_command = "";
     String mdf_string_final = "";
     String MDF = "";
+    String RAJU = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
