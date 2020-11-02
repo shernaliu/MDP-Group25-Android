@@ -115,10 +115,23 @@ public class GridMap extends View {
         this.calculateDimen();
         cellSize = this.getCellSize();
         // starting from the value of 1.5
-        for (int x = 0; x <= COL; x++)
-            for (int y = 0; y <= ROW; y++)
-                cells[x][y] = new Cell(x * cellSize + (cellSize / 30), y * cellSize + (cellSize / 30), (x + 1) * cellSize, (y + 1) * cellSize, unexploredColor, "unexplored");
-    }
+        int x = 0;
+        String type = "unexplored";
+        while(x<=COL)
+        {
+            int y = 0;
+            while(y<=ROW)
+            {
+                float startX = x * cellSize + (cellSize / 30);
+                float endX = (x + 1) * cellSize;
+                float startY = y * cellSize + (cellSize / 30);
+                float endY = (y + 1) * cellSize;
+                cells[x][y] = new Cell( startX , startY, endX, endY, unexploredColor, type);
+                y++;
+            }
+            x++;
+        }
+         }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -158,108 +171,96 @@ public class GridMap extends View {
         int[] oldCoord = this.getOldRobotCoord();
         String directionOfRobot = getRobotDirection();
         String backupDirection = directionOfRobot;
-        // switch statement for the directions of robot
-        switch (directionOfRobot) {
-            case "up":
-                switch (dir) {
-                    case "forward":
-                        if (curCoord[1] != 19) {
-                            curCoord[1] += 1;
-                            validPos = true;
-                        }
-                        break;
-                    case "right":
-                        directionOfRobot = "right";
-                        break;
-                    case "back":
-                        if (curCoord[1] != 2) {
-                            curCoord[1] -= 1;
-                            validPos = true;
-                        }
-                        break;
-                    case "left":
-                        directionOfRobot = "left";
-                        break;
-                    default:
-                        directionOfRobot = "error up";
-                        break;
+        if(directionOfRobot.equals("up"))
+        {
+            if(dir.equals("forward"))
+            {
+                if (curCoord[1] != 19) {
+                    curCoord[1] += 1;
+                    validPos = true;
                 }
-                break;
-            case "right":
-                switch (dir) {
-                    case "forward":
-                        if (curCoord[0] != 14) {
-                            curCoord[0] += 1;
-                            validPos = true;
-                        }
-                        break;
-                    case "right":
-                        directionOfRobot = "down";
-                        break;
-                    case "back":
-                        if (curCoord[0] != 2) {
-                            curCoord[0] -= 1;
-                            validPos = true;
-                        }
-                        break;
-                    case "left":
-                        directionOfRobot = "up";
-                        break;
-                    default:
-                        directionOfRobot = "error right";
+            }
+            else if(dir.equals("back")) {
+                if (curCoord[1] != 2) {
+                    curCoord[1] -= 1;
+                    validPos = true;
                 }
-                break;
-            case "down":
-                switch (dir) {
-                    case "forward":
-                        if (curCoord[1] != 2) {
-                            curCoord[1] -= 1;
-                            validPos = true;
-                        }
-                        break;
-                    case "right":
-                        directionOfRobot = "left";
-                        break;
-                    case "back":
-                        if (curCoord[1] != 19) {
-                            curCoord[1] += 1;
-                            validPos = true;
-                        }
-                        break;
-                    case "left":
-                        directionOfRobot = "right";
-                        break;
-                    default:
-                        directionOfRobot = "error down";
+            }
+            else if(dir.equals("right"))
+                directionOfRobot = "right";
+            else if(dir.equals("left"))
+                directionOfRobot = "left";
+            else
+                directionOfRobot = "error up";
+        }
+        else if (directionOfRobot.equals("right"))
+        {
+            if(dir.equals("forward"))
+            {
+                if (curCoord[0] != 14) {
+                    curCoord[0] += 1;
+                    validPos = true;
                 }
-                break;
-            case "left":
-                switch (dir) {
-                    case "forward":
-                        if (curCoord[0] != 2) {
-                            curCoord[0] -= 1;
-                            validPos = true;
-                        }
-                        break;
-                    case "right":
-                        directionOfRobot = "up";
-                        break;
-                    case "back":
-                        if (curCoord[0] != 14) {
-                            curCoord[0] += 1;
-                            validPos = true;
-                        }
-                        break;
-                    case "left":
-                        directionOfRobot = "down";
-                        break;
-                    default:
-                        directionOfRobot = "error left";
+            }
+            else if(dir.equals("back"))
+            {
+                if (curCoord[0] != 2) {
+                    curCoord[0] -= 1;
+                    validPos = true;
                 }
-                break;
-            default:
-                directionOfRobot = "error moveCurCoord";
-                break;
+            }
+            else if(dir.equals("right"))
+                directionOfRobot = "down";
+            else if(dir.equals("left"))
+                directionOfRobot = "up";
+            else
+                directionOfRobot = "error right";
+        }
+        else if (directionOfRobot.equals("down"))
+        {
+            if(dir.equals("forward"))
+            {
+                if (curCoord[1] != 2) {
+                    curCoord[1] -= 1;
+                    validPos = true;
+                }
+            }
+            else if(dir.equals("back"))
+            {
+                if (curCoord[1] != 19) {
+                    curCoord[1] += 1;
+                    validPos = true;
+                }
+            }
+            else if(dir.equals("right"))
+                directionOfRobot = "left";
+            else if(dir.equals("left"))
+                directionOfRobot = "right";
+            else
+                directionOfRobot = "error down";
+        }
+        else if (directionOfRobot.equals("left"))
+        {
+            if(dir.equals("forward"))
+            {
+                if (curCoord[0] != 2) {
+                    curCoord[0] -= 1;
+                    validPos = true;
+                }
+            }
+            else if(dir.equals("back"))
+            {
+                if (curCoord[0] != 14) {
+                    curCoord[0] += 1;
+                    validPos = true;
+                }
+            }
+            else if(dir.equals("right"))
+                directionOfRobot = "up";
+            else if(dir.equals("left"))
+                directionOfRobot = "down";
+            else
+                directionOfRobot = "error left";
         }
 
         // update the current coordinats and direction of robot
@@ -562,44 +563,102 @@ public class GridMap extends View {
                 case "robot":
                     String movementsRobot = mapInfo.getString("robot");
                     robotStatus = ((Activity) this.getContext()).findViewById(R.id.robotStatusTextView);
-                    for (int k = 0; k < movementsRobot.length(); k++) {
-                        switch (movementsRobot.charAt(k)) {
+                    for(int k =0; k< movementsRobot.length(); k++){
+                        char b = movementsRobot.charAt(k);
+                        switch(b){
                             case 'w':
                                 moveRobot("forward");
-                                robotStatus.setText("Moving Forward!");
+                                robotStatus.setText("Moving Forward");
                                 break;
                             case 'd':
+                            case 'm':
                                 moveRobot("right");
-                                robotStatus.setText("Turning Right!");
+                                robotStatus.setText("Turning Right");
                                 break;
                             case 'a':
+                            case 'n':
                                 moveRobot("left");
-                                robotStatus.setText("Turning Left!");
+                                robotStatus.setText("Turning Left");
                                 break;
                             case 's':
                                 moveRobot("back");
-                                robotStatus.setText("Moving Backward!");
-                                break;
-                            case 'z':
-                                moveRobot("left");
-                                moveRobot("forward");
-                                robotStatus.setText("Moving Forward!");
+                                robotStatus.setText("Moving Backward");
                                 break;
                             case 'c':
                                 moveRobot("right");
                                 moveRobot("right");
-                                moveRobot("forward");
-                                robotStatus.setText("Moving Forward!");
                                 break;
-                            case 'p':
-                                moveRobot("right");
-                                moveRobot("forward");
-                                robotStatus.setText("Moving Forward");
+
+                            case '1':
+                            case '2':
+                            case '3':
+                            case '4':
+                            case '5':
+                            case '6':
+                            case '7':
+                            case '8':
+                            case '9':
+                                for(int j=0;j<Character.getNumericValue(b);j++)
+                                {
+                                    moveRobot("forward");
+                                    robotStatus.setText("Moving Forward");
+                                }
                                 break;
-                            case 'm':
-                                moveRobot("forward");
-                                moveRobot("forward");
-                                robotStatus.setText("Moving Forward");
+                            case '0':
+                                for(int j=0;j<10;j++)
+                                {
+                                    moveRobot("forward");
+                                    robotStatus.setText("Moving Forward");
+                                }
+                                break;
+                            case '!':
+                                for(int j=0;j<11;j++)
+                                {
+                                    moveRobot("forward");
+                                    robotStatus.setText("Moving Forward");
+                                }
+                                break;
+                            case '@':
+                                for(int j=0;j<12;j++)
+                                {
+                                    moveRobot("forward");
+                                    robotStatus.setText("Moving Forward");
+                                }
+                                break;
+                            case '#':
+                                for(int j=0;j<13;j++)
+                                {
+                                    moveRobot("forward");
+                                    robotStatus.setText("Moving Forward");
+                                }
+                                break;
+                            case '$':
+                                for(int j=0;j<14;j++)
+                                {
+                                    moveRobot("forward");
+                                    robotStatus.setText("Moving Forward");
+                                }
+                                break;
+                            case '%':
+                                for(int j=0;j<15;j++)
+                                {
+                                    moveRobot("forward");
+                                    robotStatus.setText("Moving Forward");
+                                }
+                                break;
+                            case '^':
+                                for(int j=0;j<16;j++)
+                                {
+                                    moveRobot("forward");
+                                    robotStatus.setText("Moving Forward");
+                                }
+                                break;
+                            case '&':
+                                for(int j=0;j<17;j++)
+                                {
+                                    moveRobot("forward");
+                                    robotStatus.setText("Moving Forward");
+                                }
                                 break;
                         }
                     }
