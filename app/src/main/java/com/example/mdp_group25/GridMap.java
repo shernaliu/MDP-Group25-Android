@@ -708,57 +708,37 @@ public class GridMap extends View {
                 int row = rowConversion(Integer.parseInt(imgCoord.get(i)[1]));
                 rect = new RectF(column * cellSize, row * cellSize, (column + 1) * cellSize, (row + 1) * cellSize);
                 Util.showLog(TAG, imgCoord.get(i)[2]);
-                switch (imgCoord.get(i)[2]) {
-                    case "1":
-                        img = BitmapFactory.decodeResource(getResources(), R.drawable.one);
-                        break;
-                    case "2":
-                        System.out.println("Entering 2");
-                        img = BitmapFactory.decodeResource(getResources(), R.drawable.two);
-                        break;
-                    case "3":
-                        img = BitmapFactory.decodeResource(getResources(), R.drawable.three);
-                        break;
-                    case "4":
-                        img = BitmapFactory.decodeResource(getResources(), R.drawable.four);
-                        break;
-                    case "5":
-                        img = BitmapFactory.decodeResource(getResources(), R.drawable.five);
-                        break;
-                    case "6":
-                        img = BitmapFactory.decodeResource(getResources(), R.drawable.six);
-                        break;
-                    case "7":
-                        img = BitmapFactory.decodeResource(getResources(), R.drawable.seven);
-                        break;
-                    case "8":
-                        img = BitmapFactory.decodeResource(getResources(), R.drawable.eight);
-                        break;
-                    case "9":
-                        img = BitmapFactory.decodeResource(getResources(), R.drawable.nine);
-                        break;
-                    case "10":
-                        img = BitmapFactory.decodeResource(getResources(), R.drawable.ten);
-                        break;
-                    case "11":
-                        img = BitmapFactory.decodeResource(getResources(), R.drawable.eleven);
-                        break;
-                    case "12":
-                        img = BitmapFactory.decodeResource(getResources(), R.drawable.twelve);
-                        break;
-                    case "13":
-                        img = BitmapFactory.decodeResource(getResources(), R.drawable.thirteen);
-                        break;
-                    case "14":
-                        img = BitmapFactory.decodeResource(getResources(), R.drawable.fourteen);
-                        break;
-                    case "15":
-                        img = BitmapFactory.decodeResource(getResources(), R.drawable.fifteen);
-                        break;
-                    default:
-                        break;
-                }
-
+                int number = Integer.parseInt(imgCoord.get(i)[2]);
+                if(number == 1)
+                    img = BitmapFactory.decodeResource(getResources(), R.drawable.one);
+                else if(number == 2)
+                    img = BitmapFactory.decodeResource(getResources(), R.drawable.two);
+                else if(number == 3)
+                    img = BitmapFactory.decodeResource(getResources(), R.drawable.three);
+                else if(number == 4)
+                    img = BitmapFactory.decodeResource(getResources(), R.drawable.four);
+                else if(number == 5)
+                    img = BitmapFactory.decodeResource(getResources(), R.drawable.five);
+                else if(number == 6)
+                    img = BitmapFactory.decodeResource(getResources(), R.drawable.six);
+                else if(number == 7)
+                    img = BitmapFactory.decodeResource(getResources(), R.drawable.seven);
+                else if(number == 8)
+                    img = BitmapFactory.decodeResource(getResources(), R.drawable.eight);
+                else if(number == 9)
+                    img = BitmapFactory.decodeResource(getResources(), R.drawable.nine);
+                else if(number == 10)
+                    img = BitmapFactory.decodeResource(getResources(), R.drawable.ten);
+                else if(number == 11)
+                    img = BitmapFactory.decodeResource(getResources(), R.drawable.eleven);
+                else if(number == 12)
+                    img = BitmapFactory.decodeResource(getResources(), R.drawable.twelve);
+                else if(number == 13)
+                    img = BitmapFactory.decodeResource(getResources(), R.drawable.thirteen);
+                else if(number == 14)
+                    img = BitmapFactory.decodeResource(getResources(), R.drawable.fourteen);
+                else if(number == 15)
+                    img = BitmapFactory.decodeResource(getResources(), R.drawable.fifteen);
                 canvas.drawBitmap(img, null, rect, null);
             }
         }
