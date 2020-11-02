@@ -33,9 +33,9 @@ public class Util extends AppCompatActivity {
         public void printMessage(Context context, String messageType, int x, int y) throws JSONException {
             showLog(TAG,"Entering Print Message");
                 String message = "AL>" + messageType + "(" + (x - 1) + "," + (y - 1) + ")" + " \n";
-                if (BluetoothConnectionService.BluetoothConnectionStatus == true) {
+                if (BluetoothConnService.BluetoothConnectionStatus == true) {
                     byte[] bytes = message.getBytes(Charset.defaultCharset());
-                    BluetoothConnectionService.write(bytes);
+                    BluetoothConnService.write(bytes);
                 }
 
                 sharedPreferences = context.getSharedPreferences("RobotControlActivity", MODE_PRIVATE);
@@ -51,9 +51,9 @@ public class Util extends AppCompatActivity {
             showLog(TAG,"Entering Print Message");
             String str = message;
             message=message+'\n';
-            if (BluetoothConnectionService.BluetoothConnectionStatus == true) {
+            if (BluetoothConnService.BluetoothConnectionStatus == true) {
                 byte[] bytes = message.getBytes(Charset.defaultCharset());
-                BluetoothConnectionService.write(bytes);
+                BluetoothConnService.write(bytes);
             }
             sharedPreferences = context.getSharedPreferences("RobotControlActivity", MODE_PRIVATE);
             editor = sharedPreferences.edit();

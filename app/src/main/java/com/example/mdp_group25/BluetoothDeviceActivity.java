@@ -40,7 +40,7 @@ public class BluetoothDeviceActivity extends AppCompatActivity {
     ListView lvNewDevices;
     ListView lvPairedDevices;
 
-    BluetoothConnectionService mBluetoothConnection;
+    BluetoothConnService mBluetoothConnection;
 
     Button btnStartConnection;
     Button btnDiscoverable;
@@ -190,7 +190,7 @@ public class BluetoothDeviceActivity extends AppCompatActivity {
                 Log.d(TAG, "mBroadcastReceiver5: Disconnected from "+mDevice.getName());
                 Toast.makeText(BluetoothDeviceActivity.this, "Disconnected from "+mDevice.getName(), Toast.LENGTH_LONG).show();
                 //start accept thread and wait on the SAME device again
-                mBluetoothConnection = new BluetoothConnectionService(BluetoothDeviceActivity.this);
+                mBluetoothConnection = new BluetoothConnService(BluetoothDeviceActivity.this);
                 mBluetoothConnection.start();
 
                 // For displaying disconnected for all page
@@ -284,7 +284,7 @@ public class BluetoothDeviceActivity extends AppCompatActivity {
                 mBTDevices.get(i).createBond();
 
                 mBTDevice = mBTDevices.get(i);
-                mBluetoothConnection = new BluetoothConnectionService(BluetoothDeviceActivity.this);
+                mBluetoothConnection = new BluetoothConnService(BluetoothDeviceActivity.this);
             }
         });
 
@@ -301,7 +301,7 @@ public class BluetoothDeviceActivity extends AppCompatActivity {
                 Log.d(TAG, "onItemClick: deviceAddress = " + deviceAddress);
 
                 mBTDevice = mBTPairedDeviceArray.get(i);
-                mBluetoothConnection = new BluetoothConnectionService(BluetoothDeviceActivity.this);
+                mBluetoothConnection = new BluetoothConnService(BluetoothDeviceActivity.this);
             }
         });
 
