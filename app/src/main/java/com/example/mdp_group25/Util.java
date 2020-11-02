@@ -115,33 +115,12 @@ public class Util extends AppCompatActivity {
 
                     case "image":
                         System.out.println("ENTERING IMAGE");
-                        JSONArray images = messageObject.getJSONArray("image");
+                        String imageString = messageObject.getString("image");
                         System.out.println("IMAGES");
-                        System.out.println(images);
-                        mapObject.put("image", images);
+                        System.out.println(imageString);
+                        mapObject.put("image", imageString);
                         break;
-                    /*case "status":
-                        String status = messageObject.getString("status");
-                        switch(status){
-                            case "MF":
-                                mapObject.put("status", Status.MF);
-                                break;
-                            case "MB":
-                                mapObject.put("status", Status.MB);
-                                break;
-                            case "S":
-                                mapObject.put("status", Status.S);
-                                break;
-                            case "TR":
-                                mapObject.put("status", Status.TR);
-                                break;
-                            case "TL":
-                                mapObject.put("status", Status.TL);
-                                break;
-                            default:
-                                break;
-                        }
-                        break;*/
+
                     case "robot":
                         String robotMovement = messageObject.getString("robot");
                         mapObject.put("robot", robotMovement);

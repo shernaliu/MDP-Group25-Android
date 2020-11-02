@@ -1,7 +1,5 @@
 package com.example.mdp_group25;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -33,8 +31,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import java.util.concurrent.TimeUnit;
-
 
 public class RobotControlActivity extends AppCompatActivity {
 
@@ -46,13 +42,11 @@ public class RobotControlActivity extends AppCompatActivity {
     private static SharedPreferences pref;
     private static boolean autoUpdate = false;
     private static boolean tiltControl = false;
-    private static String TAG="ROBOT_CONTROL_ACTIVITY";
+    private static String TAG = "Robot Control Activity";
     private Util util = new Util();
 
     boolean turnedLeft = false;
     boolean turnedRight = false;
-    boolean goStraight = false;
-    boolean goback = false;
     GridMap gridMap;
     ToggleButton exploreToggleBtn, fastestToggleBtn;
     TextView robotStatusTextView;
@@ -73,7 +67,6 @@ public class RobotControlActivity extends AppCompatActivity {
     Sensor tiltSensor;
     SensorEventListener tiltSensorListener;
     String current_command = "";
-    String mdf_string_final = "";
     View rectangleBgManual;
     View rectangleBgAuto;
 
@@ -83,17 +76,14 @@ public class RobotControlActivity extends AppCompatActivity {
         setContentView(R.layout.activity_robot_control);
 
 
-        //shared Preferences
+
         sharedPreferences = getApplicationContext().getSharedPreferences("RobotControlActivity", Context.MODE_PRIVATE);
         sharedPreferencesConn = getApplicationContext().getSharedPreferences("Shared Preferences", Context.MODE_PRIVATE);
         pref = getApplicationContext().getSharedPreferences("CommunicationsPreferences", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         editorConn = sharedPreferencesConn.edit();
 
-        // create a new map
         gridMap = new GridMap(this);
-
-        // find all view by id
         gridMap = findViewById(R.id.mapView);
         exploreToggleBtn = findViewById(R.id.exploreToggleBtn);
         fastestToggleBtn = findViewById(R.id.fastestToggleBtn);
@@ -162,11 +152,8 @@ public class RobotControlActivity extends AppCompatActivity {
                 if (tiltControl){
                     float[] rotationMatrix = new  float[16];
                     SensorManager.getRotationMatrixFromVector(rotationMatrix,event.values);
-                    //z value
-                    //default value = 9.81 (0-(-9.81))
                     float delta = 6;
                     if (event.values[1] < 2.5f-delta){
-                        // Sensor is tilted forward
                         if(!current_command.equals("Forward"))
                         {
                             Util.showLog(TAG, "device lifted up");
@@ -247,17 +234,16 @@ public class RobotControlActivity extends AppCompatActivity {
             }
         });
 
-        // TODO: INTEGRATE WITH ALGO
         exploreToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 perform_haptic();
                 if (check_valid_time("Explore")) {
                     util.showLog(TAG, "Clicked exploreToggleBtn");
                     Button exploreToggleBtn = (Button) view;
                     if (exploreToggleBtn.getText().equals("EXPLORE")) {
                         //end exploration
+                        showdialog_explore();
                         fastestToggleBtn.setEnabled(true);
                         resetMapBtn.setEnabled(true);
                         setStartPointToggleBtn.setEnabled(true);
@@ -302,8 +288,6 @@ public class RobotControlActivity extends AppCompatActivity {
             }
         });
 
-
-        //ROBOT MOVEMENT
         moveForwardImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -414,7 +398,6 @@ public class RobotControlActivity extends AppCompatActivity {
             }
         });
 
-        //MAP DETAILS
         resetMapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -462,54 +445,6 @@ public class RobotControlActivity extends AppCompatActivity {
             }
         });
 
-        exploredImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                perform_haptic();
-                util.showLog(TAG,"Clicked exploredImageBtn");
-                if (!gridMap.getExploredStatus()) {
-                    showToast("Please check cell");
-                    gridMap.setExploredStatus(true);
-                    gridMap.toggleCheckedBtn("exploredImageBtn");
-                }
-                else if (gridMap.getExploredStatus())
-                    gridMap.setSetObstacleStatus(false);
-                util.showLog(TAG,"Exiting exploredImageBtn");
-            }
-        });
-
-        obstacleImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                util.showLog(TAG,"Clicked obstacleImageBtn");
-                if (!gridMap.getSetObstacleStatus()) {
-                    showToast("Please plot obstacles");
-                    gridMap.setSetObstacleStatus(true);
-                    gridMap.toggleCheckedBtn("obstacleImageBtn");
-                }
-                else if (gridMap.getSetObstacleStatus())
-                    gridMap.setSetObstacleStatus(false);
-                util.showLog(TAG,"Exiting obstacleImageBtn");
-            }
-        });
-
-        clearImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                util.showLog(TAG,"Clicked clearImageBtn");
-                if (!gridMap.getUnSetCellStatus()) {
-                    showToast("Please remove cells");
-                    gridMap.toggleCheckedBtn("clearImageBtn");
-                    gridMap.setUnSetCellStatus(true);
-                }
-                else if (gridMap.getUnSetCellStatus())
-                    gridMap.setUnSetCellStatus(false);
-                util.showLog(TAG,"Exiting clearImageBtn");
-            }
-        });
-
-
-        // when manual auto button clicked
         manualAutoToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -599,7 +534,6 @@ public class RobotControlActivity extends AppCompatActivity {
             }
         });
 
-        //test
         RobotControlActivity.context = getApplicationContext();
         ProgressDialog myDialog;
 
@@ -614,7 +548,6 @@ public class RobotControlActivity extends AppCompatActivity {
         });
 
         try{
-            //Broadcasts when bluetooth state changes (connected, disconnected etc) custom receiver
             IntentFilter filter2 = new IntentFilter("ConnectionStatus");
             LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver5, filter2);
         } catch(IllegalArgumentException e){
@@ -628,7 +561,7 @@ public class RobotControlActivity extends AppCompatActivity {
         if(sent.length()>0){
             sentMessage.setText(sent);
         } else{
-            sentMessage.setText("no sent message");
+            sentMessage.setText("No message sent");
         }
     }
 
@@ -637,7 +570,7 @@ public class RobotControlActivity extends AppCompatActivity {
         if(received.length()>0){
             receivedMessage.setText(received);
         } else{
-            receivedMessage.setText("no received message");
+            receivedMessage.setText("No message received");
         }
     }
 
@@ -645,21 +578,18 @@ public class RobotControlActivity extends AppCompatActivity {
         robotStatusTextView.setText(message);
     }
 
-    // for refreshing all the label in the screen
     private void refreshLabel() {
         util.showLog(TAG,"Entering Refresh Label");
-        xAxisTextView.setText(String.valueOf(gridMap.getCurCoord()[0]+1));
-        yAxisTextView.setText(String.valueOf(gridMap.getCurCoord()[1]+1));
+        xAxisTextView.setText(String.valueOf(gridMap.getCurCoord()[0]));
+        yAxisTextView.setText(String.valueOf(gridMap.getCurCoord()[1]));
         xAxisTextViewWP.setText(String.valueOf(gridMap.getWaypointCoord()[0]+1));
         yAxisTextViewWP.setText(String.valueOf(gridMap.getWaypointCoord()[1]+1));
-        String direction = sharedPreferences.getString("direction", "");
         directionAxisTextView.setText(sharedPreferences.getString("direction",""));
         updateSentMessage();
         updateReceivedMessage();
         util.showLog(TAG,"Exiting Refresh Label");
     }
 
-    // for bluetooth
     private BroadcastReceiver mBroadcastReceiver5 = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -667,20 +597,11 @@ public class RobotControlActivity extends AppCompatActivity {
             String status = intent.getStringExtra("Status");
 
             if(status.equals("connected")){
-                //When the device reconnects, this broadcast will be called again to enter CONNECTED if statement
-                //must dismiss the previous dialog that is waiting for connection if not it will block the execution
-                try {
-                    //myDialog.dismiss();
-                } catch(NullPointerException e){
-                    e.printStackTrace();
-                }
-
                 Toast.makeText(RobotControlActivity.this, "Device now connected to " + mDevice.getName(), Toast.LENGTH_LONG).show();
                 editorConn.putString("connStatus", "Connected to " + mDevice.getName());
             }
             else if(status.equals("disconnected")){
                 Toast.makeText(RobotControlActivity.this, "Disconnected from "+mDevice.getName(), Toast.LENGTH_LONG).show();
-                //start accept thread and wait on the SAME device again
                 mBluetoothConnection = new BluetoothConnectionService(RobotControlActivity.this);
                 mBluetoothConnection.start();
                 editorConn.putString("connStatus", "Disconnected");
@@ -691,7 +612,6 @@ public class RobotControlActivity extends AppCompatActivity {
         }
     };
 
-    // for receiving from bluetooth
     BroadcastReceiver messageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -700,19 +620,24 @@ public class RobotControlActivity extends AppCompatActivity {
             String mess_new = "";
             int index = 0;
             boolean flag = false;
+            int count = 0;
             for (int i = 0; i < message.length(); i++) {
 
                 char b = message.charAt(i);
                 if (b == '{') {
                     flag = true;
+                    count++;
                 }
                 if (b == '}') {
-                    flag = false;
-                    mess_new = mess_new + '}';
+                    count--;
+                    if(count == 0) {
+                        flag = false;
+                        mess_new = mess_new + '}';
 
-                    arr_queue[index] = mess_new;
-                    mess_new = "";
-                    index++;
+                        arr_queue[index] = mess_new;
+                        mess_new = "";
+                        index++;
+                    }
                 }
                 if (flag == true) {
                     mess_new = mess_new + b;
@@ -731,24 +656,6 @@ public class RobotControlActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         util.showLog(TAG, "messageReceiver: try decode unsuccessful");
                     }
-                } else if (message.equals("stope")) {
-                    exploreToggleBtn.setChecked(false);
-                    exploreToggleBtn.setEnabled(false);
-                    setWaypointToggleBtn.setEnabled(true);
-                    fastestToggleBtn.setEnabled(true);
-                    resetMapBtn.setEnabled(false);
-                    setStartPointToggleBtn.setEnabled(false);
-                    showdialog_explore();
-
-                } else if (message.equals("stopf")) {
-                    exploreToggleBtn.setEnabled(true);
-                    exploreToggleBtn.setChecked(false);
-
-                    fastestToggleBtn.setChecked(false);
-                    resetMapBtn.setEnabled(true);
-                    setStartPointToggleBtn.setEnabled(true);
-                    setWaypointToggleBtn.setEnabled(true);
-                    showdialog_fastest();
                 }
 
                 String receivedText = sharedPreferences.getString("receivedText", "") + "\n " + message;
@@ -756,16 +663,32 @@ public class RobotControlActivity extends AppCompatActivity {
                 editor.commit();
                 updateReceivedMessage();
             }
+            if (message.equals("stope")) {
+                exploreToggleBtn.setChecked(false);
+                exploreToggleBtn.setEnabled(false);
+                setWaypointToggleBtn.setEnabled(true);
+                fastestToggleBtn.setEnabled(true);
+                resetMapBtn.setEnabled(false);
+                setStartPointToggleBtn.setEnabled(false);
+                showdialog_explore();
+
+            } else if (message.equals("stopf")) {
+                exploreToggleBtn.setEnabled(true);
+                exploreToggleBtn.setChecked(false);
+
+                fastestToggleBtn.setChecked(false);
+                resetMapBtn.setEnabled(true);
+                setStartPointToggleBtn.setEnabled(true);
+                setWaypointToggleBtn.setEnabled(true);
+                showdialog_fastest();
+            }
         }
     };
 
-
-    //register bluetooth connection status broadcast when the activity resumes
     @Override
     protected void onResume(){
         super.onResume();
         try{
-            //Broadcasts when bluetooth state changes (connected, disconnected etc) custom receiver
             IntentFilter filter2 = new IntentFilter("ConnectionStatus");
             LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver5, filter2);
         } catch(IllegalArgumentException e){
@@ -788,14 +711,39 @@ public class RobotControlActivity extends AppCompatActivity {
     {
 
         //Setting message manually and performing action on button click
-        String final_str="MDF String Explored:"+Util.final_mdf_string_explored+" \n"+"MDF String Obstacle:"+Util.final_mdf_string_obstacle+" \n";
+        String final_str="MDF String Explored:"+Util.final_mdf_string_explored+" \n\n"+"MDF String Obstacle:"+Util.final_mdf_string_obstacle+" \n\n";
+        /*
         for(int i=0;i<5;i++)
         {
             if(gridMap.image_type[i]!=-99)
             {
-                final_str=final_str+"Image "+(i+1)+ " ID:"+gridMap.image_type[i]+", X:"+gridMap.image_x_coordinate[i]+" Y:"+gridMap.image_y_coordinate[i]+"\n";
+                String image_type_string = "";
+                String image_x_coordinate_string = "";
+                String image_y_coordinate_string = "";
+
+                int image_type_int = gridMap.image_type[i];
+                int image_x_coordinate_int = gridMap.image_x_coordinate[i];
+                int image_y_coordinate_int = gridMap.image_y_coordinate[i];
+                if(image_type_int<10)
+                    image_type_string = '0'+ Integer.toString(image_type_int);
+                else
+                    image_type_string = Integer.toString(image_type_int);
+
+                if(image_x_coordinate_int<10)
+                    image_x_coordinate_string = '0'+ Integer.toString(image_x_coordinate_int);
+                else
+                    image_x_coordinate_string = Integer.toString(image_x_coordinate_int);
+
+                if(image_y_coordinate_int<10)
+                    image_y_coordinate_string = '0'+ Integer.toString(image_y_coordinate_int);
+                else
+                    image_y_coordinate_string = Integer.toString(image_y_coordinate_int);
+
+                final_str=final_str+"Image "+(i+1)+ " ID:"+image_type_string+", X:"+image_x_coordinate_string+" Y:"+image_y_coordinate_string+", Image String: "+image_type_string+image_x_coordinate_string+image_y_coordinate_string+"\n";
             }
-        }
+        }*/
+
+        final_str=final_str+"Image Positions: "+gridMap.image_string_output;
         new MaterialAlertDialogBuilder(this, R.style.CustomAlertDialogTheme)
                 .setTitle(" Exploration Finished!")
                 .setMessage(final_str)
@@ -806,13 +754,10 @@ public class RobotControlActivity extends AppCompatActivity {
 
     public void showdialog_fastest()
     {
-
-        //Setting message manually and performing action on button click
         new MaterialAlertDialogBuilder(this, R.style.CustomAlertDialogTheme)
                 .setTitle(" Fastest Path Finished!")
                 .setPositiveButton("Dismiss", /* listener = */ null)
                 .show();
-
     }
     public void perform_haptic()
     {
@@ -824,7 +769,7 @@ public class RobotControlActivity extends AppCompatActivity {
     {
         return(true);
     }
-    //logging & status display
+
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
