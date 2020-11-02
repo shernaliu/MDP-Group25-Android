@@ -58,6 +58,7 @@ public class RobotActivity extends AppCompatActivity {
     SensorEventListener tiltSensorListener;
     String current_command = "";
     String mdf_string_final = "";
+    String MDF = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
