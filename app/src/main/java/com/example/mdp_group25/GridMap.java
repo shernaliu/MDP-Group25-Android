@@ -46,7 +46,6 @@ public class GridMap extends View {
     private static boolean status_setWayPoint = false;
     private static boolean status_startCoord = false;
     private static boolean status_setObstacle = false;
-    private static boolean status_unsetCell = false;
     private static boolean status_setExplored = false;
     private static boolean validPos = false;
     private Util util = new Util();
@@ -395,15 +394,6 @@ public class GridMap extends View {
                 return true;
             }
 
-            if (status_unsetCell) {
-                ArrayList<int[]> obstacleCoord = this.getObstacleCoord();
-                cells[column][20 - row].setType("unexplored");
-                for (int i = 0; i < obstacleCoord.size(); i++)
-                    if (obstacleCoord.get(i)[0] == column && obstacleCoord.get(i)[1] == row)
-                        obstacleCoord.remove(i);
-                this.invalidate();
-                return true;
-            }
         }
         return false;
     }
@@ -690,9 +680,6 @@ public class GridMap extends View {
         if (!btn.equals("obstacleImageBtn"))
             if (obstacleImageBtn.isEnabled())
                 this.setSetObstacleStatus(false);
-        if (!btn.equals("clearImageBtn"))
-            if (clearImageBtn.isEnabled())
-                this.setUnSetCellStatus(false);
     }
 
     /**
@@ -799,13 +786,7 @@ public class GridMap extends View {
         return validPos;
     }
 
-    public void setUnSetCellStatus(boolean status) {
-        status_unsetCell = status;
-    }
 
-    public boolean getUnSetCellStatus() {
-        return status_unsetCell;
-    }
 
     public void setExploredStatus(boolean status) {
         status_setExplored = status;
