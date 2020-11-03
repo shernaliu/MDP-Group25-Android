@@ -94,9 +94,6 @@ public class RobotActivity extends AppCompatActivity {
         directionChangeImageBtn = findViewById(R.id.directionChangeImageBtn);
         setStartPointToggleBtn = findViewById(R.id.setStartPointToggleBtn);
         setWaypointToggleBtn = findViewById(R.id.setWaypointToggleBtn);
-        exploredImageBtn = findViewById(R.id.exploredImageBtn);
-        obstacleImageBtn = findViewById(R.id.obstacleImageBtn);
-        clearImageBtn = findViewById(R.id.clearImageBtn);
         manualUpdateBtn = findViewById(R.id.manualUpdateBtn);
         connStatusTextView = findViewById(R.id.connStatusTextView);
         sentMessage = findViewById(R.id.sentMessage);
@@ -223,8 +220,7 @@ public class RobotActivity extends AppCompatActivity {
         exploreToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                performHaptic();
-                if (check_valid_time("Explore")) {
+                    performHaptic();
                     util.showLog(TAG, "Clicked exploreToggleBtn");
                     Button exploreToggleBtn = (Button) view;
                     if (exploreToggleBtn.getText().equals("EXPLORE")) {
@@ -245,7 +241,7 @@ public class RobotActivity extends AppCompatActivity {
                         displayToast("Else statement: " + exploreToggleBtn.getText());
                     }
                     util.showLog(TAG, "Exiting exploreToggleBtn");
-                }
+
             }
         });
 
@@ -439,55 +435,6 @@ public class RobotActivity extends AppCompatActivity {
             }
         });
 
-        /* Button event handler to perform exploration. */
-        exploredImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                performHaptic();
-                util.showLog(TAG,"Pressed exploredImageBtn!");
-                if (!gridMap.getExploredStatus()) {
-                    displayToast("Please check cell!");
-                    gridMap.setExploredStatus(true);
-                    gridMap.toggleCheckedBtn("exploredImageBtn");
-                }
-                else if (gridMap.getExploredStatus())
-                    gridMap.setSetObstacleStatus(false);
-                util.showLog(TAG,"Exiting exploredImageBtn!");
-            }
-        });
-
-        /* Button event handler to perform placement of obstacles in GridMap. */
-        obstacleImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                util.showLog(TAG,"Pressed obstacleImageBtn!");
-                if (!gridMap.getSetObstacleStatus()) {
-                    displayToast("Please plot obstacles!");
-                    gridMap.setSetObstacleStatus(true);
-                    gridMap.toggleCheckedBtn("obstacleImageBtn");
-                }
-                else if (gridMap.getSetObstacleStatus())
-                    gridMap.setSetObstacleStatus(false);
-                util.showLog(TAG,"Exiting obstacleImageBtn!");
-            }
-        });
-
-        /* Button event handler to clear all. */
-        clearImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                util.showLog(TAG,"Pressed clearImageBtn!");
-                if (!gridMap.getUnSetCellStatus()) {
-                    displayToast("Please remove cells!");
-                    gridMap.toggleCheckedBtn("clearImageBtn");
-                    gridMap.setUnSetCellStatus(true);
-                }
-                else if (gridMap.getUnSetCellStatus())
-                    gridMap.setUnSetCellStatus(false);
-                util.showLog(TAG,"Exiting clearImageBtn!");
-            }
-        });
-
         /* Button event handler to toggle between Auto and Manual mode. */
         manualAutoToggleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -600,7 +547,7 @@ public class RobotActivity extends AppCompatActivity {
         if(sent.length()>0){
             sentMessage.setText(sent);
         } else{
-            sentMessage.setText("no sent message");
+            sentMessage.setText("no message sent");
         }
     }
 
@@ -609,7 +556,7 @@ public class RobotActivity extends AppCompatActivity {
         if(received.length()>0){
             receivedMessage.setText(received);
         } else{
-            receivedMessage.setText("no received message");
+            receivedMessage.setText("no message received");
         }
     }
 
@@ -636,18 +583,11 @@ public class RobotActivity extends AppCompatActivity {
             BluetoothDevice mDevice = intent.getParcelableExtra("Device");
             String status = intent.getStringExtra("Status");
             if(status.equals("connected")){
-                try {
-                    // progressDialog.dismiss();
-                } catch(NullPointerException e){
-                    e.printStackTrace();
-                }
-                String msg = "Tablet is now connected to " + mDevice.getName();
-                displayToast(msg);
+                displayToast("Tablet is now connected to " + mDevice.getName());
                 editorConn.putString("connStatus", "Connected to " + mDevice.getName());
             }
             else if(status.equals("disconnected")){
-                String msg = "Disconnected from " + mDevice.getName();
-                displayToast(msg);
+                displayToast("Disconnected from " + mDevice.getName());
                 mBluetoothConnection = new BluetoothConnService(RobotActivity.this);
                 mBluetoothConnection.start();
                 editorConn.putString("connStatus", "Disconnected");
@@ -788,14 +728,9 @@ public class RobotActivity extends AppCompatActivity {
         getWindow().getDecorView().performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
     }
 
-    /* Method to check valid time. */
-    public boolean check_valid_time(String str)
-    {
-        return(true);
-    }
 
     /* Shortcut method to display Toast messages. */
     private void displayToast(String txtMsg) {
-        Toast.makeText(getApplicationContext(), txtMsg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), txtMsg, Toast.LENGTH_LONG).show();
     }
 }
