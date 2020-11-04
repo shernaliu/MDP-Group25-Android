@@ -65,7 +65,6 @@ public class GridMap extends View {
     private Paint fastestPathColor = new Paint();
     private Paint imageColor = new Paint();
     ToggleButton setStartPointToggleBtn, setWaypointToggleBtn;
-    ImageButton obstacleImageBtn, exploredImageBtn, clearImageBtn;
     TextView robotStatusTv;
     ToggleButton manualAutoToggleBtn;
 
@@ -240,17 +239,18 @@ public class GridMap extends View {
         {
             for (int x = curCoord[0] - 1; x <= curCoord[0] + 1; x++) {
                 for (int y = curCoord[1] - 1; y <= curCoord[1] + 1; y++) {
-                    for (int i = 0; i < obstacleCoord.size(); i++) {
+                    for (int i = 0; i < obstacleCoord.size(); i++)
+                    {
                         setValidPosition(true);
                     }
-                    if (!getValidPosition())
+                    if (getValidPosition() == false)
                         break;
                 }
-                if (!getValidPosition())
+                if (getValidPosition() == false)
                     break;
             }
     }
-        if (getValidPosition()) {
+        if (getValidPosition() == true) {
             this.setCurCoord(curCoord[0], curCoord[1], directionOfRobot);
         } else {
             if (dir.equals("forward") || dir.equals("back"))
@@ -270,7 +270,7 @@ public class GridMap extends View {
     }
 
     public void setAutomaticUpdate(boolean autoUpdate) throws JSONException {
-        if (!autoUpdate)
+        if (autoUpdate == false)
             backupMapInformation = this.getRcveJsonObject();
         else {
             setRcveJsonObject(backupMapInformation);
@@ -296,9 +296,9 @@ public class GridMap extends View {
             ToggleButton setStartPointToggleBtn = ((Activity) this.getContext()).findViewById(R.id.setStartPointToggleBtn);
 
             // if startCoordStatus true
-            if (status_startCoord) {
+            if (status_startCoord == true) {
                 // remove the old starting coordinates
-                if (isDrawableRobot) {
+                if (isDrawableRobot == true) {
                     // converting screen coordinates
                     int[] startCoord = this.getStartCoord();
                     if (startCoord[0] >= 2 && startCoord[1] >= 2) {
@@ -328,7 +328,7 @@ public class GridMap extends View {
             }
 
             // if status_setWayPoint is true
-            if (status_setWayPoint) {
+            if (status_setWayPoint == true) {
                 int[] waypointCoord = this.getWaypointCoord();
 
                 if (waypointCoord[0] >= 1 && waypointCoord[1] >= 1)
@@ -352,20 +352,20 @@ public class GridMap extends View {
                 }
 
                 // if setWaypointToggleBtn is checked, then uncheck it
-                if (setWaypointToggleBtn.isChecked())
+                if (setWaypointToggleBtn.isChecked() == true)
                     setWaypointToggleBtn.toggle();
                 this.invalidate();
                 return true;
             }
 
             // set the type to explored
-            if (status_setExplored) {
+            if (status_setExplored == true) {
                 cells[column][20 - row].setType("explored");
                 this.invalidate();
                 return true;
             }
 
-            if (status_setObstacle) {
+            if (status_setObstacle == true) {
                 this.setObstacleCoord(column, row);
                 this.invalidate();
                 return true;

@@ -366,31 +366,6 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
-        android:id="@+id/directionChangeImageBtn"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="15dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/directionLabelTextView"
-        app:layout_constraintStart_toStartOf="@+id/clearImageBtn"
-        app:layout_constraintTop_toBottomOf="@+id/clearImageBtn"
-        app:srcCompat="@drawable/ic_change" />
-
-    <ImageButton
-        android:id="@+id/exploredImageBtn"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="52dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/directionChangeImageBtn"
-        app:layout_constraintEnd_toEndOf="@+id/obstacleImageBtn"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/directionChangeImageBtn"
-        app:layout_constraintTop_toTopOf="@+id/directionChangeImageBtn"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_check" />
-
-    <ImageButton
         android:id="@+id/obstacleImageBtn"
         android:layout_width="55dp"
         android:layout_height="55dp"
