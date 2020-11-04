@@ -531,13 +531,15 @@ public class GridMap extends View {
                     }
                     int x, y;
                     for (int u = 0; u < exploredStr.length(); u++) {
+                        String str = "";
                         y = 19 - (u / 15);
                         x = 1 + u - ((19 - y) * 15);
                         if ((String.valueOf(exploredStr.charAt(u))).equals("1") && !cells[x][y].type.equals("robot")) {
-                            cells[x][y].setType("explored");
+                            str = "explored";
                         } else if ((String.valueOf(exploredStr.charAt(u))).equals("0") && !cells[x][y].type.equals("robot")) {
-                            cells[x][y].setType("unexplored");
+                            str = "unexplored";
                         }
+                        cells[x][y].setType(str);
                     }
                     int v = 0;
                     for (int row = ROW - 1; row >= 0; row--)
