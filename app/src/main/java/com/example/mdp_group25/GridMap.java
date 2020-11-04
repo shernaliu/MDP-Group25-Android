@@ -422,29 +422,69 @@ public class GridMap extends View {
             cvs.drawLine(cells[curCoord[0] - 1][y].startX, cells[curCoord[0] - 1][y].startY - (cellSize / 30), cells[curCoord[0] + 1][y].endX, cells[curCoord[0] + 1][y].startY - (cellSize / 30), robotColor);
         for (int x = curCoord[0] - 1; x < curCoord[0] + 1; x++)
             cvs.drawLine(cells[x][aRowCoord - 1].startX - (cellSize / 30) + cellSize, cells[x][aRowCoord - 1].startY, cells[x][aRowCoord + 1].startX - (cellSize / 30) + cellSize, cells[x][aRowCoord + 1].endY, robotColor);
-
+        float l1x1,l1y1,l1x2,l1y2;
+        float l2x1,l2y1,l2x2,l2y2;
         // given the direction of robot, draw accordingly
         switch (this.getRobotDirection()) {
             case "up":
-                cvs.drawLine(cells[curCoord[0] - 1][aRowCoord + 1].startX, cells[curCoord[0] - 1][aRowCoord + 1].endY, (cells[curCoord[0]][aRowCoord - 1].startX + cells[curCoord[0]][aRowCoord - 1].endX) / 2, cells[curCoord[0]][aRowCoord - 1].startY, blackPaint);
-                cvs.drawLine((cells[curCoord[0]][aRowCoord - 1].startX + cells[curCoord[0]][aRowCoord - 1].endX) / 2, cells[curCoord[0]][aRowCoord - 1].startY, cells[curCoord[0] + 1][aRowCoord + 1].endX, cells[curCoord[0] + 1][aRowCoord + 1].endY, blackPaint);
+                l1x1 = cells[curCoord[0] - 1][aRowCoord + 1].startX;
+                l1y1 = cells[curCoord[0] - 1][aRowCoord + 1].endY;
+                l1x2 = (cells[curCoord[0]][aRowCoord - 1].startX + cells[curCoord[0]][aRowCoord - 1].endX) / 2;
+                l1y2 = cells[curCoord[0]][aRowCoord - 1].startY;
+
+                l2x1 = (cells[curCoord[0]][aRowCoord - 1].startX + cells[curCoord[0]][aRowCoord - 1].endX) / 2;
+                l2y1 = cells[curCoord[0]][aRowCoord - 1].startY;
+                l2x2 = cells[curCoord[0] + 1][aRowCoord + 1].endX;
+                l2y2 = cells[curCoord[0] + 1][aRowCoord + 1].endY;
                 break;
             case "down":
-                cvs.drawLine(cells[curCoord[0] - 1][aRowCoord - 1].startX, cells[curCoord[0] - 1][aRowCoord - 1].startY, (cells[curCoord[0]][aRowCoord + 1].startX + cells[curCoord[0]][aRowCoord + 1].endX) / 2, cells[curCoord[0]][aRowCoord + 1].endY, blackPaint);
-                cvs.drawLine((cells[curCoord[0]][aRowCoord + 1].startX + cells[curCoord[0]][aRowCoord + 1].endX) / 2, cells[curCoord[0]][aRowCoord + 1].endY, cells[curCoord[0] + 1][aRowCoord - 1].endX, cells[curCoord[0] + 1][aRowCoord - 1].startY, blackPaint);
+                l1x1 = cells[curCoord[0] - 1][aRowCoord - 1].startX;
+                l1y1 = cells[curCoord[0] - 1][aRowCoord - 1].startY;
+                l1x2 = (cells[curCoord[0]][aRowCoord + 1].startX + cells[curCoord[0]][aRowCoord + 1].endX) / 2;
+                l1y2 = cells[curCoord[0]][aRowCoord + 1].endY;
+
+                l2x1 = (cells[curCoord[0]][aRowCoord + 1].startX + cells[curCoord[0]][aRowCoord + 1].endX) / 2;
+                l2y1 = cells[curCoord[0]][aRowCoord + 1].endY;
+                l2x2 = cells[curCoord[0] + 1][aRowCoord - 1].endX;
+                l2y2 = cells[curCoord[0] + 1][aRowCoord - 1].startY;
+
                 break;
             case "right":
-                cvs.drawLine(cells[curCoord[0] - 1][aRowCoord - 1].startX, cells[curCoord[0] - 1][aRowCoord - 1].startY, cells[curCoord[0] + 1][aRowCoord].endX, cells[curCoord[0] + 1][aRowCoord - 1].endY + (cells[curCoord[0] + 1][aRowCoord].endY - cells[curCoord[0] + 1][aRowCoord - 1].endY) / 2, blackPaint);
-                cvs.drawLine(cells[curCoord[0] + 1][aRowCoord].endX, cells[curCoord[0] + 1][aRowCoord - 1].endY + (cells[curCoord[0] + 1][aRowCoord].endY - cells[curCoord[0] + 1][aRowCoord - 1].endY) / 2, cells[curCoord[0] - 1][aRowCoord + 1].startX, cells[curCoord[0] - 1][aRowCoord + 1].endY, blackPaint);
+                l1x1 = cells[curCoord[0] - 1][aRowCoord - 1].startX;
+                l1y1 = cells[curCoord[0] - 1][aRowCoord - 1].startY;
+                l1x2 = cells[curCoord[0] + 1][aRowCoord].endX;
+                l1y2 = cells[curCoord[0] + 1][aRowCoord - 1].endY + (cells[curCoord[0] + 1][aRowCoord].endY - cells[curCoord[0] + 1][aRowCoord - 1].endY) / 2;
+
+                l2x1 = cells[curCoord[0] + 1][aRowCoord].endX;
+                l2y1 = cells[curCoord[0] + 1][aRowCoord - 1].endY + (cells[curCoord[0] + 1][aRowCoord].endY - cells[curCoord[0] + 1][aRowCoord - 1].endY) / 2;
+                l2x2 = cells[curCoord[0] - 1][aRowCoord + 1].startX;
+                l2y2 = cells[curCoord[0] - 1][aRowCoord + 1].endY;
                 break;
             case "left":
-                cvs.drawLine(cells[curCoord[0] + 1][aRowCoord - 1].endX, cells[curCoord[0] + 1][aRowCoord - 1].startY, cells[curCoord[0] - 1][aRowCoord].startX, cells[curCoord[0] - 1][aRowCoord - 1].endY + (cells[curCoord[0] - 1][aRowCoord].endY - cells[curCoord[0] - 1][aRowCoord - 1].endY) / 2, blackPaint);
-                cvs.drawLine(cells[curCoord[0] - 1][aRowCoord].startX, cells[curCoord[0] - 1][aRowCoord - 1].endY + (cells[curCoord[0] - 1][aRowCoord].endY - cells[curCoord[0] - 1][aRowCoord - 1].endY) / 2, cells[curCoord[0] + 1][aRowCoord + 1].endX, cells[curCoord[0] + 1][aRowCoord + 1].endY, blackPaint);
+                l1x1 = cells[curCoord[0] + 1][aRowCoord - 1].endX;
+                l1y1 = cells[curCoord[0] + 1][aRowCoord - 1].startY;
+                l1x2 = cells[curCoord[0] - 1][aRowCoord].startX;
+                l1y2 = cells[curCoord[0] - 1][aRowCoord - 1].endY + (cells[curCoord[0] - 1][aRowCoord].endY - cells[curCoord[0] - 1][aRowCoord - 1].endY) / 2;
+
+                l2x1 = cells[curCoord[0] - 1][aRowCoord].startX;
+                l2y1 = cells[curCoord[0] - 1][aRowCoord - 1].endY + (cells[curCoord[0] - 1][aRowCoord].endY - cells[curCoord[0] - 1][aRowCoord - 1].endY) / 2;
+                l2x2 = cells[curCoord[0] + 1][aRowCoord + 1].endX;
+                l2y2 = cells[curCoord[0] + 1][aRowCoord + 1].endY;
                 break;
             default:
-                Toast.makeText(this.getContext(), "Error with drawing robot (unknown direction)", Toast.LENGTH_LONG).show();
+                l1x1 = 0;
+                l1y1 = 0;
+                l1x2 = 0;
+                l1y2 = 0;
+
+                l2x1 = 0;
+                l2y1 = 0;
+                l2x2 = 0;
+                l2y2 = 0;
                 break;
         }
+        cvs.drawLine(l1x1,l1y1,l1x2,l1y2,blackPaint);
+        cvs.drawLine(l2x1,l2y1,l2x2,l2y2,blackPaint);
     }
 
     private void calculateDimen() {
